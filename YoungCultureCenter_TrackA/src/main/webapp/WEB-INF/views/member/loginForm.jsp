@@ -46,12 +46,12 @@
 					<fieldset class="row mb-2">
 						<div>
 							<div class="form-check-inline">
-								<input class="form-check-input" type="checkbox" name="save_id" id="gridRadios1" value="on" ${empty cookie.id.value ? "" : "checked" } />
-								<label class="form-check-label" for="gridRadios1">아이디 저장</label>
+								<input class="form-check-input" type="checkbox" name="save_id" id="saveId" value="on" ${empty cookie.id.value ? "" : "checked" } />
+								<label class="form-check-label" for="saveId">아이디 저장</label>
 							</div>
 							<div class="form-check-inline">
-								<input class="form-check-input" type="checkbox" name="autoLogin" id="gridRadios2" value="option2">
-								<label class="form-check-label" for="gridRadios2">자동로그인</label>
+								<input class="form-check-input" type="checkbox" name="autoLogin" id="autoLogin">
+								<label class="form-check-label" for="autoLogin">자동로그인</label>
 							</div>
 							<button class="btn btn-primary btn-sm float-end">로그인</button>
 						</div>

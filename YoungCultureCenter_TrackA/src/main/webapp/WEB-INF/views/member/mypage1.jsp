@@ -15,7 +15,7 @@
   <!-- body -->
   <div class="container mt-5 text-center">
     <h2 class="text-start">본인인증페이지</h2><hr>
-    <form class="row g-3 text-center">
+    <form class="row g-3 text-center" action="mypage" method="post">
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-12">
@@ -27,15 +27,13 @@
         <div class="row g-3 bg-light">
           <div class="col-md-12 align-self-center fs-5">계속하려면 먼저 본인임을 인증하세요.</div>
           <div class="col-md-4 text-center">
-          	<label for="staticEmail2" class="visually-hidden">Email</label>
-          	<input type="text" class="form-control-plaintext text-end" id="gtc" value="email@example.com" readonly>
           </div>
           <div class="col-md-4">
-          	<label for="inputPassword2" class="visually-hidden">Password</label>
-          	<input type="password" class="form-control" id="inputPassword2" placeholder="Password">
+          	<label for="inputPassword" class="visually-hidden">Password</label>
+          	<input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="Password">
           </div>
           <div class="col-md-4 text-start d-grid d-md-block">
-          	<a href="mypage/mypage2" type="submit" class="btn btn-primary mb-3">확인</a>
+          	<button type="submit" class="btn btn-primary mb-3">확인</button>
         	</div>
       	</div>
     	</div>
@@ -44,5 +42,10 @@
 
   <!-- footer include -->
 	<%@ include file="/WEB-INF/views/footer.jsp" %>
+	
+	<script>
+	
+	
+	</script>
 </body>
 </html>

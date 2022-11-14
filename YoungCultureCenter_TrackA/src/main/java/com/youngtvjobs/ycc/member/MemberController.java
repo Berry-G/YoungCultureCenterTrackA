@@ -1,11 +1,21 @@
 package com.youngtvjobs.ycc.member;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 //회원관리 컨트롤러
 @Controller
 public class MemberController {
+
+	@Autowired
+	MemberDao memberDao;
+	
 	//회원약관동의
 	@RequestMapping("/member/signin1")
 	public String joincheck() {
@@ -28,16 +38,31 @@ public class MemberController {
 	 * @RequestMapping("/login") public String login() { return "member/loginForm";
 	 * }
 	 */
+	
 	//마이페이지1 : 본인인증
-	@RequestMapping("/mypage")
-	public String mypage1()	{
+	@RequestMapping(value="/mypage", method=RequestMethod.GET)
+	public String mypage1(HttpSession session)	{
+		
 		return "member/mypage1";
 	}
+	@RequestMapping(value="/mypage", method=RequestMethod.POST)
+	public String mypage1(String inputPassword, HttpSession session) throws Exception	{
+		
+		System.out.println(inputPassword);
+		MemberDto memberDto = memberDao.loginSelect((String)session.getAttribute("id"));
+		if(!memberDto.getUser_pw().equals(inputPassword)){
+			return "redirect:/mypage";
+		}
+		
+		return "member/mypage2";
+	}
+	
 	//마이페이지2 : 회원정보 수정
 	@RequestMapping("/mypage/mypage2")
 	public String mypage2()	{
 		return "member/mypage2";
 	}
+
 	//마이페이지3 : 회원탈퇴 완료
 	@RequestMapping("/mypage/mypage3")
 	public String mypage3()	{

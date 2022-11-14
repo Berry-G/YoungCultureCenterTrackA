@@ -14,74 +14,72 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class LoginController {
-	
+
 	@Autowired
 	MemberDao memberDao;
-	
+
 	@GetMapping("/login")
 	public String login() {
 		return "member/loginForm";
 	}
-	
+
 	@PostMapping("/login")
 	public String login(String id, String pw, String toURL, boolean save_id, boolean autoLogin,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
 //		if(!loginCheck(id, pw)) {
 //		String msg= URLEncoder.encode("ID 또는 PW가 일치하지 않습니다.", "utf-8");
 //		return "redirect:/login?msg=" +msg;
 //		}
 		
-		//이미 로그인세션이 있다면 세션 삭제
-		/*
-		 * if(session.getAttribute("auto") != null) {
-		 * session.removeAttribute("loggedIn_user"); }
-		 */
+		//세션 확인
+		HttpSession session = request.getSession();
+		if(session.getAttribute("autoLogin")!=null) {
 		
+		}
 
-		//로그인 체크 (id와 비밀번호 비교확인)
+		// 로그인 체크 (id와 비밀번호 비교확인)
 		MemberDto user = memberDao.loginSelect(id);
 		System.out.println(pw);
 		System.out.println(user.getUser_pw());
-		
-		//db에서 id검색이 되지 않아 user 객체가 생성되지 않거나, pw가 일치하지 않으면 로그인 실패 
-		if(user == null || !(user.getUser_pw().equals(pw))) {
-			String msg= URLEncoder.encode("ID 또는 PW가 일치하지 않습니다.", "utf-8");
-			return "redirect:/login?msg=" +msg;
+
+		// db에서 id검색이 되지 않아 user 객체가 생성되지 않거나, pw가 일치하지 않으면 로그인 실패
+		if (user == null || !(user.getUser_pw().equals(pw))) {
+			String msg = URLEncoder.encode("ID 또는 PW가 일치하지 않습니다.", "utf-8");
+			return "redirect:/login?msg=" + msg;
 		}
-		
-		//로그인 성공시 세션 받아오기 + id 저장
-		HttpSession session = request.getSession();
+
+		// 로그인 성공시 id 저장 (다른 곳에서 받아올 때 세션에 저장된 "id"값을 받아올 수 있음
 		session.setAttribute("id", id);
-		
-		System.out.println(session.getValue("id"));
-		System.out.println(session.getId());
-		
-		//아이디 저장 체크박스
-		//True: 아이디가 저장된 쿠키 생성 후 response객체에 쿠키저장
-		if(save_id) {
+
+
+		System.out.println("getAttribute=" +session.getAttribute("id"));
+		System.out.println("getId=" +session.getId());
+
+		// 아이디 저장 체크박스
+		// True: 아이디가 저장된 쿠키 생성 후 response객체에 쿠키저장
+		if (save_id) {
 			Cookie cookie = new Cookie("id", id);
 			response.addCookie(cookie);
-		}else {
+		} else {
 			Cookie cookie = new Cookie("id", id);
 			cookie.setMaxAge(0);
 			response.addCookie(cookie);
 		}
-		
-		
-		//자동로그인 체크박스
-		//세션(SESSIONID)을 쿠키에 담아서 30일간 저장
-		if(autoLogin) {
+
+		// 자동로그인 체크박스
+		// 세션(SESSIONID)을 쿠키에 담아서 30일간 저장
+		if (autoLogin) {
 			Cookie cookie = new Cookie("autoLogin", session.getId());
-			
-			cookie.setMaxAge(60*60*24*30);
-			
+
+			cookie.setMaxAge(60 * 60 * 24 * 30);
+
 			response.addCookie(cookie);
-			
+
 		}
-		
-		toURL = toURL==null || toURL.equals("") ? "/" : toURL;
-		return "redirect:" +toURL;
+
+		toURL = toURL == null || toURL.equals("") ? "/" : toURL;
+		return "redirect:" + toURL;
 	}
 
 //	private boolean loginCheck(String id, String pw) throws Exception {
@@ -94,7 +92,7 @@ public class LoginController {
 //		
 //		return user.getUser_pw().equals(pw);
 //	}
-	
+
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		// 세션을 종료

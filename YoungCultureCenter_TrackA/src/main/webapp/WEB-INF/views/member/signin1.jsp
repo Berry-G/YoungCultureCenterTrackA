@@ -7,12 +7,14 @@
 		<!-- head & meta tag include -->
     <%@include file="/WEB-INF/views/metahead.jsp"%>
 	<script type="text/javascript" src="/ycc/resources/js/singnincheck.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+	
  <title>회원가입약관동의</title>
 </head>
 <body>
 	<!-- header inlcude -->
 	<%@include file="/WEB-INF/views/header.jsp"%>
-  <!--step container -->
+
 <div class="container w-50">
   <h2 class="p-5" style="text-align: center;">회원가입</h2>
     <div class="position-relative m-4">
@@ -34,8 +36,10 @@
    
 
 
-    <p class="col control-label pt-5 fs-4 fw-bold pb-3 ">회원가입약관</p>
-    <label for="memberInfo" class="col control-label pt-2 pb-2 fw-bold fs-5">이용약관</label>
+    <h4 class="pt-5">회원가입약관</h4>
+    <hr>
+   <form action="singin2.jsp" id="form_check" method="post">
+    <label for="memberInfo" class="col control-label pt-2 pb-3 fw-bold fs-5">이용약관</label>
   
 
     <div class="row">
@@ -134,12 +138,12 @@
 부    칙
 이 약관은 2022년 1월 4일부터 시행합니다. 
         </textarea>
-      <input class="inputcheck" type="checkbox" name="check" value="check1" onclick="checkSelectAll()" />(필수)동의합니다<br />
+      <input class="inputcheck" type="checkbox" id="check1" name="check" value="check1" onclick="checkSelectAll()" />(필수)동의합니다<br />
     </div>
   </div>
 
   <div class="form-group">
-    <label for="memberInfo" class="col control-label pt-5 pb-2 fw-bold fs-5">개인정보취급방침</label>
+    <label for="memberInfo" class="col control-label pt-5 pb-3 fw-bold fs-5">개인정보취급방침</label>
       <div class="col" id="memberInfo">
         <textarea class="form-control" rows="8" style="width: 100%;">개인정보수집 및 이용에 대한 안내
 1. 개인정보의 수집 및 이용 목적 : 회원가입 및 관리
@@ -152,18 +156,42 @@
 
 4. 귀하는 개인정보 수집 · 이용에 동의하지 않으실 수 있습니다. 동의 거부시에도 회원가입은 가능하나 서비스는제한될 수 있습니다. (단, 회원가입을 위한 최소한의 정보인 필수정보는 미입력시 회원가입 불가)
   		</textarea>
-	<input class="inputcheck" type="checkbox" name="check" value="check2" onclick="checkSelectAll()" />(필수)동의합니다<br />
-    <input class="inputcheck" type="checkbox" name="selectall" value="selectall" onclick="selectAll(this)" /> <b>모든 약관에 동의합니다.</b>
+
+	<input class="inputcheck" type="checkbox" id="check2" name="check" value="check2" onclick="checkSelectAll()" />(필수)동의합니다<br />
+    <input class="inputcheck" type="checkbox" id="selectall" name="selectall" value="selectall" onclick="selectAll(this)" /> <b>모든 약관에 동의합니다.</b>
+
   	</div>
   
   <div class="row">
     <div class="col text-center">
-      <a href="/ycc/member/signin2" class="btn btn-primary" role="button">확인</a>
+      <input type="button" id="button"  class="btn btn-primary" value="확인" onclick="/member/signin2"  >
       <a href="/ycc/" class="btn btn-secondary" role="button">취소</a>
     </div>
   </div>
   </div>
+  </form>
 </div>  
+
+<script type="text/javascript">
+$(document).ready(function(){
+    
+    $("#button").click(function(){    
+        if($("#selectall").is(":checked") == false){
+            alert("필수 약관에 동의 하셔야 다음 단계로 진행 가능합니다.");
+            return false;
+      
+        } 
+        if($("#selectall").is(":checked") != false){
+            $(location).attr('href', '<c:url value='/member/signin2'/>');
+            return true;
+      
+        }
+        /* else{
+            alert("필수 합니다.")
+            return "/member/signin2"; */
+    })  
+})
+</script>
 
 <!-- footer inlcude -->
 <%@include file="/WEB-INF/views/footer.jsp"%>

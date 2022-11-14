@@ -48,7 +48,6 @@ public class MemberController {
 	@RequestMapping(value="/mypage", method=RequestMethod.POST)
 	public String mypage1(String inputPassword, HttpSession session) throws Exception	{
 		
-		System.out.println(inputPassword);
 		MemberDto memberDto = memberDao.loginSelect((String)session.getAttribute("id"));
 		if(!memberDto.getUser_pw().equals(inputPassword)){
 			return "redirect:/mypage";

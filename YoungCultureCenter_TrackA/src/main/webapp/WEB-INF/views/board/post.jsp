@@ -13,39 +13,55 @@
     <!-- header inlcude -->
 <%@include file="/WEB-INF/views/header.jsp"%>
     
-    <div class="container">
+
         <main class="mt-5 pt-5">
             <div class="container px-4">
-                <h1 class="mt-4">공지사항</h1>
+                <h3 class="mt-4">공지사항</h3>
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h1>저 오늘 치과갑니다</h1>
+                        <h4>저 오늘 치과갑니다</h4>
+                        <p>작성자 : 김지호 | 게시일 : yyyy-mm-dd | 조회수 : 12824203</p>
                         <hr>
-                        <p>작성자 : 김지호 | 게시일 : yyyy-mm-dd</p>
-                        <p3>내용내용내용내용</p3>
-                        
-
-
-                        <div class="position-absolute bottom-0 end-0 m-3">
-                            <a href="notice" class="btn btn-outline-secondary">목록으로</a>
-                            <a href="edit" class="btn btn-outline-success">수정하기</a>
-                            <a href="remove?bno=${board.bno}" class="btn btn-outline-danger"
-                                onclick="return confirm('삭제하시겠습니까?')">삭제하기</a>
-                        </div>
-                    </div>
-
-                    <div class="mb-4 m-2">
-                        <a href="" class="btn btn-outline-dark">이전글</a>
-                        <a href="" class="btn btn-outline-dark">다음글</a>
+                        <p>내용내용내용내용</p>
                     </div>
                 </div>
-            </div>
-        </main>
-    </div>
-    
-    <!-- footer inlcude -->
-<%@include file="/WEB-INF/views/footer.jsp"%>
+                <div class="row pb-5" style="float:right">
+               		<div class="col-auto px-1">
+                   		<a href="notice" class="btn btn-outline-secondary">목록</a>	
+               		</div>
+               		<div class="col-auto px-1">
+                   		<a href="edit" class="btn btn-outline-success"
+                   		onclick="return confirm('수정하시겠습니까?')">수정</a>
+               		</div>
+               		<div class="col-auto px-1">
+                   		<a href="remove?bno=${board.bno}" class="btn btn-outline-danger"
+                       onclick="return confirm('삭제하시겠습니까?')">삭제</a>
+               		</div>
+                </div>
+       
+              	
+              	<table class="table table-bordered " style="border-radius:5px; ">
+              	<colgroup>
+              		<col width="120px;">
+              		<col width="auto;">
+              	</colgroup>
+              		<tbody>
+              		<tr>
+              			<th scope="row" class="text-center">이전글</th>
+              			<td>글이 없습니다.</td>
+              		</tr>
+              		<tr>
+              			<th scope="row" class="text-center">다음글</th>
+              			<td></td>
+              		</tr>
+              		</tbody>
+              	</table>
+              	</div>
+		</main>
 
+    
+  <!-- footer inlcude -->
+<%@include file="/WEB-INF/views/footer.jsp"%>
 </body>
 
 </html>

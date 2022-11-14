@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
 
-<c:set var="loginvis" value="${sessionScope.id==null ? 'visually-hidden' : '' }" />
-<c:set var="logoutvis" value="${sessionScope.id==null ? '' : 'visually-hidden' }" />
+<c:set var="loginvis" value="${sessionScope.id==null ? 'visually-hidden' : ''}" />
+<c:set var="logoutvis" value="${sessionScope.id==null ? '' : 'visually-hidden'}" />
 
 <header>
 	<!-- header -->
@@ -64,7 +64,7 @@
 	            <li><a class="dropdown-item" href="/ycc/board/notice">공지사항</a></li>
 	            <li><a class="dropdown-item" href="/ycc/board/event">이벤트/행사</a></li>
 	            <li><a class="dropdown-item" href="/ycc/board/faq">자주하는질문</a></li>
-							<li><a class="dropdown-item" href="/ycc/board/inquiry/history">1:1문의</a></li>
+				<li><a class="dropdown-item" href="/ycc/board/inquiry/history">1:1문의</a></li>
 	          </ul>
 	        </li>
 	      </ul>
@@ -72,7 +72,7 @@
 	      <!-- 로그인시 아이디 표시, 드롭다운 -->
 			<div class="dropdown ms-auto ${loginvis}">
 			  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-			    id :
+				${sessionScope.id} 님!
 			  </button>
 			  <ul class="dropdown-menu dropdown-menu-lg-end">
 			    <li><button class="dropdown-item" type="button" onclick="location.href='/ycc/mypage'">마이페이지</button></li>

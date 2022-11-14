@@ -14,10 +14,6 @@
   	<include refid="selectFromMember" />
   	where user_id = #{user_id}
   </select>
-  
-   <select id="loginSelectName" parameterType="String" resultType="MemberDto">
-  	<include refid="selectFromMember" />
-  	where user_name = #{user_name}
-  </select>
+
   
   </mapper>

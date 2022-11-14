@@ -68,9 +68,9 @@
 				<div class="w-75 mx-auto">
 					<h3>SNS계정으로 로그인</h3>
 					<div class="d-grid gap-3">
-						<button class="btn btn-danger btn-lg" type="button">구글계정으로 로그인</button>
-						<button class="btn btn-success btn-lg" type="button">네이버계정으로 로그인</button>
-						<button class="btn btn-warning btn-lg" type="button">카카오계정으로 로그인</button>
+						<a href="/login/google" class="btn btn-danger btn-lg" >구글계정으로 로그인</a>
+						<a href="/login/naver" class="btn btn-success btn-lg">네이버계정으로 로그인</a>
+						<a href="/login/kakao" class="btn btn-warning btn-lg">카카오계정으로 로그인</a>
 					</div>
 				</div>
 			</div>

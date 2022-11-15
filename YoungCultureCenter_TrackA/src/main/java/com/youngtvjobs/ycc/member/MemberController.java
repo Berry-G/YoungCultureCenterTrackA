@@ -80,18 +80,18 @@ public class MemberController {
 	//나의 문의 내역
 	@RequestMapping("/mypage/inquiry")
 	public String inquiryHistory() {
-		return "board/inquiryHistory";
+		return "mypage/inquiryHistory";
 	}
 	
 	//1:1 문의 작성 페이지
 	@RequestMapping("/mypage/inquiry/write")
 	public String inquiryWrite() {
-		return "board/inquiryWrite";
+		return "mypage/inquiryWrite";
 	}
-	
+	//1:1 문의글 읽기 페이지
 	@RequestMapping("/mypage/inquiry/read")
 	public String inquiryRead() {
-		return "board/inquiryRead";
+		return "mypage/inquiryWrite";
 	}
 	
 	

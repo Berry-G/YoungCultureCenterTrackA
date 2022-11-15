@@ -4,8 +4,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -48,6 +46,7 @@ public class MemberController {
 	@RequestMapping(value="/mypage", method=RequestMethod.POST)
 	public String mypage1(String inputPassword, HttpSession session) throws Exception	{
 		
+		System.out.println(inputPassword);
 		MemberDto memberDto = memberDao.loginSelect((String)session.getAttribute("id"));
 		if(!memberDto.getUser_pw().equals(inputPassword)){
 			return "redirect:/mypage";
@@ -77,4 +76,23 @@ public class MemberController {
 	public String mypage5() {
 		return "member/mypage5";
 	}
+	
+	//나의 문의 내역
+	@RequestMapping("/mypage/inquiry")
+	public String inquiryHistory() {
+		return "board/inquiryHistory";
+	}
+	
+	//1:1 문의 작성 페이지
+	@RequestMapping("/mypage/inquiry/write")
+	public String inquiryWrite() {
+		return "board/inquiryWrite";
+	}
+	
+	@RequestMapping("/mypage/inquiry/read")
+	public String inquiryRead() {
+		return "board/inquiryRead";
+	}
+	
+	
 }

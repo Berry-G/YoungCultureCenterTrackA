@@ -21,20 +21,27 @@ public class MemberDaoImpl implements MemberDao
 		
 	
 	@Override
-	public void deleteAll() throws Exception
+	public int deleteAll() throws Exception
 	{
-		// TODO Auto-generated method stub
+		return session.delete(namespace+"deleteAll");
 		
 	}
 	@Override
 	public int insertUser(MemberDto user) throws Exception
 	{
-		// TODO Auto-generated method stub
+		// 유저 추가
 		return 0;
 	}
 	@Override
 	public int updateUser(MemberDto user) throws Exception
 	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public int deleteUser(String id) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}

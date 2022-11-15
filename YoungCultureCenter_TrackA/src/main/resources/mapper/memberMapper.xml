@@ -14,6 +14,28 @@
   	<include refid="selectFromMember" />
   	where user_id = #{user_id}
   </select>
+  
+	<!-- 회원가입 -->
+  <insert id="signinMember" parameterType="MemberDto">
+  	INSERT INTO tb_user
+	(user_id, user_name, user_pw, user_gender, user_birth_date, user_email, user_phone_number, user_postcode, 
+	user_addr, user_regdate, user_grade, user_social_type)
+	VALUES
+	(#{user_id}, #{user_name}, #{user_pw}, #{user_gender}, #{user_birth_date}, 
+	#{user_email}, #{user_phone_number}, #{user_postcode}, #{user_addr}, now(), '일반회원', '')
+  </insert>
+  
+  <delete id="deleteUser" parameterType="String">
+  	DELETE FROM tb_user
+	WHERE
+	user_id=#{user_id};
+  </delete>
+  
+  <delete id="deleteAll">
+  	delete from tb_user 
+  </delete>
+  
+  
 
   
   </mapper>

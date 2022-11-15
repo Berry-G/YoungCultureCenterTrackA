@@ -18,7 +18,16 @@ public class MemberDaoImpl implements MemberDao
 		// 로그인 셀렉트 
 		return session.selectOne(namespace + "loginSelect", id);
 	}
+	
+	
+	@Override
+	public void signinMember(MemberDto dto) throws Exception {
 		
+		session.insert(namespace + "siginMember", dto);
+		
+	}
+	
+
 	
 	@Override
 	public void deleteAll() throws Exception
@@ -38,6 +47,11 @@ public class MemberDaoImpl implements MemberDao
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+
+
+
+
 
 
 

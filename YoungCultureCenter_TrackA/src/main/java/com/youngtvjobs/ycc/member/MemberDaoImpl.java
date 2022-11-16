@@ -1,5 +1,7 @@
 package com.youngtvjobs.ycc.member;
 
+import java.sql.Date;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,6 +24,14 @@ public class MemberDaoImpl implements MemberDao
 	
 	@Override
 	public void signinMember(MemberDto dto) throws Exception {
+		
+		//String -> Date 변경
+		String year = dto.getBirthYear();
+		String month = dto.getBirthMonth();
+		String day = dto.getBirthDay();
+		
+		Date birth = Date.valueOf(year+"-"+month+"-"+day);
+		dto.setUser_birth_date(birth);
 		
 		session.insert(namespace + "signinMember", dto);
 		

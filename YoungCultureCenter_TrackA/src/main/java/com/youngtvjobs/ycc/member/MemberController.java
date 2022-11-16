@@ -4,6 +4,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -11,19 +13,42 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class MemberController {
 
-	@Autowired
 	MemberDao memberDao;
+	MemberService memberService;
 	
+	
+	@Autowired
+	public MemberController(MemberDao memberDao, MemberService memberService) {
+		super();
+		this.memberDao = memberDao;
+		this.memberService = memberService;
+	}
+
 	//회원약관동의
 	@RequestMapping("/member/signin1")
 	public String joincheck() {
 		return "member/signin1";
 	}
+	
+
+	
 	//회원가입
-	@RequestMapping("/member/signin2")
-	public String joinmember()	{
+	@RequestMapping(value = "/member/signin2", method = RequestMethod.GET)
+	public String signinmember() throws Exception	{
 		return "member/signin2";
 	}
+	
+	@RequestMapping(value = "/member/signin2", method = RequestMethod.POST)
+	public String signinmember(@ModelAttribute MemberDto dto, Model m) throws Exception	{
+		
+		//System.out.println(dto.toString());
+		memberService.signinMember(dto);
+		m.addAttribute("memberDto", dto);
+		
+		return "member/signin3";
+	}
+	
+	
 	//회원가입 결과
 	@RequestMapping("/member/signin3")
 	public String joinresult()	{

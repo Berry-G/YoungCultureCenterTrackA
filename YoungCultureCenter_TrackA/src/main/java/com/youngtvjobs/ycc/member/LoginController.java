@@ -40,8 +40,8 @@ public class LoginController {
 
 		// 로그인 체크 (id와 비밀번호 비교확인)
 		MemberDto user = memberDao.loginSelect(id);
+		System.out.println(id);
 		System.out.println(pw);
-		System.out.println(user.getUser_pw());
 
 		// db에서 id검색이 되지 않아 user 객체가 생성되지 않거나, pw가 일치하지 않으면 로그인 실패
 		if (user == null || !(user.getUser_pw().equals(pw))) {

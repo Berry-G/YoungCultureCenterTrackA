@@ -18,14 +18,15 @@ public class MemberDaoImpl implements MemberDao
 		// 로그인 셀렉트 
 		return session.selectOne(namespace + "loginSelect", id);
 	}
-		
+	
 	
 	@Override
-	public int deleteAll() throws Exception
-	{
-		return session.delete(namespace+"deleteAll");
+	public void signinMember(MemberDto dto) throws Exception {
+		
+		session.insert(namespace + "signinMember", dto);
 		
 	}
+
 	@Override
 	public int insertUser(MemberDto user) throws Exception
 	{
@@ -35,16 +36,26 @@ public class MemberDaoImpl implements MemberDao
 	@Override
 	public int updateUser(MemberDto user) throws Exception
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		// 회원 정보 수정
+		return session.update(namespace+"updateUser", user);
 	}
 
 
 	@Override
 	public int deleteUser(String id) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		//회원 탈퇴
+		return session.delete(namespace+"deleteUser", id);
 	}
+	@Override
+	public int deleteAll() throws Exception
+	{
+		return session.delete(namespace+"deleteAll");
+		
+	}
+
+
+
+
 
 
 

@@ -25,7 +25,16 @@
 	#{user_email}, #{user_phone_number}, #{user_postcode}, #{user_addr}, now(), '일반회원', '')
   </insert>
   
-  <delete id="deleteUser" parameterType="String">
+  <update id="update" parameterType="MemberDto">
+  	UPDATE tb_user
+	SET 
+	user_pw=#{user_pw}, user_phone_number=#{user_phone_number},
+	user_postcode=#{user_postcode}, user_rnameaddr=#{user_rNameAddr}, user_detailaddr=#{user_detailAddr}
+	WHERE user_id=#{user_id};
+
+  </update>
+  
+  <delete id="delete" parameterType="String">
   	DELETE FROM tb_user
 	WHERE
 	user_id=#{user_id};

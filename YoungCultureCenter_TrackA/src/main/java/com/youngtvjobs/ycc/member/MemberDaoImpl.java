@@ -38,23 +38,17 @@ public class MemberDaoImpl implements MemberDao
 	}
 
 	@Override
-	public int insertUser(MemberDto user) throws Exception
-	{
-		// 유저 추가
-		return 0;
-	}
-	@Override
-	public int updateUser(MemberDto user) throws Exception
+	public int update(MemberDto memberDto) throws Exception
 	{
 		// 회원 정보 수정
-		return session.update(namespace+"updateUser", user);
+		return session.update(namespace+"update", memberDto);
 	}
 
 
 	@Override
-	public int deleteUser(String id) throws Exception {
+	public int delete(String id) throws Exception {
 		//회원 탈퇴
-		return session.delete(namespace+"deleteUser", id);
+		return session.delete(namespace+"delete", id);
 	}
 	@Override
 	public int deleteAll() throws Exception

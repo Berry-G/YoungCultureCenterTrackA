@@ -18,14 +18,14 @@
 	<div class="container mt-5">
 		<h2>회원정보수정</h2><hr>
 		<!-- 회원정보수정 -->
-		<form action="<c:url value='/'/>"  method="post" onsubmit="return chkPW(this);">
+		<form action="<c:url value='/mypage2'/>"  method="post" onsubmit="return validPW(this);">
 		<table class="table table-group-divider text-center">
 			<tbody>
 			<colgroup><col width="15%" class="bg-light" id="w-28"></colgroup>
 			<!-- 아이디 -->
 			<tr>
 				<th class="col">아이디</th>
-				<td><input type="text" class="form-control-plaintext" id="id" maxlength="20" value="ezenit" readonly>
+				<td><input type="text" class="form-control-plaintext" id="id" maxlength="20" name="id" value="${memberDto.user_id }" readonly>
 				</td>
 			</tr>
 			<!-- 이름 -->
@@ -35,7 +35,7 @@
 					<div class="row">
 						<div class="col-lg-4">
 							<input type="text" class="form-control-plaintext" id="name"
-							placeholder="한글입력" maxlength="10" value="이젠" readonly>
+							placeholder="한글입력" maxlength="10" value="${memberDto.user_name }" readonly>
 						</div>
 					</div>
 				</td>
@@ -46,7 +46,7 @@
 				<td>
 					<div class="row">
 						<div class="col-lg-5">
-							<input type="password" class="form-control" id="pw"
+							<input type="password" class="form-control" id="pw" name="pw"
 							placeholder="8~15자, 영문+숫자 입력" maxlength="20" required>
 						</div>
 					</div>
@@ -69,12 +69,26 @@
 				<th class="text-start">
 					<div class="form-check form-check-inline">
 						<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-						value="option1" checked disabled><label class="form-check-label" for="inlineRadio1">남</label>
+						value="option1" ${memberDto.user_gender.equals('F') ? "checked"  : "" } disabled>
+						<label class="form-check-label" for="inlineRadio1">남</label>
 					</div>
 					<div class="form-check form-check-inline">
 						<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-						value="option2" disabled><label class="form-check-label" for="inlineRadio2">여</label>
+						value="option2" ${memberDto.user_gender.equals('F') ? "checked"  : "" } disabled>
+						<label class="form-check-label" for="inlineRadio2">여</label>
 					</div>
+				</th>
+			</tr>
+			<!-- 생년월일 -->
+			<tr><th class="col">생년월일</th>
+				<td>
+					<div class="row">
+						<div class="col-lg-4">
+							<input type="text" class="form-control-plaintext" id="birth_date"
+							 value="${birth_date }" readonly>
+						</div>
+					</div>
+				</td>
 				</th>
 			</tr>
 			<!-- 이메일 -->
@@ -83,7 +97,7 @@
 				<td>
 					<div class="row g-1">
 						<div class="col-md-4">
-							<input type="text" class="form-control" id="divEmai" maxlength="40" value="ezen" disabled>
+							<input type="text" class="form-control" id="divEmai" maxlength="40" value="${emailId}" disabled>
 						</div>
 						<div class="col-md-5">
 							<div>
@@ -91,10 +105,8 @@
 								<div class="input-group">
 									<div class="input-group-text">@</div>
 									<select class="form-select" aria-label="Default select example" disabled>
-										<option></option>
-										<option value="1">naver.com</option>
-										<option value="2" selected>gmail.com</option>
-										<option value="3">hanmail.net</option>
+										<option>${emailDomain}</option>
+
 									</select>
 								</div>
 							</div>
@@ -108,8 +120,8 @@
 				<td>
 					<div class="row">
 						<div class="col-lg-5">
-							<input type="tel" class="form-control onlyNumber" id="phoneNumber"
-							 placeholder="-를 제외하고 숫자만 입력하세요." maxlength="11">
+							<input type="tel" class="form-control onlyNumber" id="phoneNumber" value ="${memberDto.user_phone_number}"
+							 name ="tel" placeholder="-를 제외하고 숫자만 입력하세요." maxlength="11">
 						</div>
 					</div>
 				</td>
@@ -122,7 +134,8 @@
 						<div class="col-md-12">
 							<div class="row g-1">
 								<div class="col-sm-4">
-									<input type="text" class="form-control" id="sample6_postcode" placeholder="우편번호" required disabled>
+									<input type="text" class="form-control" id="sample6_postcode" placeholder="우편번호" 
+									 name="postCode" value="${memberDto.user_postcode}" required readonly>
 								</div>
 								<div class="col-sm-4 text-start d-grid d-md-block">
 									<input class="btn btn-primary" onclick="sample6_execDaumPostcode()" type="button" value="우편번호검색">
@@ -132,10 +145,12 @@
 						<div class="col-md-12">
 							<div class="row g-1">
 								<div class="col-md-6">
-									<input type="text" class="form-control" id="sample6_address" placeholder="도로명주소" required disabled>
+									<input type="text" class="form-control" id="sample6_address" placeholder="도로명주소" 
+									name="rNameAddr" value="${memberDto.user_rNameAddr }" required readonly>
 								</div>
 								<div class="col-md-6">
-									<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소를 입력해주세요.">
+									<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소를 입력해주세요."
+									name="detailAddr" value="${memberDto.user_detailAddr }">
 								</div>
 								<div class="col-md-12">
 									<input type="hidden" class="form-control" id="sample6_extraAddress" placeholder="참고항목.">
@@ -196,20 +211,27 @@
 	<script src="http://code.jquery.com/jquery.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	
+	
 	<script type="text/javascript">
-
 	 
-	 function chkPW(){
+	// 비밀번호 유효성 검사 (8-15자리, 영문/숫자 혼합, 비밀번호 확인)
+	 	 function validPW(){
 
 		 var pw = $("#pw").val();
 		 var num = pw.search(/[0-9]/g);
 		 var eng = pw.search(/[a-z]/ig);
 		 var pwChk = $("#pwChk").val();
 
+
 		 if(pw.length < 8 || pw.length > 15){
 		  alert("8자리 ~ 15자리 이내로 입력해주세요.");
 		  return false;
 		  
+		 }else if(num < 0 || eng < 0){
+		  alert("영문,숫자를 혼합하여 입력해주세요.");
+		  return false;
+		
 		 }else if(pw.search(/\s/) != -1){
 		  alert("비밀번호는 공백 없이 입력해주세요.");
 		  return false;
@@ -217,12 +239,33 @@
 	 	 }else if(pw!=pwChk){
 		  alert("비밀번호가 일치하지 않습니다.");
 		  return false;
-		 }else {
-			console.log("통과"); 
+		  
+		 }else { 
 		    return alert("수정이 완료되었습니다.");
 		 }
 		 
 		}
+	
+/* 	 	 //휴대폰 번호 유효성검사
+	 function validPhone(){
+	   var phoneNum = '010xxxxxxxx'; 
+	   var patternPhone = /01[016789][^0][0-9]{6}/;
+
+	    if(!patternPhone.test(phoneNum))
+	    {
+	        alert('핸드폰 번호를 확인 해주세요');
+	        return false;
+	    }else{
+	    	return true;
+	    }
+	 } */
+
+	 
+	 
+	 
+	
+	 
+ 
 	
     function setMessage(msg, element) {
         document.getElementById("msg").innerHTML = `<i class="fa fa-exclamation-circle">${'${msg}'}</i>`;

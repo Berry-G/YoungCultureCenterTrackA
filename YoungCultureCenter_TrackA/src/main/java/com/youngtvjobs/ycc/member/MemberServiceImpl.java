@@ -11,11 +11,25 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired
 	MemberDao memberDao;
 
-	@Override
+	@Override	//회원 가입
 	public void signinMember(MemberDto dto) throws Exception {
 		memberDao.signinMember(dto);
 
-
+		
 	}
 
+	@Override	//회원 탈퇴
+	public int withdraw(String id) throws Exception {
+		
+		return memberDao.delete(id);
+	}
+
+	@Override	//회원 정보 수정
+	public int ModifyMemberInfo(MemberDto memberDto) throws Exception {
+
+		return memberDao.update(memberDto);
+	}
+
+	
+	
 }

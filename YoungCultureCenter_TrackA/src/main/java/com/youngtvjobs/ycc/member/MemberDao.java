@@ -9,13 +9,9 @@ public interface MemberDao
 	
 	//회원가입 insert 
 	void signinMember(MemberDto dto) throws Exception;
-
 	
-	
-	int insertUser(MemberDto user) throws Exception;
-	
-	int deleteUser(String id) throws Exception;
+	int delete(String id) throws Exception;
 	int deleteAll() throws Exception;
 	
-	int updateUser(MemberDto user) throws Exception;
+	int update(MemberDto memberDto) throws Exception;
 }

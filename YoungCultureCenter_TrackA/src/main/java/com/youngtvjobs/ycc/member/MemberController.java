@@ -1,20 +1,29 @@
 package com.youngtvjobs.ycc.member;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 //회원관리 컨트롤러
 @Controller
 public class MemberController {
-
+	
 	MemberDao memberDao;
 	MemberService memberService;
+	
+	
 	
 	
 	@Autowired
@@ -63,32 +72,83 @@ public class MemberController {
 	 */
 	
 	//마이페이지1 : 본인인증
-	@RequestMapping(value="/mypage", method=RequestMethod.GET)
-	public String mypage1(HttpSession session)	{
-		
+
+	@GetMapping("/mypage")
+	public String mypage1(HttpSession session, HttpServletRequest request, String inputPassword) throws Exception	{
+	    if(!logincheck(request)) 
+	    	return "redirect:/login?toURL="+request.getRequestURL();
+
 		return "member/mypage1";
 	}
-	@RequestMapping(value="/mypage", method=RequestMethod.POST)
-	public String mypage1(String inputPassword, HttpSession session) throws Exception	{
+
+	@PostMapping("/mypage")
+	public String mypage1(String inputPassword, HttpSession session, Model m) throws Exception	{
 		
-		System.out.println(inputPassword);
+//		System.out.println(inputPassword);
+		
 		MemberDto memberDto = memberDao.loginSelect((String)session.getAttribute("id"));
-		if(!memberDto.getUser_pw().equals(inputPassword)){
-			return "redirect:/mypage";
-		}
+		System.out.println("birthdate = " +memberDto.getUser_birth_date());
+			if(memberDto.getUser_pw().equals(inputPassword)){
+
+			return "redirect:/mypage2";
+			}
+			
+			m.addAttribute("alert", "<script>alert('비밀번호가 일치하지 않습니다.')</script>");
+			
+		return "member/mypage1";
+	}
+
+	//마이페이지 2: 회원 정보 수정
+	@GetMapping("/mypage2")
+	public String mypage2(HttpSession session, Model m) throws Exception {
+		MemberDto memberDto = memberDao.loginSelect((String)session.getAttribute("id"));
+		
+		System.out.println(Arrays.toString(memberDto.getUser_email().split("@")) );
+		
+		//이메일 아이디/도메인 분리
+		String emailId= memberDto.getUser_email().split("@")[0];
+		String emailDomain=  memberDto.getUser_email().split("@")[1];
+		
+
+		m.addAttribute("memberDto", memberDto);
+		m.addAttribute("emailId", emailId);
+		m.addAttribute("emailDomain", emailDomain);
+		
+		//생년월일 String으로 형변환 & 포맷 지정
+	
+	    DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+	    String birth_date = sdFormat.format(memberDto.getUser_birth_date());
+
+		m.addAttribute("birth_date", birth_date);
 		
 		return "member/mypage2";
 	}
 	
-	//마이페이지2 : 회원정보 수정
-	@RequestMapping("/mypage/mypage2")
-	public String mypage2()	{
-		return "member/mypage2";
+	@PostMapping("/mypage2")
+	public String mypage2(String id, String pw, String tel, String postCode, String rNameAddr, String detailAddr) throws Exception {
+		System.out.println(postCode);
+		System.out.println(rNameAddr);
+		
+		MemberDto dto= new MemberDto(); 
+		dto.setUser_id(id);
+		dto.setUser_pw(pw);
+		dto.setUser_phone_number(tel);
+		dto.setUser_postcode(postCode);
+		dto.setUser_rNameAddr(rNameAddr);
+		dto.setUser_detailAddr(detailAddr);
+		
+		memberService.ModifyMemberInfo(dto);
+
+		return "redirect:/";
+		
 	}
+	
 
 	//마이페이지3 : 회원탈퇴 완료
 	@RequestMapping("/mypage/mypage3")
-	public String mypage3()	{
+	public String mypage3(HttpSession session) throws Exception	{
+		memberService.withdraw((String) session.getAttribute("id"));
+		
 		return "member/mypage3";
 	}
 	//마이페이지4 : 내 수강목록
@@ -119,5 +179,10 @@ public class MemberController {
 		return "mypage/inquiryWrite";
 	}
 	
-	
+    private boolean logincheck(HttpServletRequest request) {
+    	
+        HttpSession session = request.getSession(false);
+        
+        return session != null && session.getAttribute("id") != null;
+     }
 }

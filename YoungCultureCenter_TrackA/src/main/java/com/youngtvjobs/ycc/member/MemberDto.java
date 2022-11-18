@@ -35,7 +35,8 @@ public class MemberDto
 	private String user_email;
 	private String user_phone_number;
 	private String user_postcode;
-	private String user_addr;
+	private String user_rNameAddr;
+	private String user_detailAddr;
 	private Date user_regdate;
 	private String user_grade;
 	private String user_social_type;
@@ -46,11 +47,12 @@ public class MemberDto
 		// TODO Auto-generated constructor stub
 	}
 	
-	
+
 
 	public MemberDto(String user_id, String user_name, String user_pw, String user_gender, String birthYear,
 			String birthMonth, String birthDay, Date user_birth_date, String user_email, String user_phone_number,
-			String user_postcode, String user_addr, Date user_regdate, String user_grade, String user_social_type) {
+			String user_postcode, String user_rNameAddr, String user_detailAddr, Date user_regdate, String user_grade,
+			String user_social_type) {
 		super();
 		this.user_id = user_id;
 		this.user_name = user_name;
@@ -63,7 +65,8 @@ public class MemberDto
 		this.user_email = user_email;
 		this.user_phone_number = user_phone_number;
 		this.user_postcode = user_postcode;
-		this.user_addr = user_addr;
+		this.user_rNameAddr = user_rNameAddr;
+		this.user_detailAddr = user_detailAddr;
 		this.user_regdate = user_regdate;
 		this.user_grade = user_grade;
 		this.user_social_type = user_social_type;
@@ -203,14 +206,26 @@ public class MemberDto
 
 
 
-	public String getUser_addr() {
-		return user_addr;
+	public String getUser_rNameAddr() {
+		return user_rNameAddr;
 	}
 
 
 
-	public void setUser_addr(String user_addr) {
-		this.user_addr = user_addr;
+	public void setUser_rNameAddr(String user_rNameAddr) {
+		this.user_rNameAddr = user_rNameAddr;
+	}
+
+
+
+	public String getUser_detailAddr() {
+		return user_detailAddr;
+	}
+
+
+
+	public void setUser_detailAddr(String user_detailAddr) {
+		this.user_detailAddr = user_detailAddr;
 	}
 
 
@@ -253,8 +268,8 @@ public class MemberDto
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(birthDay, birthMonth, birthYear, user_addr, user_birth_date, user_email, user_gender,
-				user_grade, user_id, user_name, user_phone_number, user_postcode, user_pw, user_regdate,
+		return Objects.hash(birthDay, birthMonth, birthYear, user_birth_date, user_detailAddr, user_email, user_gender,
+				user_grade, user_id, user_name, user_phone_number, user_postcode, user_pw, user_rNameAddr, user_regdate,
 				user_social_type);
 	}
 
@@ -270,28 +285,20 @@ public class MemberDto
 			return false;
 		MemberDto other = (MemberDto) obj;
 		return Objects.equals(birthDay, other.birthDay) && Objects.equals(birthMonth, other.birthMonth)
-				&& Objects.equals(birthYear, other.birthYear) && Objects.equals(user_addr, other.user_addr)
-				&& Objects.equals(user_birth_date, other.user_birth_date)
+				&& Objects.equals(birthYear, other.birthYear) && Objects.equals(user_birth_date, other.user_birth_date)
+				&& Objects.equals(user_detailAddr, other.user_detailAddr)
 				&& Objects.equals(user_email, other.user_email) && Objects.equals(user_gender, other.user_gender)
 				&& Objects.equals(user_grade, other.user_grade) && Objects.equals(user_id, other.user_id)
 				&& Objects.equals(user_name, other.user_name)
 				&& Objects.equals(user_phone_number, other.user_phone_number)
 				&& Objects.equals(user_postcode, other.user_postcode) && Objects.equals(user_pw, other.user_pw)
+				&& Objects.equals(user_rNameAddr, other.user_rNameAddr)
 				&& Objects.equals(user_regdate, other.user_regdate)
 				&& Objects.equals(user_social_type, other.user_social_type);
 	}
 
 
 
-	@Override
-	public String toString() {
-		return "MemberDto [user_id=" + user_id + ", user_name=" + user_name + ", user_pw=" + user_pw + ", user_gender="
-				+ user_gender + ", birthYear=" + birthYear + ", birthMonth=" + birthMonth + ", birthDay=" + birthDay
-				+ ", user_birth_date=" + user_birth_date + ", user_email=" + user_email + ", user_phone_number="
-				+ user_phone_number + ", user_postcode=" + user_postcode + ", user_addr=" + user_addr
-				+ ", user_regdate=" + user_regdate + ", user_grade=" + user_grade + ", user_social_type="
-				+ user_social_type + "]";
-	}
 
 
 

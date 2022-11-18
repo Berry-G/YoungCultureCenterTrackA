@@ -38,14 +38,13 @@
       	</div>
     	</div>
   	</form>
+	${alert}
 	</div>
 
   <!-- footer include -->
 	<%@ include file="/WEB-INF/views/footer.jsp" %>
 	
-	<script>
 	
 	
-	</script>
 </body>
 </html>

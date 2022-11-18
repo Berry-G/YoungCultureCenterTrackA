@@ -69,7 +69,7 @@
 				<th class="text-start">
 					<div class="form-check form-check-inline">
 						<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-						value="option1" ${memberDto.user_gender.equals('F') ? "checked"  : "" } disabled>
+						value="option1" ${memberDto.user_gender.equals('M') ? "checked"  : "" } disabled>
 						<label class="form-check-label" for="inlineRadio1">남</label>
 					</div>
 					<div class="form-check form-check-inline">
@@ -198,7 +198,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-					<a href="mypage3" type="button" class="btn btn-danger">탈퇴</a>
+					<a href="withdraw" type="button" class="btn btn-danger">탈퇴</a>
 				</div>
 			</div>
 		</div>

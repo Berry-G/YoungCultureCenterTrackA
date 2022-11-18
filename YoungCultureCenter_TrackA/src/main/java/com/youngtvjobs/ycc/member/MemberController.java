@@ -73,34 +73,35 @@ public class MemberController {
 	
 	//마이페이지1 : 본인인증
 
-	@GetMapping("/mypage")
-	public String mypage1(HttpSession session, HttpServletRequest request, String inputPassword) throws Exception	{
+	@GetMapping("/mypage/pwcheck")
+	public String pwCheck(HttpSession session, HttpServletRequest request, String inputPassword) throws Exception	{
 	    if(!logincheck(request)) 
 	    	return "redirect:/login?toURL="+request.getRequestURL();
 
-		return "member/mypage1";
+		return "member/pwCheck";
 	}
 
-	@PostMapping("/mypage")
-	public String mypage1(String inputPassword, HttpSession session, Model m) throws Exception	{
+	@PostMapping("/mypage/pwcheck")
+	public String pwCheck(String inputPassword, HttpSession session, Model m) throws Exception	{
 		
 //		System.out.println(inputPassword);
 		
 		MemberDto memberDto = memberDao.loginSelect((String)session.getAttribute("id"));
 		System.out.println("birthdate = " +memberDto.getUser_birth_date());
+		
 			if(memberDto.getUser_pw().equals(inputPassword)){
 
-			return "redirect:/mypage2";
+			return "redirect:/mypage/modify";
 			}
 			
 			m.addAttribute("alert", "<script>alert('비밀번호가 일치하지 않습니다.')</script>");
 			
-		return "member/mypage1";
+		return "member/pwCheck";
 	}
 
 	//마이페이지 2: 회원 정보 수정
-	@GetMapping("/mypage2")
-	public String mypage2(HttpSession session, Model m) throws Exception {
+	@GetMapping("/mypage/modify")
+	public String modify(HttpSession session, Model m) throws Exception {
 		MemberDto memberDto = memberDao.loginSelect((String)session.getAttribute("id"));
 		
 		System.out.println(Arrays.toString(memberDto.getUser_email().split("@")) );
@@ -121,11 +122,11 @@ public class MemberController {
 
 		m.addAttribute("birth_date", birth_date);
 		
-		return "member/mypage2";
+		return "member/modify";
 	}
 	
-	@PostMapping("/mypage2")
-	public String mypage2(String id, String pw, String tel, String postCode, String rNameAddr, String detailAddr) throws Exception {
+	@PostMapping("/mypage/modify")
+	public String modify(String id, String pw, String tel, String postCode, String rNameAddr, String detailAddr) throws Exception {
 		System.out.println(postCode);
 		System.out.println(rNameAddr);
 		
@@ -145,14 +146,15 @@ public class MemberController {
 	
 
 	//마이페이지3 : 회원탈퇴 완료
-	@RequestMapping("/mypage/mypage3")
-	public String mypage3(HttpSession session) throws Exception	{
-		memberService.withdraw((String) session.getAttribute("id"));
+	@RequestMapping("/mypage/withdraw")
+	public String withdraw(HttpSession session) throws Exception	{
 		
-		return "member/mypage3";
+		memberService.withdraw((String) session.getAttribute("id"));
+		session.invalidate();
+		return "member/withdraw";
 	}
 	//마이페이지4 : 내 수강목록
-	@RequestMapping("/mypage/mypage4")
+	@RequestMapping("/mypage/mycourse")
 	public String mypage4()	{
 		return "member/mypage4";
 	}

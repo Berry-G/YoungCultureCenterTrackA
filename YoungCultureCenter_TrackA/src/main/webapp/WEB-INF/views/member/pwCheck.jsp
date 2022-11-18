@@ -15,11 +15,11 @@
   <!-- body -->
   <div class="container mt-5 text-center">
     <h2 class="text-start">본인인증페이지</h2><hr>
-    <form class="row g-3 text-center" action="mypage" method="post">
+    <form class="row g-3 text-center" action="pwcheck" method="post">
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-12">
-          	<img class="img-fluid" src="<c:url value="resources/img/ico_self_auth.png" />" alt="본인인증아이콘">
+          	<img class="img-fluid" src="<c:url value="/resources/img/ico_self_auth.png" />" alt="본인인증아이콘">
         	</div>
       	</div>
       </div>

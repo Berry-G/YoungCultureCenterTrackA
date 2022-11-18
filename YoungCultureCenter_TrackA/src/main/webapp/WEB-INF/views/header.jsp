@@ -75,7 +75,7 @@
 				${sessionScope.id} 님!
 			  </button>
 			  <ul class="dropdown-menu dropdown-menu-lg-end">
-			    <li><button class="dropdown-item" type="button" onclick="location.href='/ycc/mypage'">마이페이지</button></li>
+			    <li><button class="dropdown-item" type="button" onclick="location.href='/ycc/mypage/pwcheck'">마이페이지</button></li>
 			    <li><button class="dropdown-item" type="button" onclick="location.href='/ycc/mypage'">나의 수강목록</button></li>
 			    <li><button class="dropdown-item" type="button" onclick="location.href='/ycc/mypage'">나의 문의내역</button></li>
 			    <li><button class="dropdown-item" type="button" onclick="location.href='/ycc/logout'">로그아웃</button></li>

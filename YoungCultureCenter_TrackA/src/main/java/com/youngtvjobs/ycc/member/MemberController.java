@@ -87,8 +87,8 @@ public class MemberController {
 //		System.out.println(inputPassword);
 		
 		MemberDto memberDto = memberDao.loginSelect((String)session.getAttribute("id"));
-		System.out.println("birthdate = " +memberDto.getUser_birth_date());
 		
+		//DB의 pw와 입력된 pw가 같으면 modify로 리다이렉트, 그렇지 않으면 pwCheck로 돌아감
 			if(memberDto.getUser_pw().equals(inputPassword)){
 
 			return "redirect:/mypage/modify";
@@ -104,19 +104,16 @@ public class MemberController {
 	public String modify(HttpSession session, Model m) throws Exception {
 		MemberDto memberDto = memberDao.loginSelect((String)session.getAttribute("id"));
 		
-		System.out.println(Arrays.toString(memberDto.getUser_email().split("@")) );
+		m.addAttribute("memberDto", memberDto);
 		
-		//이메일 아이디/도메인 분리
+		//이메일 아이디/도메인 분리하여 모델에 저장 (회원정보수정 이메일란에 출력)
 		String emailId= memberDto.getUser_email().split("@")[0];
 		String emailDomain=  memberDto.getUser_email().split("@")[1];
 		
-
-		m.addAttribute("memberDto", memberDto);
 		m.addAttribute("emailId", emailId);
 		m.addAttribute("emailDomain", emailDomain);
 		
-		//생년월일 String으로 형변환 & 포맷 지정
-	
+		//생년월일 String으로 형변환 & 포맷 지정하여 모델에 저장 (회원정보수정 생년월일란에 출력)
 	    DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
 	    String birth_date = sdFormat.format(memberDto.getUser_birth_date());
 
@@ -127,9 +124,8 @@ public class MemberController {
 	
 	@PostMapping("/mypage/modify")
 	public String modify(String id, String pw, String tel, String postCode, String rNameAddr, String detailAddr) throws Exception {
-		System.out.println(postCode);
-		System.out.println(rNameAddr);
 		
+		//회원정보 수정란에서 받은 정보를 dto에 저장하여 전달(db UPDATE)후 메인페이지로 이동
 		MemberDto dto= new MemberDto(); 
 		dto.setUser_id(id);
 		dto.setUser_pw(pw);
@@ -167,18 +163,20 @@ public class MemberController {
 	//나의 문의 내역
 	@RequestMapping("/mypage/inquiry")
 	public String inquiryHistory() {
-		return "mypage/inquiryHistory";
+		
+		return "member/inquiryHistory";
 	}
 	
 	//1:1 문의 작성 페이지
 	@RequestMapping("/mypage/inquiry/write")
 	public String inquiryWrite() {
-		return "mypage/inquiryWrite";
+		
+		return "member/inquiryWrite";
 	}
 	//1:1 문의글 읽기 페이지
 	@RequestMapping("/mypage/inquiry/read")
 	public String inquiryRead() {
-		return "mypage/inquiryWrite";
+		return "member/inquiryWrite";
 	}
 	
     private boolean logincheck(HttpServletRequest request) {

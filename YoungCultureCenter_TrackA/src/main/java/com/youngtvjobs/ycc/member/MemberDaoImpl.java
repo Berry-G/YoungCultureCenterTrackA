@@ -22,20 +22,21 @@ public class MemberDaoImpl implements MemberDao
 	}
 	
 	
-	@Override
-	public void signinMember(MemberDto dto) throws Exception {
+	//회원가입_아이디중복체크 
+		@Override
+		public int idCheck(MemberDto dto) throws Exception {
+			
+			return session.selectOne(namespace + "idCheck", dto);
+		}
+
 		
-		//String -> Date 변경
-		String year = dto.getBirthYear();
-		String month = dto.getBirthMonth();
-		String day = dto.getBirthDay();
-		
-		Date birth = Date.valueOf(year+"-"+month+"-"+day);
-		dto.setUser_birth_date(birth);
-		
-		session.insert(namespace + "signinMember", dto);
-		
-	}
+		//회원가입_INSERT
+		@Override
+		public void signinMember(MemberDto dto) throws Exception {
+
+			session.insert(namespace + "signinMember" , dto);
+			
+		}
 
 	@Override
 	public int update(MemberDto memberDto) throws Exception

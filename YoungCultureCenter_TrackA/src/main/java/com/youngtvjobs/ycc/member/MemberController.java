@@ -11,10 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 //회원관리 컨트롤러
 @Controller
@@ -23,47 +22,44 @@ public class MemberController {
 	MemberDao memberDao;
 	MemberService memberService;
 	
-	
-	
-	
 	@Autowired
+
 	public MemberController(MemberDao memberDao, MemberService memberService) {
-		super();
+		//super();
 		this.memberDao = memberDao;
 		this.memberService = memberService;
 	}
 
 	//회원약관동의
-	@RequestMapping("/member/signin1")
-	public String joincheck() {
-		return "member/signin1";
+	@GetMapping("/signin/agree")
+	public String siagree() {
+		return "member/siAgree";
 	}
-	
-
-	
 	//회원가입
-	@RequestMapping(value = "/member/signin2", method = RequestMethod.GET)
-	public String signinmember() throws Exception	{
-		return "member/signin2";
+	@GetMapping("/signin/form")
+	public String siform() throws Exception	{
+		System.out.println("get signin");
+		return "member/siForm";
 	}
-	
-	@RequestMapping(value = "/member/signin2", method = RequestMethod.POST)
-	public String signinmember(@ModelAttribute MemberDto dto, Model m) throws Exception	{
+	@PostMapping("/signin/form")
+	public String siform( MemberDto dto, Model m) throws Exception	{
+		System.out.println(dto.toString());
+		memberService.signinMember(dto);
+		m.addAttribute(dto);
+		return "member/siComple";
+		
+	}
+	//아이디중복체크 
+	@PostMapping("/signin/idcheck")
+	@ResponseBody
+	public int idcheck(MemberDto dto, String user_id, Model m) throws Exception	{
 		
 		//System.out.println(dto.toString());
-		memberService.signinMember(dto);
-		m.addAttribute("memberDto", dto);
-		
-		return "member/signin3";
+		//중복확인 체크 버튼을 누루지않고 회원가입버튼을 할 경우
+		int result = memberService.idCheck(dto);
+		System.out.println(result);
+		return result;
 	}
-	
-	
-	//회원가입 결과
-	@RequestMapping("/member/signin3")
-	public String joinresult()	{
-		return "member/signin3";
-	}
-
 	/*
 	 * //로그인
 	 * 

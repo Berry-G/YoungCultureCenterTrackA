@@ -88,7 +88,7 @@
 					<a class="nav-link active" aria-current="page" href="/ycc/login">로그인</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/ycc/member/signin1">회원가입</a>
+					<a class="nav-link" href="/ycc/signin/agree">회원가입</a>
 				</li>
 			</ul>
 			

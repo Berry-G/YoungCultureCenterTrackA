@@ -25,6 +25,15 @@
 	#{user_email}, #{user_phone_number}, #{user_postcode}, #{user_addr}, now(), '일반회원', '')
   </insert>
   
+   <!-- 아이디체크 -->
+  <!-- 아이디가 있으면 count 1 , 없으면 0 체크해서 중복확인  -->
+  <select id="idCheck" parameterType="MemberDto" resultType="Integer">
+	select count(user_id)
+	from tb_user 
+	where user_id = #{user_id}
+  </select>
+  
+  
   <update id="update" parameterType="MemberDto">
   	UPDATE tb_user
 	SET 

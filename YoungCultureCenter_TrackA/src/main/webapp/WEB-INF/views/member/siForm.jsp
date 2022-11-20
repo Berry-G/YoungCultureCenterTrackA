@@ -8,24 +8,21 @@
 <html>
 	<head>	
 
-	<script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 		<!-- head & meta tag include -->
     <%@include file="/WEB-INF/views/metahead.jsp"%>
-    
- 
-    
 <title>회원정보입력</title>
+	<script type="text/javascript">
+	
 
+    </script>
+	
 </head>
-
-
 <body>
 
 	<!-- header inlcude -->
 	<%@include file="/WEB-INF/views/header.jsp"%>
 
-
-	
 	<div class="container w-50">
     <h2 class="p-5" style="text-align: center;">회원가입</h2>
     <div class="container-lg pt-5">
@@ -47,7 +44,7 @@
     </div>
 
 
- <form action= '<c:url value="/member/signin2" />' name="signinform" method="post">
+ <form action= '<c:url value="/signin/sicomple" />' name="signinform" method="post">
   <!-- 회원정보 입력 table -->
   <h2 class="mt-5">회원정보입력</h2>
 	<hr>
@@ -63,31 +60,38 @@
           <td class="col-auto px-3"> 
           <div class="row">
          	<input type="text" class="form-control onlyAlphabetAndNumber" id="user_id"  name="user_id"
-              placeholder="4~15자, 영문+숫자 입력" maxlength="20" onkeydown="inputCheck" style="width: 450px;">
-          	<input type="button" id="button"  class="btn btn-outline-primary mx-1" value="중복확인" style="width: 100px;">
-          	<input type="hidden" name="idCheck" value="idUncheck">
+              placeholder="4~15자, 영문+숫자 입력" maxlength="20" style="width: 340px;">
+          	<input type="button" id="idCheckBtn" name="idCheckBtn" class="btn btn-outline-primary mx-1" value="중복확인" style="width: 100px;">
+          	<!-- 중복체크 검사결과  -->
+          	<span id="result"></span>  
           	</div>
           </td>
       </tr>
         
       <tr>
         <th class="col" style="vertical-align: middle !important;">이름</th>
-          <td><input type="text" class="form-control onlyHangul" id="user_name" name="user_name" placeholder="한글입력"
+          <td>
+          <input type="text" class="form-control onlyHangul" id="user_name" name="user_name" placeholder="한글입력"
             maxlength="10">
+           <span id="name_result"></span>  
           </td>
       </tr>
 
       <tr>
         <th class="col" style="vertical-align: middle !important;">비밀번호</th>
-          <td><input type="password" class="form-control" id="user_pw" name="user_pw" 
+          <td>
+          <input type="password" class="form-control" id="user_pw" name="user_pw" 
               placeholder="8~15자, 영문+숫자 입력" maxlength="20">
+           <span id="pw_result"></span> 
           </td>
       </tr>
         
       <tr>
         <th class="col" style="vertical-align: middle !important;">비밀번호확인</th>
-          <td> <input type="password" class="form-control"  id="passwordCheck" name="passwordCheck" maxlength="20">
-          </td>
+          <td> 
+          <input type="password" class="form-control"  id="passwordCheck" name="passwordCheck" maxlength="20">
+          <span id="pwCheck_result"></span> 
+           </td>
       </tr>
         
       <tr>
@@ -101,35 +105,34 @@
               <input class="form-check-input" type="radio" name="user_gender" id="radioBtnW" value="W">
               <label class="form-check-label" for="inlineRadio2">여자</label>
             </div>
+            <span id="gender_result"></span> 
           </td>
       </tr>
       
       <tr>
       	<th class="col" style="vertical-align: middle !important;">생년월일</th>
 		  <td class="col-auto px-3" >
-		  	<div class="row">
-		  	<select class="form-select col-3 mx-1" id="birthYear" name="birthYear" style="width: 130px; " >
-			  <option selected>출생연도</option>
+		  	<div class="row" id="birth_select">
+		  	<select class="form-select col-3 mx-1" id="birthYear" name="birthYear"  onchange="javascript:lastday();" style="width: 130px; " >
 			</select >
-			<select class="form-select col-3 mx-1" id="birthMonth" name="birthMonth" style="width: 100px;" >
-			  <option selected>월</option>
+			<select class="form-select col-3 mx-1" id="birthMonth" name="birthMonth"  onchange="javascript:lastday();" style="width: 100px;" >
 			</select>
 			<select class="form-select col-3 mx-1" id="birthDay" name="birthDay" style="width: 100px;" >
-			  <option selected>일</option>
 			</select>
+			<span class="error-msg"></span> 
 			</div>
-		  </td>
+
+		</td>
       </tr>
         
 	
         
       <tr>
         <th class="col" style="vertical-align: middle !important;">이메일</th>
-          <div class="row d- flex justify-content-center">
-            <td class="pl-3 ">
+           <td>
               <div class="row mx-0">
                 <input type="text" class="form-control " style="width: 180px;" name="user_email" id="divEmai" maxlength="40">
-                <p class="col-auto fs-6">@</p>
+                <p class="col-auto fs-6" >@</p>
                 <select class="form-select col-4 " style="width: 180px;" name="user_email" aria-label="Default select example">
                   <option selected></option>
                   <option value="naver.com">naver.com</option>
@@ -138,8 +141,8 @@
                 </select>
                 <button type="button" class="btn btn-outline-primary mx-1" style="width: 100px;">인증하기</button>
             </div>
+            <span id="email_result"></span> 
           </td>
-        </div>
       </tr>
 
       <tr>
@@ -147,6 +150,7 @@
         <td>
           <input type="text" class="form-control" id="email" data-rule-required="true" placeholder="인증번호6자리"
             maxlength="10">
+          <span id="emailCheck_result"></span> 
         </td>
       </tr>
         
@@ -156,121 +160,168 @@
           <input type="tel" class="form-control onlyNumber" id="phoneNumber" name="user_phone_number" 
             placeholder="-를 제외하고 숫자만 입력하세요." maxlength="11">
           <div class="eheck_font" id="phone_check"></div>
+          <span id="pNum_result"></span> 
         </td>
       </tr>
-        
+   
       <tr>
         <th class="col" style="vertical-align: middle !important;">주소</th>
-          <div class="row d- flex justify-content-center">
-            <td class="pl-3 ">
+            <td>
               <div class="row mx-0">
                 <input type="text" class="col-lg-2 form-control" style="width: 180px;" id="sample6_postcode" name="user_postcode" placeholder="우편번호" required readonly="readonly">
                 <input class="btn btn-outline-primary mx-1" onclick="sample6_execDaumPostcode()" type="button" style="width: 150px;" value="우편번호검색">
-                <input type="text" class="col-lg-2 form-control" id="sample6_address" name="user_addr" placeholder="도로명주소" required readonly="readonly">
-                <input type="text" class="col-lg-2 form-control" id="sample6_detailAddress" name="user_addr" placeholder="상세주소를 입력해주세요.">
+                <input type="text" class="col-lg-2 form-control" id="sample6_address" name="user_rNameAddr" placeholder="도로명주소" required readonly="readonly">
+                <input type="text" class="col-lg-2 form-control" id="sample6_detailAddress" name="user_detailAddr" placeholder="상세주소를 입력해주세요.">
                 <input type="hidden" class="col-lg-2 form-control" id="sample6_extraAddress" placeholder="참고항목.">
               </div>
+              <span id="add_result"></span> 
             </td>
-          </div>
       </tr>
     </thead>
   </table>
-  <div class="row">
-    <div class="col text-center pt-5">
-      <input type="submit" id="button"  class="btn btn-primary" value="회원가입" >
-      <a href="/ycc/"  class="cancle btn btn-secondary" role="button">취소</a>
-    </div>
-  </div>
-  </form>
+  	<div class="row">
+    	<div class="col text-center pt-5">
+      		<input type="submit" id="button"  class="btn btn-primary" value="회원가입" >
+      		<a href="/ycc/"  class="cancle btn btn-secondary" role="button">취소</a>
+    	</div>
+  	</div>
+  	</form>
  </div>
 	
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
-	const birthYearEl = document.querySelector('#birthYear')
-	//option 목록 생성 여부 확인
-	isYearOptionExisted = false;
-	birthYearEl.addEventListener('focus', function() {
-	  //year 목록 최초 클릭시 
-	  if(!isYearOptionExisted) {
-	    isYearOptionExisted = true
-	    for(var i = 1940; i < 2022; i++) {
-	      // option element 생성
-	      const YearOption = document.createElement('option')
-	      YearOption.setAttribute('value', i)
-	      YearOption.innerText = i
-	      //birthYearEl의 자식 요소 추가
-	      this.appendChild(YearOption);
-	    }
-	  }
-	});
-	const birthMonthEl = document.querySelector('#birthMonth')
-	isMonthOptionExisted = false;
-	birthMonthEl.addEventListener('focus', function(){
-	  if(!isMonthOptionExisted) {
-	    isMonthOptionExisted = true
-	    for(var i = 1; i <= 12; i++) {
-	      const MonthOption = document.createElement('option')
-	      MonthOption.setAttribute('value', i)
-	      MonthOption.innerText = i
-	      this.appendChild(MonthOption);
-	    }
-	  }
 
-	});
-
-	const birthDayEl = document.querySelector('#birthDay')
-	isDayOptionExisted = false;
-	birthDayEl.addEventListener('focus', function(){
-	  if(!isDayOptionExisted) {
-	    isDayOptionExisted = true
-	    for(var i = 1; i <= 31; i++) {
-	      const DayOption = document.createElement('option')
-	      DayOption.setAttribute('value', i)
-	      DayOption.innerText = i
-	      this.appendChild(DayOption);
-	    }
-	  }
-	});
-	
-	
-			
-		$(document).ready(function(){
-		  
-		  $(".cancle").on("click", function(){
-		     location.href = "/ycc";
-		  })
-		  
-		  $("#signinBtn").on("click", function(){
-		     if($("#user_id").val()=="") {
-		        alert("아이디를 입력해주세요.");
-		        $("#user_id").focus();
-		        return false;
-		        
-		     }
-		         var prom_receipt_syear = $("#birthYear").val();
-		         var prom_receipt_smonth = $("#birthMonth").val();
-		         var prom_receipt_sday = $("#birthDay").val();
-		         var prom_rec_sdate ="";
-		         
-		         prom_rec_sdate = addZero(prom_receipt_syear)+"-"+addZero(prom_receipt_smonth)+"-"+addZero(prom_receipt_sday);
-		         alert(prom_rec_sdate)
-		         //$("#prom_rec_sdate").val(prom_rec_sdate);  //hidden value set  
-		         document.getElementById("prom_rec_sdate").value = prom_rec_sdate;
-		         console.log('date: ' + new Date(document.getElementById("prom_rec_sdate").value));
-		         alert("합쳐")
-		         $(location).attr('href', '<c:url value='/member/signin3'/>');
 		
-		  });
+	    $("#idCheckBtn").click(function(){
+	     // alert("확인")
+	       //user_id 입력값이 빈칸이 아니라면 
+	       
+	       
+	        if($("#user_id").val()!='') {
+	      
+	        //아이디를 서버로 전송 > DB 유효성 검사 > 결과 받기
+	        $.ajax({
+	          type: 'post',
+	          url: '/ycc/signin/idcheck',
+	          data: {'user_id' : $('#user_id').val()}, 
+	          dataType: 'text',
+	          //Controller에서 요청받은 url의 return값을 function()에 넣어줌 
+	          success: function(result) {
+	            if(result==0) {
+	              $("#result").text('사용 가능한 아이디입니다.').css('color','blue');	             
+	            }
+	            else  {
+	              $("#result").text('이미 사용중인 아이디입니다.').css('color','red');
+	             
+	            }
+	          },
+	          error: function(){
+	         // alert("code = " + request.status + "message = " + request.responseText +	"error = " + error);
+	            alert ("error")
+	          }
+	          
+	        })
+ 
+	      } else {
+	        $("#result").text('아이디를 입력하세요.').css('color','red');
+	        $("#user_id").focus();
+	      }
+
+	    })
+	    
+	//모든 공백 체크 정규식
+		var emp =/\s/g;
+		//아이디 정규식
+		var idJ =/^[a-z0-9]{4,15}$/;
+		//비밀번호
+		var pwJ=/^[A-Za-z0-9]{8,15}$/;
+		//핸드폰
+		var phoneJ =/^01([0|1|6|7|9]?)?([0-9]{4})?([0-9]{4})$/;
+		
+		
+		
+		//비밀번호 정규식
+		$("#user_pw").blur(function(){
+		  if(pwJ.test($("#user_pw").val())) {
+		    console.log('true');
+		    $("#pw_result").text('');
+		  } else {
+		    console.log('false');
+		    $("#pw_result").text('영어,숫자로만 8~15자리 입력해주세요.').css('color','red');
+		  }
+		})
+		//비밀번호확인
+		$("#passwordCheck").blur(function(){
+		  if($("#user_pw").val() != $(this).val()) {
+		    $("#pwCheck_result").text('비밀번호가 일치하지 않습니다.').css('color','red')
+		  } else if ($("#user_pw").val() = $(this).val()){
+		    $("#pwCheck_result").text('비밀번호가 일치합니다.').css('color','blue')
+		  }
+		})
+		//성별 체크박스 확인 
+// 		document.user_genser.blur(function(){
+//            if(!$(':input:radio[name=user_gender]:checked').val()) {
+//     		alert("섹션을 선택해주세요.");
+// 		}
+// 		})
+		
+		//비밀번호확인 먼저 클릭시 
+	 	document.querySelector('#passwordCheck').addEventListener("focus",function(){
+            if(document.querySelector('#user_pw').value==""){
+                alert("패스워드를 먼저 입력하세요");
+                document.querySelector('#user_pw').focus()
+            }
+        })
+	
+        //생년월일 셀렉트박스 
+		var start_year="1950";// 시작할 년도
+		var today = new Date();
+		var today_year= today.getFullYear();
+		var index=0;
+		for(var y = today_year; y >= start_year; y--){ //start_year ~ 현재 년도
+			document.getElementById('birthYear').options[index] = new Option(y, y);
+			index++;
+		}
+		index=0;
+		for(var m=1; m<=12; m++){
+			document.getElementById('birthMonth').options[index] = new Option(m, m);
+			index++;
+		}
+		
+		lastday();
+
+		
+		function lastday(){ //년과 월에 따라 마지막 일 구하기 
+			var Year=document.getElementById('birthYear').value;
+			var Month=document.getElementById('birthMonth').value;
+			var day=new Date(new Date(Year,Month,1)-86400000).getDate();
+		    /* = new Date(new Date(Year,Month,0)).getDate(); */
+		    
+			var dayindex_len=document.getElementById('birthDay').length;
+			if(day>dayindex_len){
+				for(var i=(dayindex_len+1); i<=day; i++){
+					document.getElementById('birthDay').options[i-1] = new Option(i, i);
+				}
+			}
+			else if(day<dayindex_len){
+				for(var i=dayindex_len; i>=day; i--){
+					document.getElementById('birthDay').options[i]=null;
+				}
+			}
+		}
+		//휴대폰번호 입력확인
+		$("#phoneNumber").blur(function(){
+		  if(phoneJ.test($(this).val())) {
+		    console.log(phoneJ.test($(this).val()));
+		    $("#pNum_result").text('');
+		  } else { 
+		    $("#pNum_result").text('휴대폰번호를 확인해주세요.').css('color','red');
+		  }
 		})
 
-
-	  function getvalue(){
-	    var idx = document.getElementById('name').value;
-	      var url = '?name='+idx;
-	    location.href="join_member3.html"+url;
-	    }
-
-
+	
+	
+	//주소 
 	  function sample6_execDaumPostcode() {
 	    new daum.Postcode({
 	        oncomplete: function(data) {
@@ -319,57 +370,6 @@
 	        }
 	    }).open();
 	  }
-
-      $(document).ready(function() {
-         $("#idChk").blur(function() {
-            var csrfHeaderName = "${_csrf.headerName}";
-            var csrfTokenValue= "${_csrf.token}";
-            var id = $("#idChk").val();         
-            if (id == "") {
-               $("#message").html("필수 입력 항목 입니다.").css("color", "red");
-               $("#idChk").css("background-color", "#FAE0D4");
-            } else {
-               $("#idChk").css("background-color", "#fff");
-               $.ajax({
-                  beforeSend: function(xhr){
-                  xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
-                  },
-                  type:"POST",
-                  url :"${contextPath}/member/idcheckPost",
-                  data:id,
-                  dataType:"json",
-                  contentType: "application/json; charset=UTF-8",
-                  success:function(data){
-                     if (data.cnt > 0) {
-                        $("#message").html("사용 불가능 아이디 입니다.").css("color", "red");
-                     } else {
-                        $("#message").html("사용 가능한 아이디 입니다.").css("color", "blue");
-                        $("#reid").val("-1");
-                     }
-                  },
-                  fail:function(){
-                     alert("시스템 에러");
-                  }
-               });
-            }
-         });
-      });
-      
-     
-      $(document).ready(function(){
-    	  $("#button").click(function(){
-    		  var prom_receipt_syear =$("#birthYear").val();
-        	  var prom_receipt_smonth =$("#birthMonth").val();
-        	  var prom_receipt_sday =$("#birthDay").val();
-        	  var prom_rec_sdate ="";
-        	  
-        	  prom_rec_sdate = addZero(prom_receipt_syear)+"-"+addZero(prom_receipt_smonth)+"-"+addZero(prom_receipt_sday);
-        	  $("#prom_rec_sdate").val(prom_rec_sdate);  //hidden value set   
-        	  alert("합쳐")
-        	  $(location).attr('href', '<c:url value='/member/signin3'/>');
-    	  })
-      })
-      
 
 	</script>
 	<!-- footer inlcude -->

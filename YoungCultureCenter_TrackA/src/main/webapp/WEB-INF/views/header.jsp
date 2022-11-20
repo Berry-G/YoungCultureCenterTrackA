@@ -81,7 +81,7 @@
 			    <li><button class="dropdown-item" type="button" onclick="location.href='/ycc/logout'">로그아웃</button></li>
 			  </ul>
 			</div>
-	      
+			
 	      	<!-- 로그인 / 회원가입 -->
 			<ul class="nav justify-content-end ${logoutvis}">
 				<li class="nav-item">

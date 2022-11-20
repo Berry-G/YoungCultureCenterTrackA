@@ -3,6 +3,8 @@ package com.youngtvjobs.ycc.member;
 public interface MemberService {
 	//회원가입
 	void signinMember(MemberDto dto) throws Exception;
+	//회원가입 아이디체크 
+	int idCheck(MemberDto dto) throws Exception;
 	//회원탈퇴
 	int withdraw(String id) throws Exception;
 	//회원정보수정

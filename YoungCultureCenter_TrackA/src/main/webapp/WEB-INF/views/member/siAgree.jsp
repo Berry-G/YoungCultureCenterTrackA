@@ -7,7 +7,8 @@
 		<!-- head & meta tag include -->
     <%@include file="/WEB-INF/views/metahead.jsp"%>
 	<script type="text/javascript" src="/ycc/resources/js/singnincheck.js"></script>
-	<script src="https://code.jquery.com/jquery-3.6.0.slim.js" integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.slim.js" 
+		integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY=" crossorigin="anonymous"></script>
 	
  <title>회원가입약관동의</title>
 </head>
@@ -38,7 +39,7 @@
 
     <h4 class="pt-5">회원가입약관</h4>
     <hr>
-   <form action="singin2.jsp" id="form_check" method="post">
+   <form action="siForm.jsp" id="form_check" method="post">
     <label for="memberInfo" class="col control-label pt-2 pb-3 fw-bold fs-5">이용약관</label>
   
 
@@ -164,7 +165,7 @@
   
   <div class="row">
     <div class="col text-center">
-      <input type="button" id="button"  class="btn btn-primary" value="확인" onclick="/member/signin2"  >
+      <input type="button" id="button"  class="btn btn-primary" value="확인" onclick="/member/siForm"  >
       <a href="/ycc/" class="btn btn-secondary" role="button">취소</a>
     </div>
   </div>
@@ -182,7 +183,7 @@ $(document).ready(function(){
       
         } 
         if($("#selectall").is(":checked") != false){
-            $(location).attr('href', '<c:url value='/member/signin2'/>');
+            $(location).attr('href', '<c:url value='/signin/form'/>');
             return true;
       
         }

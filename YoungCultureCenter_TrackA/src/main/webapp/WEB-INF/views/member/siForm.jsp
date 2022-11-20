@@ -12,11 +12,7 @@
 		<!-- head & meta tag include -->
     <%@include file="/WEB-INF/views/metahead.jsp"%>
 <title>회원정보입력</title>
-	<script type="text/javascript">
-	
 
-    </script>
-	
 </head>
 <body>
 
@@ -44,7 +40,7 @@
     </div>
 
 
- <form action= '<c:url value="/signin/sicomple" />' name="signinform" method="post">
+ <form action='<c:url value="/signin/form" />' name="signinform" method="post">
   <!-- 회원정보 입력 table -->
   <h2 class="mt-5">회원정보입력</h2>
 	<hr>
@@ -113,13 +109,10 @@
       	<th class="col" style="vertical-align: middle !important;">생년월일</th>
 		  <td class="col-auto px-3" >
 		  	<div class="row" id="birth_select">
-		  	<select class="form-select col-3 mx-1" id="birthYear" name="birthYear"  onchange="javascript:lastday();" style="width: 130px; " >
-			</select >
-			<select class="form-select col-3 mx-1" id="birthMonth" name="birthMonth"  onchange="javascript:lastday();" style="width: 100px;" >
-			</select>
-			<select class="form-select col-3 mx-1" id="birthDay" name="birthDay" style="width: 100px;" >
-			</select>
-			<span class="error-msg"></span> 
+		  	<select class="form-select col-3 mx-1" id="birthYear" name="birthYear"  onchange="javascript:lastday();" style="width: 130px; " ></select >
+			<select class="form-select col-3 mx-1" id="birthMonth" name="birthMonth"  onchange="javascript:lastday();" style="width: 100px;" ></select>
+			<select class="form-select col-3 mx-1" id="birthDay" name="birthDay" style="width: 100px;" ></select>
+<!-- 			<input type="hidden" id="totalBirth" name="user_birth_date"> -->
 			</div>
 
 		</td>
@@ -131,21 +124,23 @@
         <th class="col" style="vertical-align: middle !important;">이메일</th>
            <td>
               <div class="row mx-0">
-                <input type="text" class="form-control " style="width: 180px;" name="user_email" id="divEmai" maxlength="40">
-                <p class="col-auto fs-6" >@</p>
-                <select class="form-select col-4 " style="width: 180px;" name="user_email" aria-label="Default select example">
+                <input type="text" class="form-control " style="width: 180px;"  name="email" id="email" maxlength="40">
+                <p class="col-auto fs-6" id="m_email">@</p>
+                <select class="form-select col-4 " style="width: 180px;" name="email" id="detailEmail" aria-label="Default select example">
                   <option selected></option>
                   <option value="naver.com">naver.com</option>
                   <option value="gmail.com">gmail.com</option>
                   <option value="hanmail.net">hanmail.net</option>
                 </select>
                 <button type="button" class="btn btn-outline-primary mx-1" style="width: 100px;">인증하기</button>
-            </div>
+             	<input type="hidden" id="totalEmail" name="user_email">
+             </div>
             <span id="email_result"></span> 
           </td>
       </tr>
 
-      <tr>
+
+		<tr>
         <th class="col" style="vertical-align: middle !important;">이메일인증</th>
         <td>
           <input type="text" class="form-control" id="email" data-rule-required="true" placeholder="인증번호6자리"
@@ -252,11 +247,11 @@
 		})
 		//비밀번호확인
 		$("#passwordCheck").blur(function(){
-		  if($("#user_pw").val() != $(this).val()) {
+		  if($("#user_pw").val() != $(this).val() ) 
 		    $("#pwCheck_result").text('비밀번호가 일치하지 않습니다.').css('color','red')
-		  } else if ($("#user_pw").val() = $(this).val()){
+		   else if ($("#user_pw").val() == $(this).val()) 
 		    $("#pwCheck_result").text('비밀번호가 일치합니다.').css('color','blue')
-		  }
+
 		})
 		//성별 체크박스 확인 
 // 		document.user_genser.blur(function(){
@@ -266,12 +261,12 @@
 // 		})
 		
 		//비밀번호확인 먼저 클릭시 
-	 	document.querySelector('#passwordCheck').addEventListener("focus",function(){
-            if(document.querySelector('#user_pw').value==""){
-                alert("패스워드를 먼저 입력하세요");
-                document.querySelector('#user_pw').focus()
-            }
-        })
+// 	 	document.querySelector('#passwordCheck').addEventListener("focus",function(){
+//             if(document.querySelector('#user_pw').value==""){
+//                 alert("패스워드를 먼저 입력하세요");
+//                 document.querySelector('#user_pw').focus()
+//             }
+//         })
 	
         //생년월일 셀렉트박스 
 		var start_year="1950";// 시작할 년도
@@ -308,6 +303,46 @@
 					document.getElementById('birthDay').options[i]=null;
 				}
 			}
+		}
+			
+		
+// 		$("#birthYear").blur(function(){
+// 		  birth();
+// 		})
+// 		$("#birthMonth").blur(function(){
+// 		  birth();
+// 		})
+// 		$("#birthDay").blur(function(){
+// 		  birth();
+// 		})
+
+		
+// 		function birth() {
+// 		  const year = $("#birthYear").val();
+// 		  const month = $("#birthMonth").val();
+// 		  const day = $("#birthDay").val();
+// 		  if(year != "" && month != "" && year != "")  {
+// 		    $("#totalBirth").val(year+month+day);
+// 		    new date              
+// 		  }
+// 		}
+	
+		//이메일 합쳐서 가져오기 
+		$("#email").blur(function(){
+		    email();
+		})
+		$("#detailEmail").change(function(){
+		    email();
+		})
+
+		function email() {
+		  const email = $("#email").val();
+		  const middle = $("#m_email").text();
+		  const address = $("#detailEmail").val();
+		  if(email != "" && address != "") {
+		    $("#totalEmail").val(email+middle+address);
+		  }
+
 		}
 		//휴대폰번호 입력확인
 		$("#phoneNumber").blur(function(){

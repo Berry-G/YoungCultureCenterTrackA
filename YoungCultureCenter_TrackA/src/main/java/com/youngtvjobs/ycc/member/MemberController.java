@@ -66,16 +66,6 @@ public class MemberController {
 		return "member/siComple";
 	}
 	
-//	@GetMapping("/signin/comple")
-//	public String signinComple() {
-//		return "member/siComple";
-//	}
-	/*
-	 * //로그인
-	 * 
-	 * @RequestMapping("/login") public String login() { return "member/loginForm";
-	 * }
-	 */
 	
 	//마이페이지1 : 본인인증
 

@@ -55,7 +55,25 @@
   	delete from tb_user 
   </delete>
   
-  
-
+  	<!-- 이메일 인증 시 필요한 쿼리문 -->
+ 	<!-- (signin2.jsp)회원가입 시 이메일 인증을 위한 랜덤번호 저장 -->
+	<update id="updateMailKey" parameterType="MemberDto">
+		UPDATE tb_user
+		SET mail_key=#{mail_key}
+		WHERE user_email=#{user_email} and user_id=#{user_id}
+	</update>
+	
+	<!-- 메일 인증시, mail_auth컬럼 값을 1로 바꿔 로그인을 허용해줌 -->
+	<update id="updateMailAuth" parameterType="MemberDto">
+		UPDATE tb_user
+		SET mail_auth = 1
+		WHERE user_email=#{user_email} and user_id=#{user_id}
+	</update>
+	
+	<!-- 이메일 인증을 안했으면 0 반환, 로그인 시 인증했나 안 했나 체크하기 위함 -->
+	<select id="emailAuthFail" parameterType="String" resultType="int">
+		select count(*) from tb_user
+		where user_id = #{user_id} and mail_auth=1
+	</select>
   
   </mapper>

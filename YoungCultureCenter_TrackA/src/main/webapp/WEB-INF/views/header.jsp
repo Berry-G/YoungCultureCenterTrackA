@@ -68,7 +68,7 @@
 	          </ul>
 	        </li>
 	      </ul>
-	      
+	     
 	      <!-- 로그인시 아이디 표시, 드롭다운 -->
 			<div class="dropdown ms-auto ${loginvis}">
 			  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">

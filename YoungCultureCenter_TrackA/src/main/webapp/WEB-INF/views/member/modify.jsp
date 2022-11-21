@@ -18,7 +18,7 @@
 	<div class="container mt-5">
 		<h2>회원정보수정</h2><hr>
 		<!-- 회원정보수정 -->
-		<form action="<c:url value='/mypage2'/>"  method="post" onsubmit="return validPW(this);">
+		<form action="<c:url value='/mypage/modify'/>"  method="post" onsubmit="return validCheck(this);">
 		<table class="table table-group-divider text-center">
 			<tbody>
 			<colgroup><col width="15%" class="bg-light" id="w-28"></colgroup>
@@ -216,13 +216,15 @@
 	<script type="text/javascript">
 	 
 	// 비밀번호 유효성 검사 (8-15자리, 영문/숫자 혼합, 비밀번호 확인)
-	 	 function validPW(){
+	// 핸드폰번호 유효성 검사 (01~으로 시작, 11자리만 입력 확인)	 
+	
+	function validCheck(){
 
 		 var pw = $("#pw").val();
 		 var num = pw.search(/[0-9]/g);
 		 var eng = pw.search(/[a-z]/ig);
 		 var pwChk = $("#pwChk").val();
-
+		 var phoneNum =/^01([0|1|6|7|9]?)?([0-9]{4})?([0-9]{4})$/;
 
 		 if(pw.length < 8 || pw.length > 15){
 		  alert("8자리 ~ 15자리 이내로 입력해주세요.");
@@ -239,32 +241,19 @@
 	 	 }else if(pw!=pwChk){
 		  alert("비밀번호가 일치하지 않습니다.");
 		  return false;
-		  
-		 }else { 
+		  } 
+		  else if(!phoneNum.test($("#phoneNumber").val())) {	
+	 	  alert('핸드폰 번호를 확인 해주세요');
+	 	  return false;
+	 	  } 
+		  else { 
 		    return alert("수정이 완료되었습니다.");
 		 }
 		 
 		}
 	
-/* 	 	 //휴대폰 번호 유효성검사
-	 function validPhone(){
-	   var phoneNum = '010xxxxxxxx'; 
-	   var patternPhone = /01[016789][^0][0-9]{6}/;
 
-	    if(!patternPhone.test(phoneNum))
-	    {
-	        alert('핸드폰 번호를 확인 해주세요');
-	        return false;
-	    }else{
-	    	return true;
-	    }
-	 } */
-
-	 
-	 
-	 
 	
-	 
  
 	
     function setMessage(msg, element) {

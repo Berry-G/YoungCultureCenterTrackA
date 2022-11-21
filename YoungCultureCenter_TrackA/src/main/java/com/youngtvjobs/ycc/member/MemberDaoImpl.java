@@ -59,6 +59,27 @@ public class MemberDaoImpl implements MemberDao
 	}
 
 
+	@Override
+	public int updateMailKey(MemberDto memberDto) throws Exception {
+	
+		return session.update(namespace + "updateMailKey", memberDto);
+	}
+
+
+	@Override
+	public int updateMailAuth(MemberDto memberDto) throws Exception {
+	
+		return session.update(namespace + "updateMailAuth", memberDto);
+	}
+
+
+	@Override
+	public int emailAuthFail(String id) throws Exception {
+		
+		return session.selectOne(namespace + "emailAuthFail", id);
+	}
+
+
 
 
 

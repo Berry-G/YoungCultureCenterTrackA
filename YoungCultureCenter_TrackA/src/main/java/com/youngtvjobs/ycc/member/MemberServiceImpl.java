@@ -33,6 +33,23 @@ public class MemberServiceImpl implements MemberService{
 
 		return memberDao.update(memberDto);
 	}
+	
+	//	이메일 인증
+	@Override
+	public int updateMailKey(MemberDto memberDto) throws Exception {
+		
+		return memberDao.updateMailKey(memberDto);
+	}
+	@Override
+	public int updateMailAuth(MemberDto memberDto) throws Exception {
+		
+		return memberDao.updateMailAuth(memberDto);
+	}
+	@Override
+	public int emailAuthFail(String id) throws Exception {
+		
+		return memberDao.emailAuthFail(id);
+	}
 
 	
 	

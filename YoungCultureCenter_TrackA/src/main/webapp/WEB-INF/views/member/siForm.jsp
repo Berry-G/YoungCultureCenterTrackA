@@ -114,7 +114,6 @@
 			<select class="form-select col-3 mx-1" id="birthDay" name="birthDay" style="width: 100px;" ></select>
 <!-- 			<input type="hidden" id="totalBirth" name="user_birth_date"> -->
 			</div>
-
 		</td>
       </tr>
         
@@ -143,7 +142,7 @@
 		<tr>
         <th class="col" style="vertical-align: middle !important;">이메일인증</th>
         <td>
-          <input type="text" class="form-control" id="email" data-rule-required="true" placeholder="인증번호6자리"
+          <input type="text" class="form-control" id="email" name="emailCheck" data-rule-required="true" placeholder="인증번호6자리"
             maxlength="10">
           <span id="emailCheck_result"></span> 
         </td>
@@ -176,7 +175,7 @@
   </table>
   	<div class="row">
     	<div class="col text-center pt-5">
-      		<input type="submit" id="button"  class="btn btn-primary" value="회원가입" >
+      		<input type="button" id="button" class="btn btn-primary" onclick="nullCheck()" value="회원가입" >
       		<a href="/ycc/"  class="cancle btn btn-secondary" role="button">취소</a>
     	</div>
   	</div>
@@ -185,37 +184,34 @@
 	
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
-
+	
 		
-	    $("#idCheckBtn").click(function(){
-	     // alert("확인")
-	       //user_id 입력값이 빈칸이 아니라면 
-	       
-	       
-	        if($("#user_id").val()!='') {
-	      
-	        //아이디를 서버로 전송 > DB 유효성 검사 > 결과 받기
-	        $.ajax({
-	          type: 'post',
-	          url: '/ycc/signin/idcheck',
-	          data: {'user_id' : $('#user_id').val()}, 
-	          dataType: 'text',
-	          //Controller에서 요청받은 url의 return값을 function()에 넣어줌 
-	          success: function(result) {
-	            if(result==0) {
-	              $("#result").text('사용 가능한 아이디입니다.').css('color','blue');	             
-	            }
-	            else  {
-	              $("#result").text('이미 사용중인 아이디입니다.').css('color','red');
-	             
-	            }
-	          },
-	          error: function(){
-	         // alert("code = " + request.status + "message = " + request.responseText +	"error = " + error);
-	            alert ("error")
-	          }
-	          
-	        })
+   	$("#idCheckBtn").click(function(){
+     // alert("확인")
+       //user_id 입력값이 빈칸이 아니라면 
+        if($("#user_id").val()!='') {
+      
+        //아이디를 서버로 전송 > DB 유효성 검사 > 결과 받기
+        $.ajax({
+          type: 'post',
+          url: '/ycc/signin/idcheck',
+          data: {'user_id' : $('#user_id').val()}, 
+          dataType: 'text',
+          success: function(result) {
+            if(result==0) {
+              $("#result").text('사용 가능한 아이디입니다.').css('color','blue');	             
+            }
+            else  {
+              $("#result").text('이미 사용중인 아이디입니다.').css('color','red');
+             
+            }
+          },
+          error: function(){
+         // alert("code = " + request.status + "message = " + request.responseText +	"error = " + error);
+            alert ("error")
+          }
+          
+        })
  
 	      } else {
 	        $("#result").text('아이디를 입력하세요.').css('color','red');
@@ -224,34 +220,49 @@
 
 	    })
 	    
-	//모든 공백 체크 정규식
-		var emp =/\s/g;
+	//유효성 체크 정규식 
 		//아이디 정규식
 		var idJ =/^[a-z0-9]{4,15}$/;
+		//이름
+		var nameJ =/^[ㄱ-ㅎ|가-힣]+$/;
 		//비밀번호
 		var pwJ=/^[A-Za-z0-9]{8,15}$/;
 		//핸드폰
 		var phoneJ =/^01([0|1|6|7|9]?)?([0-9]{4})?([0-9]{4})$/;
 		
-		
+		//이름 정규식
+		$("#user_name").blur(function(){
+			if(nameJ.test($("#user_name").val())) {
+				$("#name_result").text('');
+			}
+			else if ($("#user_name").val() == "") {
+				$("#name_result").text("이름을 입력해주세요.").css('color','red');
+				 document.signinform.user_name.focus();
+			} 
+			else {
+				$("#name_result").text('한글만 입력해주세요.').css('color','red');
+			 }
+		})
+	
 		
 		//비밀번호 정규식
 		$("#user_pw").blur(function(){
-		  if(pwJ.test($("#user_pw").val())) {
-		    console.log('true');
+		  if(pwJ.test($("#user_pw").val())) 
 		    $("#pw_result").text('');
-		  } else {
-		    console.log('false');
+		  else if($("#user_name").val() == "")
+			$("#pw_result").text("비밀번호를 입력해주세요.").css('color','red');
+		   else 
 		    $("#pw_result").text('영어,숫자로만 8~15자리 입력해주세요.').css('color','red');
-		  }
+		  
 		})
 		//비밀번호확인
 		$("#passwordCheck").blur(function(){
 		  if($("#user_pw").val() != $(this).val() ) 
-		    $("#pwCheck_result").text('비밀번호가 일치하지 않습니다.').css('color','red')
+		    $("#pwCheck_result").text('비밀번호가 일치하지 않습니다.').css('color','red');
+		   else if ($("#user_pw").val() == "")
+			$("#pwCheck_result").text('비밀번호를 입력해주세요.').css('color','red');
 		   else if ($("#user_pw").val() == $(this).val()) 
-		    $("#pwCheck_result").text('비밀번호가 일치합니다.').css('color','blue')
-
+		    $("#pwCheck_result").text('비밀번호가 일치합니다.').css('color','blue');
 		})
 		//성별 체크박스 확인 
 // 		document.user_genser.blur(function(){
@@ -282,10 +293,8 @@
 			document.getElementById('birthMonth').options[index] = new Option(m, m);
 			index++;
 		}
-		
 		lastday();
 
-		
 		function lastday(){ //년과 월에 따라 마지막 일 구하기 
 			var Year=document.getElementById('birthYear').value;
 			var Month=document.getElementById('birthMonth').value;
@@ -355,7 +364,6 @@
 		})
 
 	
-	
 	//주소 
 	  function sample6_execDaumPostcode() {
 	    new daum.Postcode({
@@ -405,7 +413,66 @@
 	        }
 	    }).open();
 	  }
+		
+		//회원가입 버튼 클릭 시 입력값이 null이면 포커스이동하면서 text 활성화 
+		function nullCheck() {
 
+			  if(document.signinform.user_id.value=="")  {
+				$("#result").text('아이디를 입력해주세요.').css('color','red')
+			    document.signinform.user_id.focus();
+				
+			  } 
+			  else if(document.signinform.user_name.value=="") {
+				$("#name_result").text('이름을 입력해주세요.').css('color','red')
+				document.signinform.user_name.focus();
+			
+			  } 
+			  else if(document.signinform.user_pw.value=="") {
+				$("#pw_result").text('비밀번호를 입력해주세요.').css('color','red');
+			    document.signinform.user_pw.focus();
+			
+			  } 
+			  else if(document.signinform.passwordCheck.value=="") {
+				$("#pwCheck_result").text('비밀번호확인을 해주세요.').css('color','red')
+			    document.signinform.passwordCheck.focus();
+			
+			  }
+// 	 		  else if(document.signinform.user_gender.value=="") {
+// 	 			$("#gender_result").text('성별을 체크해주세요.').css('color','red')
+// 	 		    document.signinform.user_gender.focus();	 			
+//	 		  }
+			  // else if(document.signinform.user_name.value=="") {
+			  //   alert("생년월일을 입력해주세요");
+			  //   document.signinform.user_name.focus();
+			  //   return false;
+			  // }
+// 			  else if(document.signinform.email.value=="") {
+// 				$("#").text('').css('color','red')
+// 			    document.signinform.email.focus();
+// 				exit;
+// 			  }else if(document.signinform.emailCheck.value=="") {
+// 				$("#").text('').css('color','red')
+// 			    document.signinform.emailCheck.focus();
+// 				exit;
+//			  }
+			  else if(document.signinform.user_phone_number.value=="") {
+				$("#pNum_result").text('휴대폰번호를 입력해주세요.').css('color','red');
+			    document.signinform.user_phone_number.focus();
+			  }
+			  else if(document.signinform.user_postcode.value=="" &&
+					  document.signinform.user_rNameAddr.value== "" ) {
+				$("#add_result").text('주소를 입력해주세요.').css('color','red');
+				  document.signinform.user_postcode.focus();  
+			  }
+			  else{
+			      document.signinform.submit();
+			  }
+
+			}
+
+
+		
+	
 	</script>
 	<!-- footer inlcude -->
 	<%@include file="/WEB-INF/views/footer.jsp"%>

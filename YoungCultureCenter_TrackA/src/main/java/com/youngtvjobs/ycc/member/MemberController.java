@@ -60,15 +60,6 @@ public class MemberController {
 		System.out.println(result);
 		return result;
 	}
-	@PostMapping("/signin/form")
-	public String siform( MemberDto dto, String date,  Model m ) throws Exception	{
-		
-	
-		memberService.signinMember(dto);
-		m.addAttribute(dto);
-		 
-		return "member/siComple";
-	}
 	
 
 	//마이페이지1 : 본인인증

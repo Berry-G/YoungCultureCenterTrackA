@@ -3,9 +3,7 @@ package com.youngtvjobs.ycc.member;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 
-import javax.management.RuntimeErrorException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,37 +35,43 @@ public class MemberController {
 	public String siagree() {
 		return "member/siAgree";
 	}
-	//회원가입GET
+	//회원가입
 	@GetMapping("/signin/form")
 	public String siform() throws Exception	{
 		System.out.println("get signin");
 		return "member/siForm";
 	}
-
+	@PostMapping("/signin/form")
+	public String siform( MemberDto dto, Model m) throws Exception	{
+		System.out.println(dto.toString());
+		memberService.signinMember(dto);
+		m.addAttribute(dto);
+		return "member/siComple";
+		
+	}
 	//아이디중복체크 
 	@PostMapping("/signin/idcheck")
 	@ResponseBody
 	public int idcheck(MemberDto dto,  Model m) throws Exception	{
 		
 		//System.out.println(dto.toString());
+		//중복확인 체크 버튼을 누루지않고 회원가입버튼을 할 경우
 		int result = memberService.idCheck(dto);
 		System.out.println(result);
 		return result;
 	}
-	//회원가입POST
 	@PostMapping("/signin/form")
 	public String siform( MemberDto dto, String date,  Model m ) throws Exception	{
 		
-		//System.out.println(dto.toString());
+	
 		memberService.signinMember(dto);
 		m.addAttribute(dto);
 		 
 		return "member/siComple";
 	}
 	
-	
-	//마이페이지1 : 본인인증
 
+	//마이페이지1 : 본인인증
 	@GetMapping("/mypage/pwcheck")
 	public String pwCheck(HttpSession session, HttpServletRequest request, String inputPassword) throws Exception	{
 	    if(!logincheck(request)) 
@@ -100,19 +103,16 @@ public class MemberController {
 	public String modify(HttpSession session, Model m) throws Exception {
 		MemberDto memberDto = memberDao.loginSelect((String)session.getAttribute("id"));
 		
-		System.out.println(Arrays.toString(memberDto.getUser_email().split("@")) );
+		m.addAttribute("memberDto", memberDto);
 		
-		//이메일 아이디/도메인 분리
+		//이메일 아이디/도메인 분리하여 모델에 저장 (회원정보수정 이메일란에 출력)
 		String emailId= memberDto.getUser_email().split("@")[0];
 		String emailDomain=  memberDto.getUser_email().split("@")[1];
 		
-
-		m.addAttribute("memberDto", memberDto);
 		m.addAttribute("emailId", emailId);
 		m.addAttribute("emailDomain", emailDomain);
 		
-		//생년월일 String으로 형변환 & 포맷 지정
-	
+		//생년월일 String으로 형변환 & 포맷 지정하여 모델에 저장 (회원정보수정 생년월일란에 출력)
 	    DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
 	    String birth_date = sdFormat.format(memberDto.getUser_birth_date());
 
@@ -123,8 +123,6 @@ public class MemberController {
 	
 	@PostMapping("/mypage/modify")
 	public String modify(String id, String pw, String tel, String postCode, String rNameAddr, String detailAddr) throws Exception {
-		System.out.println(postCode);
-		System.out.println(rNameAddr);
 		
 		MemberDto dto= new MemberDto(); 
 		dto.setUser_id(id);
@@ -163,18 +161,20 @@ public class MemberController {
 	//나의 문의 내역
 	@RequestMapping("/mypage/inquiry")
 	public String inquiryHistory() {
-		return "mypage/inquiryHistory";
+		
+		return "member/inquiryHistory";
 	}
 	
 	//1:1 문의 작성 페이지
 	@RequestMapping("/mypage/inquiry/write")
 	public String inquiryWrite() {
-		return "mypage/inquiryWrite";
+		
+		return "member/inquiryWrite";
 	}
 	//1:1 문의글 읽기 페이지
 	@RequestMapping("/mypage/inquiry/read")
 	public String inquiryRead() {
-		return "mypage/inquiryWrite";
+		return "member/inquiryWrite";
 	}
 	
     private boolean logincheck(HttpServletRequest request) {

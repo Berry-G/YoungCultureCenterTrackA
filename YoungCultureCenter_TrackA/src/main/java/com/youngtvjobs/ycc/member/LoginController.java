@@ -57,10 +57,10 @@ public class LoginController {
 		System.out.println("getAttribute=" +session.getAttribute("id"));
 		System.out.println("getId=" +session.getId());
 		
-		//이메일 인증 했는지 확인
-		if(memberService.emailAuthFail(id) != 1) {
-			return "/member/emailAuthFail";
-		}
+		//이메일 인증 했는지 확인 --> 현재 null값으로 뜸
+//		if(memberService.emailAuthFail(id) != 1) {
+//			return "/member/emailAuthFail";
+//		}
 
 		// 아이디 저장 체크박스
 		// True: 아이디가 저장된 쿠키 생성 후 response객체에 쿠키저장

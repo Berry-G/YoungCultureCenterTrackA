@@ -3,7 +3,9 @@ package com.youngtvjobs.ycc.member;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
+import javax.management.RuntimeErrorException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,31 +38,38 @@ public class MemberController {
 	public String siagree() {
 		return "member/siAgree";
 	}
-	//회원가입
+	//회원가입GET
 	@GetMapping("/signin/form")
 	public String siform() throws Exception	{
 		System.out.println("get signin");
 		return "member/siForm";
 	}
-	@PostMapping("/signin/form")
-	public String siform( MemberDto dto, Model m) throws Exception	{
-		System.out.println(dto.toString());
-		memberService.signinMember(dto);
-		m.addAttribute(dto);
-		return "member/siComple";
-		
-	}
+
 	//아이디중복체크 
 	@PostMapping("/signin/idcheck")
 	@ResponseBody
-	public int idcheck(MemberDto dto, String user_id, Model m) throws Exception	{
+	public int idcheck(MemberDto dto,  Model m) throws Exception	{
 		
 		//System.out.println(dto.toString());
-		//중복확인 체크 버튼을 누루지않고 회원가입버튼을 할 경우
 		int result = memberService.idCheck(dto);
 		System.out.println(result);
 		return result;
 	}
+	//회원가입POST
+	@PostMapping("/signin/form")
+	public String siform( MemberDto dto, String date,  Model m ) throws Exception	{
+		
+		//System.out.println(dto.toString());
+		memberService.signinMember(dto);
+		m.addAttribute(dto);
+		 
+		return "member/siComple";
+	}
+	
+//	@GetMapping("/signin/comple")
+//	public String signinComple() {
+//		return "member/siComple";
+//	}
 	/*
 	 * //로그인
 	 * 
@@ -83,8 +93,8 @@ public class MemberController {
 //		System.out.println(inputPassword);
 		
 		MemberDto memberDto = memberDao.loginSelect((String)session.getAttribute("id"));
-		System.out.println("birthdate = " +memberDto.getUser_birth_date());
-		
+	
+		//DB의 pw와 입력된 pw가 같으면 modify로 리다이렉트, 그렇지 않으면 pwCheck로 돌아감
 			if(memberDto.getUser_pw().equals(inputPassword)){
 
 			return "redirect:/mypage/modify";

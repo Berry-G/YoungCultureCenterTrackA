@@ -52,7 +52,7 @@ public class MemberController {
 	//아이디중복체크 
 	@PostMapping("/signin/idcheck")
 	@ResponseBody
-	public int idcheck(MemberDto dto, String user_id, Model m) throws Exception	{
+	public int idcheck(MemberDto dto,  Model m) throws Exception	{
 		
 		//System.out.println(dto.toString());
 		//중복확인 체크 버튼을 누루지않고 회원가입버튼을 할 경우
@@ -60,15 +60,18 @@ public class MemberController {
 		System.out.println(result);
 		return result;
 	}
-	/*
-	 * //로그인
-	 * 
-	 * @RequestMapping("/login") public String login() { return "member/loginForm";
-	 * }
-	 */
+	@PostMapping("/signin/form")
+	public String siform( MemberDto dto, String date,  Model m ) throws Exception	{
+		
 	
-	//마이페이지1 : 본인인증
+		memberService.signinMember(dto);
+		m.addAttribute(dto);
+		 
+		return "member/siComple";
+	}
+	
 
+	//마이페이지1 : 본인인증
 	@GetMapping("/mypage/pwcheck")
 	public String pwCheck(HttpSession session, HttpServletRequest request, String inputPassword) throws Exception	{
 	    if(!logincheck(request)) 
@@ -83,7 +86,7 @@ public class MemberController {
 //		System.out.println(inputPassword);
 		
 		MemberDto memberDto = memberDao.loginSelect((String)session.getAttribute("id"));
-		
+	
 		//DB의 pw와 입력된 pw가 같으면 modify로 리다이렉트, 그렇지 않으면 pwCheck로 돌아감
 			if(memberDto.getUser_pw().equals(inputPassword)){
 
@@ -121,7 +124,6 @@ public class MemberController {
 	@PostMapping("/mypage/modify")
 	public String modify(String id, String pw, String tel, String postCode, String rNameAddr, String detailAddr) throws Exception {
 		
-		//회원정보 수정란에서 받은 정보를 dto에 저장하여 전달(db UPDATE)후 메인페이지로 이동
 		MemberDto dto= new MemberDto(); 
 		dto.setUser_id(id);
 		dto.setUser_pw(pw);

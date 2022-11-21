@@ -68,7 +68,7 @@
 	          </ul>
 	        </li>
 	      </ul>
-	      
+	     
 	      <!-- 로그인시 아이디 표시, 드롭다운 -->
 			<div class="dropdown ms-auto ${loginvis}">
 			  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -81,14 +81,14 @@
 			    <li><button class="dropdown-item" type="button" onclick="location.href='/ycc/logout'">로그아웃</button></li>
 			  </ul>
 			</div>
-	      
+			
 	      	<!-- 로그인 / 회원가입 -->
 			<ul class="nav justify-content-end ${logoutvis}">
 				<li class="nav-item">
 					<a class="nav-link active" aria-current="page" href="/ycc/login">로그인</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/ycc/member/signin1">회원가입</a>
+					<a class="nav-link" href="/ycc/signin/agree">회원가입</a>
 				</li>
 			</ul>
 			

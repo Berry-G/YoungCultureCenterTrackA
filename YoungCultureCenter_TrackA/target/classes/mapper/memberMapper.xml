@@ -14,6 +14,66 @@
   	<include refid="selectFromMember" />
   	where user_id = #{user_id}
   </select>
+  
+	<!-- 회원가입 -->
+	<!-- 회원가입 -->
+  <insert id="signinMember" parameterType="MemberDto" >
+  	INSERT INTO tb_user
+	(user_id, user_name, user_pw, user_gender, user_birth_date, user_email, user_phone_number, 
+	user_postcode, user_rnameaddr, user_detailaddr, user_regdate, user_grade, user_social_type)
+	VALUES
+	(#{user_id} ,#{user_name}, #{user_pw}, #{user_gender} , #{user_birth_date} , #{user_email} , 
+	#{user_phone_number} ,#{user_postcode}, #{user_rNameAddr}, #{user_detailAddr}, now(), '일반회원', '');
+  </insert>
+  
+  
+   <!-- 아이디체크 -->
+  <!-- 아이디가 있으면 count 1 , 없으면 0 체크해서 중복확인  -->
+  <select id="idCheck" parameterType="MemberDto" resultType="Integer">
+	select count(user_id)
+	from tb_user 
+	where user_id = #{user_id}
+  </select>
+  
+  
+  <update id="update" parameterType="MemberDto">
+  	UPDATE tb_user
+	SET 
+	user_pw=#{user_pw}, user_phone_number=#{user_phone_number},
+	user_postcode=#{user_postcode}, user_rnameaddr=#{user_rNameAddr}, user_detailaddr=#{user_detailAddr}
+	WHERE user_id=#{user_id};
 
+  </update>
+  
+  <delete id="delete" parameterType="String">
+  	DELETE FROM tb_user
+	WHERE
+	user_id=#{user_id};
+  </delete>
+  
+  <delete id="deleteAll">
+  	delete from tb_user 
+  </delete>
+  
+  	<!-- 이메일 인증 시 필요한 쿼리문 -->
+ 	<!-- (signin2.jsp)회원가입 시 이메일 인증을 위한 랜덤번호 저장 -->
+	<update id="updateMailKey" parameterType="MemberDto">
+		UPDATE tb_user
+		SET mail_key=#{mail_key}
+		WHERE user_email=#{user_email} and user_id=#{user_id}
+	</update>
+	
+	<!-- 메일 인증시, mail_auth컬럼 값을 1로 바꿔 로그인을 허용해줌 -->
+	<update id="updateMailAuth" parameterType="MemberDto">
+		UPDATE tb_user
+		SET mail_auth = 1
+		WHERE user_email=#{user_email} and user_id=#{user_id}
+	</update>
+	
+	<!-- 이메일 인증을 안했으면 0 반환, 로그인 시 인증했나 안 했나 체크하기 위함 -->
+	<select id="emailAuthFail" parameterType="String" resultType="int">
+		select count(*) from tb_user
+		where user_id = #{user_id} and mail_auth=1
+	</select>
   
   </mapper>

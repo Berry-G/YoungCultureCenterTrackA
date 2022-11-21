@@ -9,6 +9,10 @@ public class TempKey {
 	private boolean lowerCheck;
 	private int size;
 	
+	public TempKey() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public String getKey(int size, boolean lowerCheck) {
 		this.size = size;
 		this.lowerCheck = lowerCheck;

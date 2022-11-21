@@ -61,6 +61,15 @@ public class MemberController {
 		return result;
 	}
 	
+	//이메일 인증
+	@GetMapping("/registerEmail")
+	public String emailConfirm(MemberDto memberDto) throws Exception {
+		
+		memberService.updateMailAuth(memberDto);
+		
+		return "/member/emailAuthSuccess";
+	}
+	
 
 	//마이페이지1 : 본인인증
 	@GetMapping("/mypage/pwcheck")

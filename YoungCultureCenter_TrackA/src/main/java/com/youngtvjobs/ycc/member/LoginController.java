@@ -17,6 +17,7 @@ public class LoginController {
 
 	@Autowired
 	MemberDao memberDao;
+	MemberService memberService;
 
 	@GetMapping("/login")
 	public String login() {
@@ -55,6 +56,11 @@ public class LoginController {
 
 		System.out.println("getAttribute=" +session.getAttribute("id"));
 		System.out.println("getId=" +session.getId());
+		
+		//이메일 인증 했는지 확인
+		if(memberService.emailAuthFail(id) != 1) {
+			return "/member/emailAuthFail";
+		}
 
 		// 아이디 저장 체크박스
 		// True: 아이디가 저장된 쿠키 생성 후 response객체에 쿠키저장
@@ -80,6 +86,8 @@ public class LoginController {
 
 		toURL = toURL == null || toURL.equals("") ? "/" : toURL;
 		return "redirect:" + toURL;
+		
+		
 	}
 
 //	private boolean loginCheck(String id, String pw) throws Exception {

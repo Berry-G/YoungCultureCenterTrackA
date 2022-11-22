@@ -8,12 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.youngtvjobs.ycc.member.mail.MailHandler;
+import com.youngtvjobs.ycc.member.mail.TempKey;
 
 //회원관리 컨트롤러
 @Controller
@@ -62,7 +66,35 @@ public class MemberController {
 	}
 	
 	//이메일 인증
-	@GetMapping("/registerEmail")
+	
+	@Autowired
+	JavaMailSender mailSender;
+	
+	@PostMapping("/signin/auth_check")
+	public String insertMember(String user_email) throws Exception{
+		//랜덤 문자열을 생성해서 mail_key 컬럼에 넣어주기
+		String mail_key = new TempKey().getKey(7, false);	//랜덤키 길이 설정
+		
+		
+		//회원가입 완료하면 인증을 위한 이메일 발송
+		MailHandler sendMail = new MailHandler(mailSender);
+		sendMail.setSubject("[Young문화체육센터 인증메일 입니다.]"); 	//메일제목
+		sendMail.setText(
+				"<h1>Young문화체육센터 메일인증</h1>" +
+				"<br>Young문화체육센터에 오신것을 환영합니다!" +
+				"<br>아래 [이메일 인증 확인]을 눌러주세요." +
+				"<br><a href='http://localhost:8080/ycc/login/registerEmail?email=" + 
+				"&mail_key=" + mail_key +
+				"'target ='_blank'>이메일 인증 확인</a>");
+		sendMail.setFrom("soojeontest01@gmail.com", "Young문화체육센터");
+		sendMail.setTo(user_email);
+		sendMail.send();
+		
+		
+		return mail_key;
+	}
+	
+	@GetMapping("/signin/")
 	public String emailConfirm(MemberDto memberDto) throws Exception {
 		
 		memberService.updateMailAuth(memberDto);

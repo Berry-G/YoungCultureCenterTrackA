@@ -192,9 +192,12 @@ public class MemberController {
 	}
 	
 	//나의 문의 내역
-	@RequestMapping("/mypage/inquiry")
-	public String inquiryHistory() {
+	@GetMapping("/mypage/inquiry")
+	public String inquiryHistory(HttpSession session, Model m, HttpServletRequest request) {
 		
+		if (!logincheck(request))
+			return "redirect:/login/login?toURL=" + request.getRequestURL();
+			
 		return "member/inquiryHistory";
 	}
 	

@@ -41,8 +41,8 @@
 										    });
 										</script>
                         <div class="mt-2 text-end">
-                            <a class="btn btn-outline-secondary">목록으로</a>
-                            <a class="btn btn-outline-success" onClick="javascript:history.back();">등록하기</a>
+                            <a class="btn btn-outline-secondary">목록</a>
+                            <a class="btn btn-outline-success" onClick="javascript:history.back();">등록</a>
                         </div>
                             </div>
 

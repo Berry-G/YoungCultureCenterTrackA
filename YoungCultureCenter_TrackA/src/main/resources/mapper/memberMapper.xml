@@ -10,13 +10,13 @@
   	select * from tb_user 
   </sql>
   
+  <!-- 로그인 체크 : tb_user 테이블에서 입력받은 id의 정보를 조회 -->
   <select id="loginSelect" parameterType="String" resultType="MemberDto">
   	<include refid="selectFromMember" />
   	where user_id = #{user_id}
   </select>
   
-	<!-- 회원가입 -->
-	<!-- 회원가입 -->
+	<!-- 회원가입 : tb_user 테이블에 회원 추가-->
   <insert id="signinMember" parameterType="MemberDto" >
   	INSERT INTO tb_user
 	(user_id, user_name, user_pw, user_gender, user_birth_date, user_email, user_phone_number, 
@@ -35,7 +35,7 @@
 	where user_id = #{user_id}
   </select>
   
-  
+  <!-- 회원정보 수정 : tb_user 테이블에 회원 정보 업데이트 -->
   <update id="update" parameterType="MemberDto">
   	UPDATE tb_user
 	SET 
@@ -45,6 +45,7 @@
 
   </update>
   
+  <!-- 회원탈퇴 : tb_user 테이블에서 회원정보 삭제 -->
   <delete id="delete" parameterType="String">
   	DELETE FROM tb_user
 	WHERE

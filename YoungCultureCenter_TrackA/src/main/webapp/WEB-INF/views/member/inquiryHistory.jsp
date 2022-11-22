@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -77,7 +78,7 @@
       <!-- 게시판 테이블 -->
       <div class="container">
       <table class="table table-hover mt-3">
-        <thead>
+      <thead>
           <tr>
             <th scope="col">분류</th>
             <th scope="col">제목</th>
@@ -86,42 +87,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>교육강좌</td>
-            <td>수강 관련 문의</td>
-            <td>2022.02.03</td>
-            <td>답변대기</td>
-          </tr>
-          <tr>
-            <td>결제</td>
-            <td>결제 관련 문의</td>
-            <td>2022.02.03</td>
-            <td>답변대기</td>
-          </tr>
-          <tr>
-            <td>결제</td>
-            <td>영수증 문의</td>
-            <td>2022.01.01</td>
-            <td>답변완료</td>
-          </tr>
-          <tr>
-            <td>교육강좌</td>
-            <td>수강신청 변경 문의</td>
-            <td>2022.01.01</td>
-            <td>답변완료</td>
-          </tr>
-          <tr>
-            <td>123</td>
-            <td>123</td>
-            <td>123</td>
-            <td>123</td>
-          </tr>
-          <tr>
-            <td>123</td>
-            <td>123</td>
-            <td>123</td>
-            <td>1231</td>
-          </tr>
+      <c:forEach var="InquiryDto" items="${inqList}">
+      	<tr>
+          <td>${InquiryDto.inq_cate}</td>
+          <td>${InquiryDto.inq_title }</td>
+          <td>${InquiryDto.inq_date()}</td>
+          <td>${InquiryDto.inq_YN ==true ? "답변완료" : "답변대기" }</td>
+        </tr>
+      </c:forEach>
         </tbody>
       </table>
 

@@ -19,30 +19,6 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired
 	JavaMailSender mailSender;
 	
-	public void insertMember(MemberDto memberDto) throws Exception{
-		//랜덤 문자열을 생성해서 mail_key 컬럼에 넣어주기
-		String mail_key = new TempKey().getKey(30, false);	//랜덤키 길이 설정
-		memberDto.setMail_key(mail_key);
-		
-		//회원가입
-		memberDao.signinMember(memberDto);
-		memberDao.updateMailKey(memberDto);
-		
-		//회원가입 완료하면 인증을 위한 이메일 발송
-		MailHandler sendMail = new MailHandler(mailSender);
-		sendMail.setSubject("[Young문화체육센터 인증메일 입니다.]"); 	//메일제목
-		sendMail.setText(
-				"<h1>Young문화체육센터 메일인증</h1>" +
-				"<br>Young문화체육센터에 오신것을 환영합니다!" +
-				"<br>아래 [이메일 인증 확인]을 눌러주세요." +
-				"<br><a href='http://localhost:8080/ycc/login/registerEmail?email=" + memberDto.getUser_email() + 
-				"&mail_key=" + mail_key +
-				"'target ='_blank'>이메일 인증 확인</a>");
-		sendMail.setFrom("soojeontest01@gmail.com", "Young문화체육센터");
-		sendMail.setTo(memberDto.getUser_email());
-		sendMail.send();
-			
-	}
 
 	@Override	//회원 가입
 	public void signinMember(MemberDto dto) throws Exception {
@@ -66,6 +42,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	//	이메일 인증
+	
 	@Override
 	public int updateMailKey(MemberDto memberDto) throws Exception {
 		
@@ -81,7 +58,33 @@ public class MemberServiceImpl implements MemberService{
 		
 		return memberDao.emailAuthFail(id);
 	}
-
+	
+	@Override // TODO 이메일 넘겨받기
+	public String insertMember(String user_email) throws Exception {
+		
+			//랜덤 문자열을 생성해서 mail_key 컬럼에 넣어주기
+			String mail_key = new TempKey().getKey(7, false);	//랜덤키 길이 설정
+			
+			//회원가입 완료하면 인증을 위한 이메일 발송
+			MailHandler sendMail = new MailHandler(mailSender);
+			sendMail.setSubject("[Young문화체육센터 인증메일 입니다.]"); 	//메일제목
+			sendMail.setText(
+					"<h1>Young문화체육센터 메일인증</h1>" +
+					"<br>Young문화체육센터에 오신것을 환영합니다!" +
+					"<br>아래 [이메일 인증 확인]을 눌러주세요." +
+					"<br><a href='http://localhost:8080/ycc/login/registerEmail?email=" + 
+					"&mail_key=" + mail_key +
+					"'target ='_blank'>이메일 인증 확인</a>");
+			sendMail.setFrom("soojeontest01@gmail.com", "Young문화체육센터");
+			System.out.println(user_email);
+			sendMail.setTo(user_email);
+			sendMail.send();
+			
+			return mail_key;
+		}
+	
 	
 	
 }
+
+	

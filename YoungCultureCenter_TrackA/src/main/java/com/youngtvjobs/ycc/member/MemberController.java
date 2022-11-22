@@ -27,7 +27,10 @@ public class MemberController {
 	MemberService memberService;
 
 	@Autowired
-
+	InquiryService inquiryService;
+	
+	
+	@Autowired
 	public MemberController(MemberDao memberDao, MemberService memberService) {
 		// super();
 		this.memberDao = memberDao;
@@ -68,6 +71,8 @@ public class MemberController {
 		return result;
 	}
 
+
+
 	// 이메일 인증
 
 	@Autowired
@@ -90,6 +95,7 @@ public class MemberController {
 
 		return mail_key;
 	}
+
 
 	@GetMapping("/signin/")
 	public String emailConfirm(MemberDto memberDto) throws Exception {
@@ -188,6 +194,8 @@ public class MemberController {
 		return "member/mypage5";
 	}
 
+
+
 	// 나의 문의 내역
 	@GetMapping("/mypage/inquiry")
 	public String inquiryHistory(HttpSession session, Model m, HttpServletRequest request) {
@@ -207,6 +215,7 @@ public class MemberController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		return "member/inquiryHistory";
 	}
 

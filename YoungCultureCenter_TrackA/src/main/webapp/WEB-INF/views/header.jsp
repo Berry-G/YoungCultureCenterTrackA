@@ -64,7 +64,6 @@
 	            <li><a class="dropdown-item" href="/ycc/board/notice">공지사항</a></li>
 	            <li><a class="dropdown-item" href="/ycc/board/event">이벤트/행사</a></li>
 	            <li><a class="dropdown-item" href="/ycc/board/faq">자주하는질문</a></li>
-				<li><a class="dropdown-item" href="/ycc/board/inquiry/history">1:1문의</a></li>
 	          </ul>
 	        </li>
 	      </ul>

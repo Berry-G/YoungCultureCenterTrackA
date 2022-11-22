@@ -1,17 +1,19 @@
 package com.youngtvjobs.ycc.member;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
 public class InquiryDto {
 
-	private Integer inq_id;
-	private MemberDto user_id;
-	private String inq_cate;
-	private String inq_title;
-	private String inq_content;
-	private Date inq_date;
-	private boolean inq_YN;
+	private Integer inq_id;			//문의 번호
+	private MemberDto user_id;		//문의 작성자
+	private String inq_cate;		//문의 분류
+	private String inq_title;		//문의 제목
+	private String inq_content;		//문의 내용
+	private Date inq_date;			//문의 작성일
+	private boolean inq_YN;			//답변 상태
 	
 	public InquiryDto() {
 		// TODO Auto-generated constructor stub
@@ -107,5 +109,14 @@ public class InquiryDto {
 		this.inq_YN = inq_YN;
 	}
 	
+	
+	// Date--> String 형변환
+	public String inq_date() {
+		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String str_inq_date = sdFormat.format(inq_date);
+		
+		return str_inq_date;
+		
+	}
 
 }

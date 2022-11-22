@@ -7,16 +7,14 @@
   
   
   <sql id="selectFromInquiry">
-  	select * from inq_board 
+  	select * from inq_board
+  	where user_id = #{user_id}
   </sql>
-  
-  <select id="inqSelectPage" parameterType="SearchPeriod" resultType="InquiryDto">
-  	<include refid="selectFromInquiry" />
-  	where true
-  	<!-- 기간별 조회 검색 조건 추가 필요 -->
-  	order by inq_date desc, inq_id desc
-  	limit #{pageSize} offset #{offset}
-  </select>
 
+  <select id ="selectPage" parameterType="String" resultType="InquiryDto">
+  	<include refid="selectFromInquiry" />
+  	order by inq_date desc, inq_id desc
+
+  </select>
   
   </mapper>

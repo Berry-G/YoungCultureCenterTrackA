@@ -2,7 +2,7 @@ package com.youngtvjobs.ycc.member;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,7 +23,10 @@ public class MemberController {
 	MemberService memberService;
 	
 	@Autowired
-
+	InquiryService inquiryService;
+	
+	
+	@Autowired
 	public MemberController(MemberDao memberDao, MemberService memberService) {
 		//super();
 		this.memberDao = memberDao;
@@ -60,16 +63,7 @@ public class MemberController {
 		System.out.println(result);
 		return result;
 	}
-	@PostMapping("/signin/form")
-	public String siform( MemberDto dto, String date,  Model m ) throws Exception	{
-		
-	
-		memberService.signinMember(dto);
-		m.addAttribute(dto);
-		 
-		return "member/siComple";
-	}
-	
+
 
 	//마이페이지1 : 본인인증
 	@GetMapping("/mypage/pwcheck")
@@ -159,8 +153,25 @@ public class MemberController {
 	}
 	
 	//나의 문의 내역
-	@RequestMapping("/mypage/inquiry")
-	public String inquiryHistory() {
+	@GetMapping("/mypage/inquiry")
+	public String inquiryHistory(HttpSession session, Model m, HttpServletRequest request) {
+		
+		if (!logincheck(request))
+			return "redirect:/login/login?toURL=" + request.getRequestURL();
+		
+		try {
+			
+			String id= (String) session.getAttribute("id");
+			List<InquiryDto> inqList = inquiryService.getPage(id);
+			
+			
+			DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+			m.addAttribute("inqList", inqList);	
+			
+		}catch (Exception e) { e.printStackTrace(); }
+
+		
 		
 		return "member/inquiryHistory";
 	}

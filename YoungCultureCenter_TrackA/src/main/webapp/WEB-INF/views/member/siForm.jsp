@@ -123,6 +123,7 @@
         <th class="col" style="vertical-align: middle !important;">이메일</th>
            <td>
               <div class="row mx-0">
+              <form action="./siForm.jsp">
                 <input type="text" class="form-control " style="width: 180px;"  name="email" id="email" maxlength="40">
                 <p class="col-auto fs-6" id="m_email">@</p>
                 <select class="form-select col-4 " style="width: 180px;" name="email" id="detailEmail" aria-label="Default select example">
@@ -131,8 +132,10 @@
                   <option value="gmail.com">gmail.com</option>
                   <option value="hanmail.net">hanmail.net</option>
                 </select>
-                <button type="button" class="btn btn-outline-primary mx-1" style="width: 100px;">인증하기</button>
-             	<input type="hidden" id="totalEmail" name="user_email">
+                <!-- 이버튼이 눌리면 MemberServiceImpl.java에 있는 insertmember가 불려야 함  -->
+                <button type="button" id="Auth_num" name="Auth_num" class="btn btn-outline-primary mx-1" value="인증번호 받기" style="width: 130px;">
+             	인증번호 받기</button>
+             </form>
              </div>
             <span id="email_result"></span> 
           </td>
@@ -145,6 +148,8 @@
           <input type="text" class="form-control" id="email" name="emailCheck" data-rule-required="true" placeholder="인증번호6자리"
             maxlength="10">
           <span id="emailCheck_result"></span> 
+          <button type="button" class="btn btn-outline-primary mx-1" style="width: 100px;">인증확인</button>
+         
         </td>
       </tr>
         
@@ -185,7 +190,28 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 	
-		
+	//이메일 인증 TODO 데이터 값 넘기기
+	$("#Auth_num").click(function() {
+		alert("인증번호 받기 " + $('#email').val()+'@'+$('#detailEmail').val() + "로 메일을 보냈습니다.")/* 
+			alert(request.getParameter("email")) */
+			//아이디를 서버로 전송 > DB 유효성 검사 > 결과 받기
+	        $.ajax({
+	          type: 'GET',
+	          url: '/ycc/signin/registerEmail',
+	          data: JSON.stringify({'email':$('#email').val()+'@'+$('#detailEmail').val()}), 
+	          dataType: 'text',
+	          success: function(result) {
+
+	            alert(result)
+	          },
+	          error: function(){
+	            alert ("error")
+	          }
+	          
+	         })
+		  })	
+		    
+	
    	$("#idCheckBtn").click(function(){
      // alert("확인")
        //user_id 입력값이 빈칸이 아니라면 

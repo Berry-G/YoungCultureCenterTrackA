@@ -14,4 +14,5 @@ public interface MemberService {
 	int updateMailKey(MemberDto memberDto) throws Exception;
 	int updateMailAuth(MemberDto memberDto) throws Exception;
 	int emailAuthFail(String id) throws Exception;
+	String insertMember(String user_email) throws Exception;
 }

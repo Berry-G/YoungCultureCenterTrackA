@@ -7,5 +7,6 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="MemberDto" type="com.youngtvjobs.ycc.member.MemberDto" />
+		<typeAlias alias="InquiryDto" type="com.youngtvjobs.ycc.member.InquiryDto" />
 	</typeAliases>
 </configuration>

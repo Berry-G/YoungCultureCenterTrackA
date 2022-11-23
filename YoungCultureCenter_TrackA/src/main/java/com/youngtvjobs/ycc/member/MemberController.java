@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -72,11 +73,12 @@ public class MemberController {
 	}
 	
 
-	//이메일 인증
-	@GetMapping("/signin/registerEmail")
-	public String emailConfirm(String user_email) throws Exception {
+	//이메일 인증 : siForm.jsp에서 넘겨받은 값을 memberService.java에 memberdto에 담아서 전달해줌
+	@PostMapping("/signin/registerEmail")
+	@ResponseBody
+	public String emailConfirm1(@RequestBody MemberDto memberdto) throws Exception {
 		
-		return memberService.insertMember(user_email);
+		return memberService.insertMember(memberdto.getUser_email());
 	}
 	
 

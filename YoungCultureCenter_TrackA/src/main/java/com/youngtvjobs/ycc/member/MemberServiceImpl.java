@@ -59,7 +59,8 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.emailAuthFail(id);
 	}
 	
-	@Override // TODO 이메일 넘겨받기
+	//이메일인증: mail_key값 생성하여 메일 발송해줌
+	@Override 
 	public String insertMember(String user_email) throws Exception {
 		
 			//랜덤 문자열을 생성해서 mail_key 컬럼에 넣어주기
@@ -71,10 +72,8 @@ public class MemberServiceImpl implements MemberService{
 			sendMail.setText(
 					"<h1>Young문화체육센터 메일인증</h1>" +
 					"<br>Young문화체육센터에 오신것을 환영합니다!" +
-					"<br>아래 [이메일 인증 확인]을 눌러주세요." +
-					"<br><a href='http://localhost:8080/ycc/login/registerEmail?email=" + 
-					"&mail_key=" + mail_key +
-					"'target ='_blank'>이메일 인증 확인</a>");
+					"<br>아래 인증번호를 인증번호 입력창에 입력해주세요." +
+					"<p><b>인증번호: "+ mail_key +"</b></p>");
 			sendMail.setFrom("soojeontest01@gmail.com", "Young문화체육센터");
 			System.out.println(user_email);
 			sendMail.setTo(user_email);

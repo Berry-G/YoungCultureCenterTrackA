@@ -190,19 +190,20 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 	
-	//이메일 인증 TODO 데이터 값 넘기기
+	//이메일 인증 : 입력받은 이메일 값을 MemberController.java의 /registerEmail로 넘겨줌
 	$("#Auth_num").click(function() {
-		alert("인증번호 받기 " + $('#email').val()+'@'+$('#detailEmail').val() + "로 메일을 보냈습니다.")/* 
+		let a = $('#email').val()+'@'+$('#detailEmail').val()
+		alert("인증번호 받기: " + a + "로 메일을 보냈습니다.")/* 
 			alert(request.getParameter("email")) */
 			//아이디를 서버로 전송 > DB 유효성 검사 > 결과 받기
 	        $.ajax({
-	          type: 'GET',
+	          type: 'post',
 	          url: '/ycc/signin/registerEmail',
-	          data: JSON.stringify({'email':$('#email').val()+'@'+$('#detailEmail').val()}), 
+	          headers : { "content-type" : "application/json" },
+	          data: JSON.stringify({user_email:a}), 
 	          dataType: 'text',
 	          success: function(result) {
 
-	            alert(result)
 	          },
 	          error: function(){
 	            alert ("error")

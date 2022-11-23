@@ -8,5 +8,8 @@
 	<typeAliases>
 		<typeAlias alias="MemberDto" type="com.youngtvjobs.ycc.member.MemberDto" />
 		<typeAlias alias="InquiryDto" type="com.youngtvjobs.ycc.member.InquiryDto" />
+		<typeAlias alias="BoardDto" type="com.youngtvjobs.ycc.board.BoardDto"/>
+		<typeAlias alias="SearchItem" type="com.youngtvjobs.ycc.board.SearchItem"/>
+		<typeAlias alias="PageResolver" type="com.youngtvjobs.ycc.board.PageResolver"/>
 	</typeAliases>
 </configuration>

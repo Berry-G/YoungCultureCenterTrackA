@@ -61,6 +61,21 @@ public class MemberServiceImpl implements MemberService{
 			
 			return mail_key;
 		}
+	@Override
+	public int updateMailKey(MemberDto memberDto) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public int updateMailAuth(MemberDto memberDto) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	@Override
+	public int emailAuthFail(String id) throws Exception {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 	
 }

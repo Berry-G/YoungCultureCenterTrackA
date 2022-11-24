@@ -17,9 +17,12 @@ public class InquiryDaoImpl implements InquiryDao{
 	private static String namespace= "com.youngtvjobs.ycc.member.inquiryMapper.";
 
 	@Override
-	public InquiryDto inqSelectPage(String id, Date startDate, Date endDate) throws Exception {
-
-		return null;
+	public List<InquiryDto> selectPageByInput(String id, Date startDate, Date endDate) throws Exception {
+		Map map = new HashMap();
+		map.put("id", id);
+		map.put("startDate", startDate);
+		map.put("endDate", endDate);
+		return session.selectList(namespace+"selectPageByInput", map);
 	}
 
 	@Override

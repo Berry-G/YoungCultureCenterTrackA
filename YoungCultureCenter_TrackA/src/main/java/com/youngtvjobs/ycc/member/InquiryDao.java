@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InquiryDao {
 
-	InquiryDto inqSelectPage(String id,Date startDate, Date endDate) throws Exception;
+	List<InquiryDto> selectPageByInput(String id,Date startDate, Date endDate) throws Exception;
 	
 	List<InquiryDto> selectPage(String id, String settedInterval) throws Exception;
 

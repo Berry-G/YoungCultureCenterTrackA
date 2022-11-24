@@ -79,11 +79,9 @@ public class MemberDto
 	}
 
 
-
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
 	}
-
 
 
 	public String getUser_name() {
@@ -91,11 +89,9 @@ public class MemberDto
 	}
 
 
-
 	public void setUser_name(String user_name) {
 		this.user_name = user_name;
 	}
-
 
 
 	public String getUser_pw() {
@@ -103,11 +99,9 @@ public class MemberDto
 	}
 
 
-
 	public void setUser_pw(String user_pw) {
 		this.user_pw = user_pw;
 	}
-
 
 
 	public String getUser_gender() {
@@ -115,11 +109,9 @@ public class MemberDto
 	}
 
 
-
 	public void setUser_gender(String user_gender) {
 		this.user_gender = user_gender;
 	}
-
 
 
 	public String getBirthYear() {
@@ -127,11 +119,9 @@ public class MemberDto
 	}
 
 
-
 	public void setBirthYear(String birthYear) {
 		this.birthYear = birthYear;
 	}
-
 
 
 	public String getBirthMonth() {
@@ -139,11 +129,9 @@ public class MemberDto
 	}
 
 
-
 	public void setBirthMonth(String birthMonth) {
 		this.birthMonth = birthMonth;
 	}
-
 
 
 	public String getBirthDay() {
@@ -151,11 +139,9 @@ public class MemberDto
 	}
 
 
-
 	public void setBirthDay(String birthDay) {
 		this.birthDay = birthDay;
 	}
-
 
 
 	public Date getUser_birth_date() {
@@ -163,11 +149,9 @@ public class MemberDto
 	}
 
 
-
 	public void setUser_birth_date(Date user_birth_date) {
 		this.user_birth_date = user_birth_date;
 	}
-
 
 
 	public String getUser_email() {
@@ -175,11 +159,9 @@ public class MemberDto
 	}
 
 
-
 	public void setUser_email(String user_email) {
 		this.user_email = user_email;
 	}
-
 
 
 	public String getUser_phone_number() {
@@ -187,11 +169,9 @@ public class MemberDto
 	}
 
 
-
 	public void setUser_phone_number(String user_phone_number) {
 		this.user_phone_number = user_phone_number;
 	}
-
 
 
 	public String getUser_postcode() {
@@ -199,11 +179,9 @@ public class MemberDto
 	}
 
 
-
 	public void setUser_postcode(String user_postcode) {
 		this.user_postcode = user_postcode;
 	}
-
 
 
 	public String getUser_rNameAddr() {
@@ -211,11 +189,9 @@ public class MemberDto
 	}
 
 
-
 	public void setUser_rNameAddr(String user_rNameAddr) {
 		this.user_rNameAddr = user_rNameAddr;
 	}
-
 
 
 	public String getUser_detailAddr() {
@@ -223,11 +199,9 @@ public class MemberDto
 	}
 
 
-
 	public void setUser_detailAddr(String user_detailAddr) {
 		this.user_detailAddr = user_detailAddr;
 	}
-
 
 
 	public Date getUser_regdate() {
@@ -235,11 +209,9 @@ public class MemberDto
 	}
 
 
-
 	public void setUser_regdate(Date user_regdate) {
 		this.user_regdate = user_regdate;
 	}
-
 
 
 	public String getUser_grade() {
@@ -247,11 +219,9 @@ public class MemberDto
 	}
 
 
-
 	public void setUser_grade(String user_grade) {
 		this.user_grade = user_grade;
 	}
-
 
 
 	public String getUser_social_type() {
@@ -259,15 +229,14 @@ public class MemberDto
 	}
 
 
-
 	public void setUser_social_type(String user_social_type) {
 		this.user_social_type = user_social_type;
 	}
 
+
 	public int getMail_auth() {
 		return mail_auth;
 	}
-
 
 
 	public void setMail_auth(int mail_auth) {
@@ -275,17 +244,14 @@ public class MemberDto
 	}
 
 
-
 	public String getMail_key() {
 		return mail_key;
 	}
 
 
-
 	public void setMail_key(String mail_key) {
 		this.mail_key = mail_key;
 	}
-
 
 
 	@Override

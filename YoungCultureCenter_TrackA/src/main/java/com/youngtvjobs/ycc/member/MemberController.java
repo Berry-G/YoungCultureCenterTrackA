@@ -2,6 +2,7 @@ package com.youngtvjobs.ycc.member;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,15 +28,21 @@ public class MemberController {
 	MemberDao memberDao;
 	MemberService memberService;
 
-	@Autowired
 	InquiryService inquiryService;
+	InquiryDao inquiryDao;		
 	
+	JavaMailSender mailSender;
 	
-	@Autowired
-	public MemberController(MemberDao memberDao, MemberService memberService) {
-		// super();
+
+
+	public MemberController(MemberDao memberDao, MemberService memberService, InquiryService inquiryService,
+			InquiryDao inquiryDao, JavaMailSender mailSender) {
+		//super();
 		this.memberDao = memberDao;
 		this.memberService = memberService;
+		this.inquiryService = inquiryService;
+		this.inquiryDao = inquiryDao;
+		this.mailSender = mailSender;
 	}
 
 	// 회원약관동의
@@ -72,7 +79,6 @@ public class MemberController {
 		return result;
 	}
 	
-
 	//이메일 인증 : siForm.jsp에서 넘겨받은 값을 memberService.java에 memberdto에 담아서 전달해줌
 	@PostMapping("/signin/registerEmail")
 	@ResponseBody
@@ -182,21 +188,39 @@ public class MemberController {
 
 
 
-	// 나의 문의 내역
+	// 나의 문의 내역 - 기간별 조회
 	@GetMapping("/mypage/inquiry")
-	public String inquiryHistory(HttpSession session, Model m, HttpServletRequest request) {
-
+	public String inquiryHistory(String settedInterval,HttpSession session, Model m, HttpServletRequest request) {
+		//로그인 여부 확인
 		if (!logincheck(request))
 			return "redirect:/login/login?toURL=" + request.getRequestURL();
-
+		
+		
 		try {
-
+			//서비스 메소드에 파라미터로 넣어줄 id,디폴트 settedInterval(1개월) 불러오기
 			String id = (String) session.getAttribute("id");
-			List<InquiryDto> inqList = inquiryService.getPage(id);
-
-			DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
-
+			InquiryDto inquiryDto = new InquiryDto();
+			
+			//기본 1개월 조회로 설정
+			settedInterval = inquiryDto.getSettedInterval();
+			System.out.println(settedInterval);
+			
+			//1개월,3개월 버튼을 클릭했을 때 동작(name="settedInterval")
+			if (settedInterval.equals("3month") || settedInterval.equals("6month")) {
+				System.out.println("in: " +settedInterval);
+				
+				List<InquiryDto> inqList = inquiryService.getPage(id, settedInterval);
+				m.addAttribute("inqList", inqList);
+				
+				return "member/inquiryHistory";
+			}
+//			else if (startDate != null || endDate != null) {
+//				List<InquiryDto> inqList;
+//			}
+			
+			List<InquiryDto> inqList = inquiryService.getPage(id, inquiryDto.getSettedInterval());
 			m.addAttribute("inqList", inqList);
+	
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,7 +1,9 @@
 package com.youngtvjobs.ycc.member;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +17,20 @@ public class InquiryDaoImpl implements InquiryDao{
 	private static String namespace= "com.youngtvjobs.ycc.member.inquiryMapper.";
 
 	@Override
-	public InquiryDto inqSelectPage(Date startDate, Date endDate) throws Exception {
-		// TODO Auto-generated method stub
+	public InquiryDto inqSelectPage(String id, Date startDate, Date endDate) throws Exception {
+
 		return null;
 	}
 
 	@Override
-	public List<InquiryDto> selectPage(String id) throws Exception {
-		
-		return session.selectList(namespace+"selectPage" , id);	
+	public List<InquiryDto> selectPage(String id, String settedInterval) throws Exception {
+			Map map = new HashMap();
+			map.put("id", id);
+			map.put("settedInterval", settedInterval);
+			
+		return session.selectList(namespace+"selectPage" ,map);	
 	}
+
 
 
 }

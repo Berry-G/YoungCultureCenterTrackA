@@ -12,9 +12,9 @@ public class InquiryServiceImpl implements InquiryService{
 	InquiryDao inquiryDao;
 	
 	@Override
-	public List<InquiryDto> getPage(String id) throws Exception {
+	public List<InquiryDto> getPage(String id, String settedInterval) throws Exception {
 
-		return inquiryDao.selectPage(id);
+		return inquiryDao.selectPage(id,settedInterval);
 	}
 
 	

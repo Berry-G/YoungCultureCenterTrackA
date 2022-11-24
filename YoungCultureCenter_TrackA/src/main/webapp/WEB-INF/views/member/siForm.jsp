@@ -132,8 +132,7 @@
                   <option value="gmail.com">gmail.com</option>
                   <option value="hanmail.net">hanmail.net</option>
                 </select>
-                <!-- 이버튼이 눌리면 MemberServiceImpl.java에 있는 insertmember가 불려야 함  -->
-                <button type="button" id="Auth_num" name="Auth_num" class="btn btn-outline-primary mx-1" value="인증번호 받기" style="width: 130px;">
+                <button type="button" id="Auth_num" name="Auth_num" class="btn btn-outline-primary mx-1" style="width: 130px;">
              	인증번호 받기</button>
              </form>
              </div>
@@ -145,11 +144,14 @@
 		<tr>
         <th class="col" style="vertical-align: middle !important;">이메일인증</th>
         <td>
-          <input type="text" class="form-control" id="email" name="emailCheck" data-rule-required="true" placeholder="인증번호6자리"
+        <form action="./siForm.jsp">
+          <input type="text" class="form-control" id="emailCheck" name="emailCheck" data-rule-required="true" placeholder="인증번호6자리"
             maxlength="10">
           <span id="emailCheck_result"></span> 
-          <button type="button" class="btn btn-outline-primary mx-1" style="width: 100px;">인증확인</button>
-         
+          <button type="button" id="Auth_check" name="Auth_check" class="btn btn-outline-primary mx-1" style="width: 100px;">
+          인증확인</button>
+          <span id="email_warn"></span>
+        </form>
         </td>
       </tr>
         
@@ -188,14 +190,15 @@
  </div>
 	
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script>
-	
+<script>
+	var code="";			//이메일전송 인증번호 저장을 위한 코드
+
 	//이메일 인증 : 입력받은 이메일 값을 MemberController.java의 /registerEmail로 넘겨줌
 	$("#Auth_num").click(function() {
 		let a = $('#email').val()+'@'+$('#detailEmail').val()
 		alert("인증번호 받기: " + a + "로 메일을 보냈습니다.")/* 
 			alert(request.getParameter("email")) */
-			//아이디를 서버로 전송 > DB 유효성 검사 > 결과 받기
+			//이메일 전송
 	        $.ajax({
 	          type: 'post',
 	          url: '/ycc/signin/registerEmail',
@@ -203,7 +206,7 @@
 	          data: JSON.stringify({user_email:a}), 
 	          dataType: 'text',
 	          success: function(result) {
-
+				code = result;
 	          },
 	          error: function(){
 	            alert ("error")
@@ -211,7 +214,18 @@
 	          
 	         })
 		  })	
-		    
+		  
+	//이메일 인증 : 인증확인 버튼클릭시 유효성 검사
+	$("#Auth_check").click(function() {
+		var inputCode = $('#emailCheck').val();
+		var checkResult = $('#email_warn');
+		
+		if(inputCode == code){                            // 일치할 경우
+	       checkResult.html("인증번호가 일치합니다.").css('color','blue');      
+	   } else {                                            // 일치하지 않을 경우
+	       checkResult.html("인증번호를 다시 확인해주세요.").css('color','red');
+	   }   
+		  })
 	
    	$("#idCheckBtn").click(function(){
      // alert("확인")

@@ -148,9 +148,6 @@
           <input type="text" class="form-control" id="emailCheck" name="emailCheck" data-rule-required="true" placeholder="인증번호6자리"
             maxlength="10">
           <span id="emailCheck_result"></span> 
-          <button type="button" id="Auth_check" name="Auth_check" class="btn btn-outline-primary mx-1" style="width: 100px;">
-          인증확인</button>
-          <span id="email_warn"></span>
         </form>
         </td>
       </tr>
@@ -216,9 +213,9 @@
 		  })	
 		  
 	//이메일 인증 : 인증확인 버튼클릭시 유효성 검사
-	$("#Auth_check").click(function() {
+	$("#emailCheck").blur(function() {
 		var inputCode = $('#emailCheck').val();
-		var checkResult = $('#email_warn');
+		var checkResult = $('#emailCheck_result');
 		
 		if(inputCode == code){                            // 일치할 경우
 	       checkResult.html("인증번호가 일치합니다.").css('color','blue');      

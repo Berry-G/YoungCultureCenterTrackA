@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head><!-- head & meta tag include -->
@@ -16,15 +17,9 @@
   <div class="container">
     <br>
     <h3>공지사항</h3>
-    <hr /><br>
-    <div class="input-group ms-auto pb-3" style="width: 15%;">
-      <select class="form-select form-select-sm" aria-label=".form-select-sm example"
-        style="width: 50px; float: right">
-        <option value="1">최신순</option>
-        <option value="2">조회순</option>
-        <option value="3">관련순</option>
-      </select>
-    </div>
+    <hr />
+    <br>
+	
     <!--게시판 부분-->
     <table class="table table-hover" style="table-layout: fixed;">
     <colgroup>
@@ -35,90 +30,82 @@
            </colgroup>
       <thead>
         <tr>
-          <th scope="col" style="text-align: center;">제목</th>
-          <th scope="col" style="text-align: center;">글쓴이</th>
-          <th scope="col" style="text-align: center;">날짜</th>
-          <th scope="col" style="text-align: center;">조회수</th>
+          <th scope="col" class="title" style="text-align: center;">제목</th>
+          <th scope="col" class="writer" style="text-align: center;">작성자</th>
+          <th scope="col" class="regdate" style="text-align: center;">작성일</th>
+          <th scope="col" class="viewcnt" style="text-align: center;">조회수</th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td scope="row" class="text-truncate"><a href="post" class="text-decoration-none">저 오늘 치과갑니다</a></td>
-          <td class="text-center">김지호</td>
-          <td class="text-center">yyyy-mm-dd</td>
-          <td class="text-center">12824203</td>
-        </tr>
-        <tr>
-          <td scope="row" class="text-truncate"><a href="" class="text-decoration-none">제목222222222222222222222222222222222</a></td>
-          <td class="text-center">짱구</td>
-          <td class="text-center">yyyy-mm-dd</td>
-          <td class="text-center">12312</td>
-        </tr>
-        <tr>
-          <td scope="row" class="text-truncate"><a href="" class="text-decoration-none">3</a></td>
-          <td class="text-center">고경희</td>
-          <td class="text-center">yyyy-mm-dd</td>
-          <td class="text-center">1231</td>
-        </tr>
-        <tr>
-          <td scope="row" class="text-truncate"><a href="" class="text-decoration-none">제목15443534541111111111111111111111111</a></td>
-          <td class="text-center">이서정</td>
-          <td class="text-center">yyyy-mm-dd</td>
-          <td class="text-center">222</td>
-        </tr>
-        <tr>
-          <td scope="row" class="text-truncate"><a href="" class="text-decoration-none">제목23432411111111111111111111111111111</a></td>
-          <td class="text-center">이기적</td>
-          <td class="text-center">yyyy-mm-dd</td>
-          <td class="text-center">222</td>
-        </tr>
+    
+      <c:forEach var="boardDto" items="${list }">
+      	<tr>
+      		<td class="title">
+      			<a href="<c:url value="/board/view${pr.sc.queryString }&bno=${boardDto.article_id  }"/>">
+      				${boardDto.article_title }
+      			</a>	
+      		</td>
+      		<td class="writer">${boardDto.user_id }</td>
+      		<td class="regdate"><fmt:formatDate value="${boardDto.article_date }" pattern="yyyy-MM-dd" type="date"/></td>
+      		<td class="viewcnt">${boardDto.article_viewcnt }</td>
+      	</tr>
+      </c:forEach>
+     </tbody>
+     </table>
+        
 
-        <tr>
-          <td scope="row" class="text-truncate"><a href="" class="text-decoration-none">제목1234234111111111111111111111111111</a></td>
-          <td class="text-center">남덕환</td>
-          <td class="text-center">yyyy-mm-dd</td>
-          <td class="text-center">222</td>
-        </tr>
 
-        <tr>
-          <td scope="row" class="text-truncate"><a href="" class="text-decoration-none">제목111111111325132411111</a></td>
-          <td class="text-center">김정욱</td>
-          <td class="text-center">yyyy-mm-dd</td>
-          <td class="text-center">222</td>
-        </tr>
+	 <!--작성하기 버튼-->
+<!--     <div class="row"> -->
+<!--     	<div class="col"> -->
+<!-- 			<a class="btn btn-primary " style="float:right" href="write?board=event" role="button">작성하기</a>    	 -->
+<!--     	</div> -->
+<!--     </div> -->
 
-        <tr>
-          <td scope="row" class="text-truncate"><a href="" class="text-decoration-none">제목11111111111152311234324234111</a></td>
-          <td class="text-center">진경아</td>
-          <td class="text-center">yyyy-mm-dd</td>
-          <td class="text-center">222</td>
-        </tr>
-      </tbody>
-    </table>
-
-	   <!--작성하기 버튼-->
-    <div class="row">
-    	<div class="col">
-			<a class="btn btn-primary " style="float:right" href="write?board=event" role="button">작성하기</a>    	
-    	</div>
-    </div>
-
+	     
+  
     <!--창 하단 페이지 숫자-->
     <nav aria-label="Page navigation">
       <ul class="pagination justify-content-center">
         <li class="page-item disabled">
           <a class="page-link" href="#" tabindex="-1" aria-disabled="true">이전</a>
         </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">4</a></li>
-        <li class="page-item"><a class="page-link" href="#">5</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#">다음</a>
-        </li>
+        <c:if test="${totalCnt != null || totalCnt != 0 }">
+            <c:if test="${pr.showPrev }">
+                 <a class="page" href="<c:url value="/board/list${pr.sc.getQueryString(pr.beginPage-1) }" />">&lt;</a>
+            </c:if>
+        	<c:forEach var="i" begin="${pr.beginPage }" end="${pr.endPage }">
+                 <a class="page" href="<c:url value="/board/list${pr.sc.getQueryString(i)}"/>">${i }</a>
+             </c:forEach>
+ 		 	<c:if test="${pr.showNext }">
+                 <a class="page" href="<c:url value="/board/list${pr.sc.getQueryString(pr.endPage + 1) }" />">&gt;</a>
+            </c:if>
+         </c:if>
+      	 <a class="page-link" href="#">다음</a>
       </ul>
     </nav>
+    <form action="<c:url value= "/board/notice"/>" class="search-form" method="get">
+    <div class="container text-center">
+		<div class="row justify-content-md-center pt-2 pb-5">
+			<div class = "col-sm-auto px-1">
+				<select class="form-select"  style="width: 150px;">
+				  	<option value="T" ${pr.sc.option == 'T' ? "selected" : ""}>제목</option>
+				  	<option value="TC" ${pr.sc.option == 'TC' || pr.sc.option == '' ? "selected" : ""}>제목 + 내용</option>
+				  	<option value="W" ${pr.sc.option == 'W' ? "selected" : ""}>작성자</option>
+				</select>
+			</div>
+			<div class="col-sm-auto px-1">		
+				<span>
+					<input type="text" class="form-control"  name="keyword" value="${param.keyword }" 
+					placeholder="검색어를 입력해주세요."  style="width: 340px;">
+				</span>
+			</div>	
+			<div class="col-sm-auto px-1">
+				<input type="submit" id="search_button" class="btn btn-secondary"  value="검색" >
+			</div>
+		</div>
+	</div>
+	</form>
+    
     
     <!-- <div style="display: flex; margin-left: 30%; margin-top: 50px;">
       <select class="form-select form-select-sm" aria-label=".form-select-sm example"

@@ -4,7 +4,12 @@ import java.sql.Date;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.youngtvjobs.ycc.member.mail.MailHandler;
+import com.youngtvjobs.ycc.member.mail.TempKey;
 
 @Repository
 public class MemberDaoImpl implements MemberDao
@@ -12,6 +17,8 @@ public class MemberDaoImpl implements MemberDao
 	@Autowired
 	private SqlSession session;
 	private static String namespace = "com.youngtvjobs.ycc.member.memberMapper.";
+	MemberDto memberDto;
+	JavaMailSender mailSender;
 	
 
 	@Override
@@ -57,30 +64,6 @@ public class MemberDaoImpl implements MemberDao
 		return session.delete(namespace+"deleteAll");
 		
 	}
-
-
-	@Override
-	public int updateMailKey(MemberDto memberDto) throws Exception {
-	
-		return session.update(namespace + "updateMailKey", memberDto);
-	}
-
-
-	@Override
-	public int updateMailAuth(MemberDto memberDto) throws Exception {
-	
-		return session.update(namespace + "updateMailAuth", memberDto);
-	}
-
-
-	@Override
-	public int emailAuthFail(String id) throws Exception {
-		
-		return session.selectOne(namespace + "emailAuthFail", id);
-	}
-
-
-
 
 
 

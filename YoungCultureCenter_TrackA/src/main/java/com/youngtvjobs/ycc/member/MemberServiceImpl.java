@@ -39,24 +39,6 @@ public class MemberServiceImpl implements MemberService{
 		return memberDao.update(memberDto);
 	}
 	
-	//	이메일 인증
-	
-	@Override
-	public int updateMailKey(MemberDto memberDto) throws Exception {
-		
-		return memberDao.updateMailKey(memberDto);
-	}
-	@Override
-	public int updateMailAuth(MemberDto memberDto) throws Exception {
-		
-		return memberDao.updateMailAuth(memberDto);
-	}
-	@Override
-	public int emailAuthFail(String id) throws Exception {
-		
-		return memberDao.emailAuthFail(id);
-	}
-	
 	//이메일인증: mail_key값 생성하여 메일 발송해줌
 	@Override 
 	public String insertMember(String user_email) throws Exception {

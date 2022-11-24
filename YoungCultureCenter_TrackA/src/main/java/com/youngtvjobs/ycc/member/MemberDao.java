@@ -19,8 +19,4 @@ public interface MemberDao
 	
 	int update(MemberDto memberDto) throws Exception;
 	
-	//이메일 인증
-	int updateMailKey(MemberDto memberDto) throws Exception;
-	int updateMailAuth(MemberDto memberDto) throws Exception;
-	int emailAuthFail(String id) throws Exception;
 }

@@ -3,11 +3,15 @@ package com.youngtvjobs.ycc.member;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public interface InquiryDao {
 
-	InquiryDto inqSelectPage(Date startDate, Date endDate) throws Exception;
+	InquiryDto inqSelectPage(String id,Date startDate, Date endDate) throws Exception;
 	
-	List<InquiryDto> selectPage(String id) throws Exception;
-		
+	List<InquiryDto> selectPage(String id, String settedInterval) throws Exception;
+
+	
 
 }

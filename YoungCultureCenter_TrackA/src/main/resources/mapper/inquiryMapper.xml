@@ -5,16 +5,54 @@
   
   <mapper namespace="com.youngtvjobs.ycc.member.inquiryMapper">
   
-  
+    <!-- 아이디가 일치하는 문의 결과 조회 -->
   <sql id="selectFromInquiry">
   	select * from inq_board
-  	where user_id = #{user_id}
+  	where user_id = #{id}
+  </sql>
+  
+    <!-- 최신순 정렬 -->
+  <sql id="orderByNew">
+ 	order by inq_date desc, inq_id desc
   </sql>
 
-  <select id ="selectPage" parameterType="String" resultType="InquiryDto">
-  	<include refid="selectFromInquiry" />
-  	order by inq_date desc, inq_id desc
 
+
+    <!-- 기본 조회: 최대 1년  -->
+  <select id ="selectPage" parameterType="map" resultType="InquiryDto">
+  	<include refid="selectFromInquiry" />
+  	<if test='"settedInterval"!=null'>
+	  	and 
+	  	inq_date between (now() - CAST(#{settedInterval} AS INTERVAL)) and now()
+  	</if>
+  	<include refid="orderByNew" />
   </select>
+  
+  
+  
+    <!-- 1개월 조회 -->
+  <select id ="select1month" parameterType="String" resultType="InquiryDto">
+  	<include refid="selectFromInquiry" />
+  	and 
+  	inq_date between (now() - interval '3month') and now()
+	<include refid="orderByNew" />  
+  </select>
+  
+    <!-- 3개월 조회 -->
+  <select id ="select3month" parameterType="String" resultType="InquiryDto">
+  	<include refid="selectFromInquiry" />
+  	and 
+  	inq_date between (now() - interval '1month') and now()
+	<include refid="orderByNew" />  
+  </select>
+  
+    <!-- 직접 입력된 기간 조회 -->
+  <select id ="selectedInterval" parameterType="String" resultType="InquiryDto">
+  	<include refid="selectFromInquiry" />
+  	and 
+  	inq_date between #{startDate} and #{endDate}
+	<include refid="orderByNew" />  
+  </select>
+  
   
   </mapper>

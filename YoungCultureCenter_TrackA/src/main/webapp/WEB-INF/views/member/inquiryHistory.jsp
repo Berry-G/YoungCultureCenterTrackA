@@ -30,49 +30,49 @@
     <h2>나의 문의 내역</h2>
   </div>
       <!-- 기간별 조회 박스 -->
-      <div class="container p-3 text-center mb-3" style="background-color: #b0daeb;">
-        <h4 class="mb-3">기간별 조회</h4>
-        <div class="row">
-          <div class="col-md-3 mb-3">
-            <button type="submit" class="btn btn-light">1개월</button>
-            <button type="submit" class="btn btn-light">3개월</button>
-          </div>
-          <div class="col-md-7 mb-3">
-            <div class="row">
-              <input
-              class="form-control-md col-5 fs-5"
-              type="date"
-              value="startDate"
-            />
-            <label class="col-2">~</label>
-            <input
-              class="form-control-md col-5 fs-5"
-              type="date"
-              value="endDate"
-            />
-            </div>
-
-          </div>
-          <div class="col-md-2 mb-3">
-            <button type="submit" class="btn btn-primary">조회</button>
-          </div>
-
-        </div>
-
-
-        <div class="row" style="justify-content: center;">
-          <div class="col-md-2 mb-3" >
-            <select class="form-select-sm" style="height: 2rem;width:80%">
-              <option value="title">제목</option>
-              <option value="contents">내용</option>
-            </select>
-          </div>
-          <div class="col-md-5 mb-3">
-            <input class="form-control-md" type="text" id="search-bar" />
-            <button type="submit" class="btn btn-primary" href="YCC_Inquiry.html">검색</button>
-          </div>
-        </div>
-      </div>
+      <form action="<c:url value='/mypage/inquiry'/>" method="get">
+	      <div class="container p-3 text-center mb-3" style="background-color: #b0daeb;">
+	        <h4 class="mb-3">기간별 조회</h4>
+	        <div class="row">
+	          <div class="col-md-3 mb-3">
+	            <button type="submit" class="btn btn-light" name="settedInterval" value="3month">3개월</button>
+	            <button type="submit" class="btn btn-light" name="settedInterval" value="6month">6개월</button>
+	          </div>
+	          <div class="col-md-7 mb-3">
+	            <div class="row">
+	              <input
+	              class="form-control-md col-5 fs-5"
+	              type="date"
+	              name="startDate"
+	            />
+	            <label class="col-2">~</label>
+	            <input
+	              class="form-control-md col-5 fs-5"
+	              type="date"
+	              name="endDate"
+	            />
+	            </div>
+	
+	          </div>
+	          <div class="col-md-2 mb-3">
+	            <button type="submit" class="btn btn-primary">조회</button>
+	          </div>
+	        </div>
+	
+	        <div class="row" style="justify-content: center;">
+	          <div class="col-md-2 mb-3" >
+	            <select class="form-select-sm" style="height: 2rem;width:80%">
+	              <option value="title">제목</option>
+	              <option value="contents">내용</option>
+	            </select>
+	          </div>
+	          <div class="col-md-5 mb-3">
+	            <input class="form-control-md" type="text" id="search-bar" />
+	            <button type="submit" class="btn btn-primary" href="YCC_Inquiry.html">검색</button>
+	          </div>
+	        </div>
+	      </div>
+      </form>
 
 
       <!-- 게시판 테이블 -->
@@ -87,12 +87,12 @@
           </tr>
         </thead>
         <tbody>
-      <c:forEach var="InquiryDto" items="${inqList}">
+      <c:forEach var ="InquiryDto" items = "${inqList }">
       	<tr>
-          <td>${InquiryDto.inq_cate}</td>
+          <td>${InquiryDto.inq_cate }</td>
           <td>${InquiryDto.inq_title }</td>
-          <td>${InquiryDto.inq_date()}</td>
-          <td>${InquiryDto.inq_YN ==true ? "답변완료" : "답변대기" }</td>
+          <td>${InquiryDto.inq_date() }</td>
+          <td>${InquiryDto.inq_YN ==true? "답변완료" : "답변대기" }</td>
         </tr>
       </c:forEach>
         </tbody>

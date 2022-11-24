@@ -179,45 +179,63 @@ public class MemberController {
 
 
 	// 나의 문의 내역 - 기간별 조회
-	@GetMapping("/mypage/inquiry")
-	public String inquiryHistory(String settedInterval,HttpSession session, Model m, HttpServletRequest request) {
-		//로그인 여부 확인
-		if (!logincheck(request))
-			return "redirect:/login/login?toURL=" + request.getRequestURL();
-		
-		
-		try {
-			//서비스 메소드에 파라미터로 넣어줄 id,디폴트 settedInterval(1개월) 불러오기
-			String id = (String) session.getAttribute("id");
-			InquiryDto inquiryDto = new InquiryDto();
+		@GetMapping("/mypage/inquiry")
+		public String inquiryHistory(String settedInterval,HttpSession session, Model m, HttpServletRequest request, String startDate, String endDate) {
+			//로그인 여부 확인
+			if (!logincheck(request))
+				return "redirect:/login/login?toURL=" + request.getRequestURL();
 			
-			//기본 1개월 조회로 설정
-			settedInterval = inquiryDto.getSettedInterval();
-			System.out.println(settedInterval);
 			
-			//1개월,3개월 버튼을 클릭했을 때 동작(name="settedInterval")
-			if (settedInterval.equals("3month") || settedInterval.equals("6month")) {
-				System.out.println("in: " +settedInterval);
+			try {
+				//서비스 메소드에 파라미터로 넣어줄 id,디폴트 settedInterval(1개월) 불러오기
+				String id = (String) session.getAttribute("id");
+				InquiryDto inquiryDto = new InquiryDto();
+				if(settedInterval == null) {
+					settedInterval = inquiryDto.getSettedInterval();
+				}
+				System.out.println(settedInterval);
+				System.out.println(startDate);
+				System.out.println(endDate);
+				System.out.println(settedInterval.equals("3month"));
 				
-				List<InquiryDto> inqList = inquiryService.getPage(id, settedInterval);
+				//1개월,3개월 버튼을 클릭했을 때 동작(name="settedInterval")
+				if (settedInterval.equals("3month") || settedInterval.equals("6month")) {
+					System.out.println("in: " +settedInterval);
+					
+					List<InquiryDto> inqList = inquiryService.getPage(id, settedInterval);
+					m.addAttribute("inqList", inqList);
+					
+					return "member/inquiryHistory";
+				}
+				else if (startDate != null && endDate != null) {
+					
+					//String으로 받은 날짜를 Date로 형변환
+					Date sd =inquiryDto.toDate(startDate);
+					Date ed = inquiryDto.toDate(endDate);
+					
+					System.out.println(sd);
+					System.out.println(ed);
+					
+					List<InquiryDto> inqList = inquiryService.getPageByInput(id, sd, ed);
+					
+					m.addAttribute("startDate",startDate);
+					m.addAttribute("endDate",endDate);
+					m.addAttribute("inqList", inqList);
+
+					
+					return "member/inquiryHistory";
+				}
+				
+				List<InquiryDto> inqList = inquiryService.getPage(id, inquiryDto.getSettedInterval());
 				m.addAttribute("inqList", inqList);
-				
-				return "member/inquiryHistory";
+		
+
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-//			else if (startDate != null || endDate != null) {
-//				List<InquiryDto> inqList;
-//			}
-			
-			List<InquiryDto> inqList = inquiryService.getPage(id, inquiryDto.getSettedInterval());
-			m.addAttribute("inqList", inqList);
-	
 
-		} catch (Exception e) {
-			e.printStackTrace();
+			return "member/inquiryHistory";
 		}
-
-		return "member/inquiryHistory";
-	}
 
 	// 1:1 문의 작성 페이지
 	@RequestMapping("/mypage/inquiry/write")

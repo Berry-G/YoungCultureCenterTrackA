@@ -9,6 +9,8 @@
     <%@include file="/WEB-INF/views/metahead.jsp"%>
     <link rel="stylesheet" href="/ycc/resources/css/studyRoom.css" type="text/css"/>
     
+   	<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+   
     
     <title>나의 문의 내역</title>
     
@@ -30,7 +32,7 @@
     <h2>나의 문의 내역</h2>
   </div>
       <!-- 기간별 조회 박스 -->
-      <form action="<c:url value='/mypage/inquiry'/>" method="get">
+      <form action="<c:url value='/mypage/inquiry'/>" method="get" id="frm">
 	      <div class="container p-3 text-center mb-3" style="background-color: #b0daeb;">
 	        <h4 class="mb-3">기간별 조회</h4>
 	        <div class="row">
@@ -44,18 +46,20 @@
 	              class="form-control-md col-5 fs-5"
 	              type="date"
 	              name="startDate"
+	              id="startDate"
 	            />
-	            <label class="col-2">~</label>
+	            <label class="col-2 fs-4">~</label>
 	            <input
 	              class="form-control-md col-5 fs-5"
 	              type="date"
 	              name="endDate"
+	              id="endDate"
 	            />
 	            </div>
 	
 	          </div>
 	          <div class="col-md-2 mb-3">
-	            <button type="submit" class="btn btn-primary">조회</button>
+	            <button type="submit" class="btn btn-primary" id="periodBtn">조회</button>
 	          </div>
 	        </div>
 	
@@ -71,6 +75,8 @@
 	            <button type="submit" class="btn btn-primary" href="YCC_Inquiry.html">검색</button>
 	          </div>
 	        </div>
+	      	${startDate != null? "조회기간 : " : ""}${startDate}${startDate != null? " ~ " : ""} 
+	      	${endDate != null? endDate : ""}
 	      </div>
       </form>
 
@@ -90,7 +96,8 @@
       <c:forEach var ="InquiryDto" items = "${inqList }">
       	<tr>
           <td>${InquiryDto.inq_cate }</td>
-          <td>${InquiryDto.inq_title }</td>
+          <td><a href="<c:url value="/board/read?inq_id=${InquiryDto.inq_id }"/>" class="text-decoration-none">
+          	${InquiryDto.inq_title }</a></td>
           <td>${InquiryDto.inq_date() }</td>
           <td>${InquiryDto.inq_YN ==true? "답변완료" : "답변대기" }</td>
         </tr>
@@ -98,7 +105,7 @@
         </tbody>
       </table>
 
-      <button class="btn btn-primary mt-3 mb-3" onclick="location.href='./write'">글쓰기</button>
+      <button class="btn btn-primary mt-3 mb-3" onclick="location.href='./inquiry/write'">글쓰기</button>
     </div>
 
     <!-- 페이지 네비게이션 -->
@@ -124,6 +131,8 @@
   
 	<!-- footer inlcude -->
 <%@include file="/WEB-INF/views/footer.jsp"%>	  
+
+	  
 	  
   </body>
 </html>

@@ -79,8 +79,7 @@ public class MemberServiceImpl implements MemberService{
 			
 			return mail_key;
 		}
-	
-	
+
 	
 }
 

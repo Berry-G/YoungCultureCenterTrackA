@@ -79,22 +79,12 @@ public class MemberController {
 		return result;
 	}
 	
-	//이메일 인증 : siForm.jsp에서 넘겨받은 값을 memberService.java에 memberdto에 담아서 전달해줌
+	//이메일 인증 : siForm.jsp에서 넘겨받은 값을 memberService.java에 memberdto.getUser_email()에 담아서 전달해줌
 	@PostMapping("/signin/registerEmail")
 	@ResponseBody
 	public String emailConfirm1(@RequestBody MemberDto memberdto) throws Exception {
 		
 		return memberService.insertMember(memberdto.getUser_email());
-	}
-	
-
-
-	@GetMapping("/signin/")
-	public String emailConfirm(MemberDto memberDto) throws Exception {
-
-		memberService.updateMailAuth(memberDto);
-
-		return "/member/emailAuthSuccess";
 	}
 
 	// 마이페이지1 : 본인인증

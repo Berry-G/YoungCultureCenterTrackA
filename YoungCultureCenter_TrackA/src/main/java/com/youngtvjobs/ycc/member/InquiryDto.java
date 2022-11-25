@@ -124,18 +124,8 @@ public class InquiryDto {
 
 	// Date--> String 형변환
 	public String inq_date() {
-		YccMethod yccMethod = new YccMethod();
-		return yccMethod.str_to_date(inq_date);
-	}
-	
-
-
-	// String --> Date 형변환
-	public Date toDate(String strDate) throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date type_date = sdf.parse(strDate);
-
-		return type_date;
+		
+		return YccMethod.date_toString(inq_date);
 	}
 
 }

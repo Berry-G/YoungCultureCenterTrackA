@@ -16,9 +16,7 @@
  	order by inq_date desc, inq_id desc
   </sql>
 
-
-
-    <!-- 기본 조회: 최대 1년  -->
+    <!-- 지정된 기간(버튼)으로 조회 -->
   <select id ="selectPage" parameterType="map" resultType="InquiryDto">
   	<include refid="selectFromInquiry" />
   	<if test='"settedInterval"!=null'>
@@ -27,27 +25,9 @@
   	</if>
   	<include refid="orderByNew" />
   </select>
-  
-  
-  
-    <!-- 1개월 조회 -->
-  <select id ="select1month" parameterType="String" resultType="InquiryDto">
-  	<include refid="selectFromInquiry" />
-  	and 
-  	inq_date between (now() - interval '3month') and now()
-	<include refid="orderByNew" />  
-  </select>
-  
-    <!-- 3개월 조회 -->
-  <select id ="select3month" parameterType="String" resultType="InquiryDto">
-  	<include refid="selectFromInquiry" />
-  	and 
-  	inq_date between (now() - interval '1month') and now()
-	<include refid="orderByNew" />  
-  </select>
-  
+    
     <!-- 직접 입력된 기간 조회 -->
-  <select id ="selectedInterval" parameterType="String" resultType="InquiryDto">
+  <select id ="selectPageByInput" parameterType="map" resultType="InquiryDto">
   	<include refid="selectFromInquiry" />
   	and 
   	inq_date between #{startDate} and #{endDate}

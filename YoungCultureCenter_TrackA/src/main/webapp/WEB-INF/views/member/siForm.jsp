@@ -134,6 +134,9 @@
                 </select>
                 <button type="button" id="Auth_num" name="Auth_num" class="btn btn-outline-primary mx-1" style="width: 130px;">
              	인증번호 받기</button>
+				<!-- 이메일 합치는 자바스크립트 결과 받는 input --> 
+				<!-- 지우면 email값 못 받아옴  -->
+            	<input type="hidden" id="totalEmail" name="user_email">
              </form>
              </div>
             <span id="email_result"></span> 
@@ -188,8 +191,9 @@
 	
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+	//이메일 
 	var code="";			//이메일전송 인증번호 저장을 위한 코드
-
+	
 	//이메일 인증 : 입력받은 이메일 값을 MemberController.java의 /registerEmail로 넘겨줌
 	$("#Auth_num").click(function() {
 		let a = $('#email').val()+'@'+$('#detailEmail').val()
@@ -224,8 +228,9 @@
 	   }   
 		  })
 	
+	//아이디중복확인
+	//아이디중복확인 버튼 클릭시 
    	$("#idCheckBtn").click(function(){
-     // alert("확인")
        //user_id 입력값이 빈칸이 아니라면 
         if($("#user_id").val()!='') {
       
@@ -236,6 +241,7 @@
           data: {'user_id' : $('#user_id').val()}, 
           dataType: 'text',
           success: function(result) {
+        	//아이디가 없으면 result 0 , 없으면 1 체크해서 중복확인
             if(result==0) {
               $("#result").text('사용 가능한 아이디입니다.').css('color','blue');	             
             }
@@ -245,7 +251,6 @@
             }
           },
           error: function(){
-         // alert("code = " + request.status + "message = " + request.responseText +	"error = " + error);
             alert ("error")
           }
           
@@ -389,8 +394,10 @@
 		  if(email != "" && address != "") {
 		    $("#totalEmail").val(email+middle+address);
 		  }
-
 		}
+		
+	
+		
 		//휴대폰번호 입력확인
 		$("#phoneNumber").blur(function(){
 		  if(phoneJ.test($(this).val())) {
@@ -508,9 +515,6 @@
 
 			}
 
-
-		
-	
 	</script>
 	<!-- footer inlcude -->
 	<%@include file="/WEB-INF/views/footer.jsp"%>

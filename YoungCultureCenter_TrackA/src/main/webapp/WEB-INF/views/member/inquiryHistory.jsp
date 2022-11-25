@@ -62,19 +62,7 @@
 	            <button type="submit" class="btn btn-primary" id="periodBtn">조회</button>
 	          </div>
 	        </div>
-	
-	        <div class="row" style="justify-content: center;">
-	          <div class="col-md-2 mb-3" >
-	            <select class="form-select-sm" style="height: 2rem;width:80%">
-	              <option value="title">제목</option>
-	              <option value="contents">내용</option>
-	            </select>
-	          </div>
-	          <div class="col-md-5 mb-3">
-	            <input class="form-control-md" type="text" id="search-bar" />
-	            <button type="submit" class="btn btn-primary" href="YCC_Inquiry.html">검색</button>
-	          </div>
-	        </div>
+
 	      	${startDate != null? "조회기간 : " : ""}${startDate}${startDate != null? " ~ " : ""} 
 	      	${endDate != null? endDate : ""}
 	      </div>
@@ -106,6 +94,7 @@
       </table>
 
       <button class="btn btn-primary mt-3 mb-3" onclick="location.href='./inquiry/write'">글쓰기</button>
+
     </div>
 
     <!-- 페이지 네비게이션 -->
@@ -132,7 +121,25 @@
 	<!-- footer inlcude -->
 <%@include file="/WEB-INF/views/footer.jsp"%>	  
 
-	  
+	
+	<script type="text/javascript">
+	//
+	$(document).ready(function() {
+//		$('#startDate').datepicker( "startDate" ):-1y;
+		
+	   $("#periodBtn").click(function() {
+	      var sD = document.getElementById("startDate").value;
+	      var eD = document.getElementById("endDate").value;
+	      if(sD === "" || sD === null ||eD === "" || eD === null ){                            
+	      	alert('조회 시작일과 종료일을 모두 지정해 주세요.')
+	      }
+	      })
+	      
+	})
+			
+	      
+
+	</script>    
 	  
   </body>
 </html>

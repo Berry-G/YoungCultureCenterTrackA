@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.youngtvjobs.ycc.member.mail.MailHandler;
-import com.youngtvjobs.ycc.member.mail.TempKey;
+import com.youngtvjobs.ycc.common.YccMethod;
 
 //회원관리 컨트롤러
 @Controller
@@ -32,9 +31,8 @@ public class MemberController {
 	InquiryDao inquiryDao;		
 	
 	JavaMailSender mailSender;
-	
 
-
+	@Autowired
 	public MemberController(MemberDao memberDao, MemberService memberService, InquiryService inquiryService,
 			InquiryDao inquiryDao, JavaMailSender mailSender) {
 		//super();
@@ -90,7 +88,8 @@ public class MemberController {
 	// 마이페이지1 : 본인인증
 	@GetMapping("/mypage/pwcheck")
 	public String pwCheck(HttpSession session, HttpServletRequest request, String inputPassword) throws Exception {
-		if (!logincheck(request))
+		
+		if (!YccMethod.loginSessionCheck(request))
 			return "redirect:/login?toURL=" + request.getRequestURL();
 
 		return "member/pwCheck";
@@ -128,10 +127,9 @@ public class MemberController {
 		m.addAttribute("emailId", emailId);
 		m.addAttribute("emailDomain", emailDomain);
 
-		// 생년월일 String으로 형변환 & 포맷 지정하여 모델에 저장 (회원정보수정 생년월일란에 출력)
-		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String birth_date = sdFormat.format(memberDto.getUser_birth_date());
-
+		// 생년월일 String으로 형변환 & 포맷 지정하여 모델에 저장 (회원정보수정 생년월일란에 출력)		
+		String birth_date = YccMethod.date_toString(memberDto.getUser_birth_date());
+		
 		m.addAttribute("birth_date", birth_date);
 
 		return "member/modify";
@@ -180,9 +178,10 @@ public class MemberController {
 
 	// 나의 문의 내역 - 기간별 조회
 		@GetMapping("/mypage/inquiry")
-		public String inquiryHistory(String settedInterval,HttpSession session, Model m, HttpServletRequest request, String startDate, String endDate) {
+		public String inquiryHistory(String settedInterval,HttpSession session, Model m, 
+				HttpServletRequest request, String startDate, String endDate) {
 			//로그인 여부 확인
-			if (!logincheck(request))
+			if (!YccMethod.loginSessionCheck(request))
 				return "redirect:/login/login?toURL=" + request.getRequestURL();
 			
 			
@@ -190,45 +189,48 @@ public class MemberController {
 				//서비스 메소드에 파라미터로 넣어줄 id,디폴트 settedInterval(1개월) 불러오기
 				String id = (String) session.getAttribute("id");
 				InquiryDto inquiryDto = new InquiryDto();
+				
 				if(settedInterval == null) {
 					settedInterval = inquiryDto.getSettedInterval();
 				}
-				System.out.println(settedInterval);
-				System.out.println(startDate);
-				System.out.println(endDate);
-				System.out.println(settedInterval.equals("3month"));
-				
 				//1개월,3개월 버튼을 클릭했을 때 동작(name="settedInterval")
 				if (settedInterval.equals("3month") || settedInterval.equals("6month")) {
-					System.out.println("in: " +settedInterval);
+					
 					
 					List<InquiryDto> inqList = inquiryService.getPage(id, settedInterval);
 					m.addAttribute("inqList", inqList);
 					
 					return "member/inquiryHistory";
 				}
-				else if (startDate != null && endDate != null) {
-					
+				else if (startDate != null && endDate != null &&!startDate.equals("") && !endDate.equals("")) {
+
 					//String으로 받은 날짜를 Date로 형변환
-					Date sd =inquiryDto.toDate(startDate);
-					Date ed = inquiryDto.toDate(endDate);
+					Date sd =YccMethod.str_toDate(startDate);
+					Date ed = YccMethod.str_toDate(endDate);
 					
 					System.out.println(sd);
 					System.out.println(ed);
 					
 					List<InquiryDto> inqList = inquiryService.getPageByInput(id, sd, ed);
 					
+					m.addAttribute("inqList", inqList);
 					m.addAttribute("startDate",startDate);
 					m.addAttribute("endDate",endDate);
-					m.addAttribute("inqList", inqList);
-
 					
+
 					return "member/inquiryHistory";
 				}
+				// 조회 시작일, 종료일 중 하나라도 null값일 경우 alert창
+//				else if(startDate == null || endDate == null) {
+//					System.out.println("하나라도 null 값이 있을 경우 ");
+//					m.addAttribute("alert","<script>alert('조회 시작일과 종료일을 모두 지정해 주세요.')</script>");
+//					return "member/inquiryHistory";					
+//				}
 				
 				List<InquiryDto> inqList = inquiryService.getPage(id, inquiryDto.getSettedInterval());
 				m.addAttribute("inqList", inqList);
-		
+				
+				return "member/inquiryHistory";
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -248,12 +250,5 @@ public class MemberController {
 	@RequestMapping("/mypage/inquiry/read")
 	public String inquiryRead() {
 		return "member/inquiryWrite";
-	}
-
-	private boolean logincheck(HttpServletRequest request) {
-
-		HttpSession session = request.getSession(false);
-
-		return session != null && session.getAttribute("id") != null;
 	}
 }

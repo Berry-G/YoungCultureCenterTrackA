@@ -1,6 +1,7 @@
 package com.youngtvjobs.ycc.common;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -32,9 +33,17 @@ public class YccMethod
 	}
 	
 	// Date--> String 형변환
-	public static String str_to_date(Date date) {
+	public static String date_toString(Date date) {
 		DateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd");
 		String str_to_date = sdFormat.format(date);
 		return str_to_date;	
+	}
+	
+	// String --> Date 형변환
+	public static Date str_toDate(String strDate) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date type_date = sdf.parse(strDate);
+
+		return type_date;
 	}
 }

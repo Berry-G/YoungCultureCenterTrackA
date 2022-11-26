@@ -14,21 +14,23 @@ public class BoardDto {
 //    article_viewcnt int not NULL
 	
 	
-	private Integer article_id ;				// 번호PK
+	private Integer article_id ;			// 번호PK
 	private Date  article_date;				// 게시글 등록 날짜
 	private String  article_Board_type;		// 게시글 유형
 	private String user_id;					// 작성자
 	private String  article_title;			// 제목
 	private String article_contents;		// 내용
-	private int  article_viewcnt;		// 조회수 
+	private int  article_viewcnt;			// 조회수 
+	private int preView;
+	private int nextView;
 	
 	public BoardDto() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public BoardDto(Integer article_id, Date article_date, String article_Board_type, String user_id,
-			String article_title, String article_contents, int article_viewcnt) {
-		super();
+			String article_title, String article_contents, int article_viewcnt, int preView, int nextView) {
+		//super();
 		this.article_id = article_id;
 		this.article_date = article_date;
 		this.article_Board_type = article_Board_type;
@@ -36,6 +38,8 @@ public class BoardDto {
 		this.article_title = article_title;
 		this.article_contents = article_contents;
 		this.article_viewcnt = article_viewcnt;
+		this.preView = preView;
+		this.nextView = nextView;
 	}
 
 	public Integer getArticle_id() {
@@ -94,10 +98,26 @@ public class BoardDto {
 		this.article_viewcnt = article_viewcnt;
 	}
 
+	public int getPreView() {
+		return preView;
+	}
+
+	public void setPreView(int preView) {
+		this.preView = preView;
+	}
+
+	public int getNextView() {
+		return nextView;
+	}
+
+	public void setNextView(int nextView) {
+		this.nextView = nextView;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(article_Board_type, article_contents, article_date, article_id, article_title,
-				article_viewcnt, user_id);
+				article_viewcnt, nextView, preView, user_id);
 	}
 
 	@Override
@@ -113,8 +133,17 @@ public class BoardDto {
 				&& Objects.equals(article_contents, other.article_contents)
 				&& Objects.equals(article_date, other.article_date) && Objects.equals(article_id, other.article_id)
 				&& Objects.equals(article_title, other.article_title) && article_viewcnt == other.article_viewcnt
-				&& Objects.equals(user_id, other.user_id);
+				&& nextView == other.nextView && preView == other.preView && Objects.equals(user_id, other.user_id);
+	}
+
+	@Override
+	public String toString() {
+		return "BoardDto [article_id=" + article_id + ", article_date=" + article_date + ", article_Board_type="
+				+ article_Board_type + ", user_id=" + user_id + ", article_title=" + article_title
+				+ ", article_contents=" + article_contents + ", article_viewcnt=" + article_viewcnt + ", preView="
+				+ preView + ", nextView=" + nextView + "]";
 	}
 	
 	
-}
+	
+	}

@@ -5,7 +5,8 @@
   
 <mapper namespace="com.youngtvjobs.ycc.board.boardMapper" >
 
-
+<!-- article mapper -->
+	
 	<sql id="selectFromBoard">
 		SELECT article_id, article_date, article_board_type, user_id, 
 		article_title, article_contents, article_viewcnt
@@ -27,30 +28,93 @@
 		</choose>	
 	</sql>
 	
-
+	<!-- 글쓰기 : article 테이블에 게시글 추가 -->
+	<insert id="writeInsert" parameterType="BoardDto">
+		INSERT INTO article
+			(article_date, article_board_type, user_id, article_title, article_contents,article_viewcnt)
+		VALUES
+			(now(), 'N', #{user_id}, #{article_title}, #{article_contents}, #{article_viewcnt})
+	</insert>
 	
-	<select id="selectPage" parameterType="map" resultType="BoardDto">
+	
+	<!-- 상세보기 : article 테이블에 select하여 게시글 상세보기  -->
+	<select id="postSelect" parameterType="int" resultType="BoardDto">
 		<include refid="selectFromBoard" />
+		where article_id = #{article_id}
+	</select>
+	
+	<!-- 공지사항 게시판 리스트 : article 테이블에 insert된 정보 중 공지사항만 조회한 리스트  -->
+	<select id="nSelectPage" parameterType="map" resultType="BoardDto">
+		<include refid="selectFromBoard" />
+		where article_board_type ='N'
 		order by article_date desc, article_id desc 
 		limit #{pageSize} offset #{offset}		
 	</select>
-
-	<select id="searchResultCnt" parameterType="SearchItem" resultType="int">
+	
+	<!-- 공지사항  -->
+	<select id="nSearchResultCnt" parameterType="SearchItem" resultType="int">
 		select count(*) 
 		from article
 		where article_Board_type  = 'N'
 		and  true 
 		<include refid="searchCondition" />
 	</select>
-	
-	<select id="searchSelectPage" parameterType="SearchItem" resultType="BoardDto">
-		select article_id,  article_date,   article_Board_type ,  user_id , 
-		article_title, article_contents, article_viewcnt  
-		from  article
+	<!-- 공지사항  -->
+	<select id="nSearchSelectPage" parameterType="SearchItem" resultType="BoardDto">
+		<include refid="selectFromBoard"></include>
 		where article_Board_type = 'N'
 		and  true 
 		<include refid="searchCondition" />		
 		order by article_date desc, article_id desc 
 		limit #{pageSize} offset #{offset}		
 	</select>
+	
+	<!-- 이전글    -->
+	<select id="preView" parameterType="int" resultType="BoardDto">
+		select article_title,
+		lag(article_id) over (order by article_id) preView
+		from article
+	</select>
+	
+	<!-- 다음글 -->
+	<select id="nextView" parameterType="int" resultType="BoardDto">
+		select article_title,
+		lead (article_id) over (order by article_id) nextView
+		from article
+	</select>
+	
+	
+	<!-- 이벤트/행사 게시판 리스트 : article 테이블에 insert된 정보 중 이벤트/행사만 조회한 리스트 -->
+	<select id="eSelectPage" parameterType="map" resultType="BoardDto">
+		<include refid="selectFromBoard" />
+		where article_board_type ='E'
+		order by article_date desc, article_id desc 
+		limit #{pageSize} offset #{offset}		
+	</select>
+	
+	<!-- 이벤트/행사 -->
+	<select id="eSearchResultCnt" parameterType="SearchItem" resultType="int">
+		select count(*) 
+		from article
+		where article_Board_type  = 'E'
+		and  true 
+		<include refid="searchCondition" />
+	</select>
+	<!-- 이벤트/행사 -->
+	<select id="eSearchSelectPage" parameterType="SearchItem" resultType="BoardDto">
+		<include refid="selectFromBoard"></include>
+		where article_Board_type = 'E'
+		and  true 
+		<include refid="searchCondition" />		
+		order by article_date desc, article_id desc 
+		limit #{pageSize} offset #{offset}		
+	</select>
+	
+	<!-- 조회수 증가 : 상세보기 클릭 시 article 테이블에 조회수 증가 update  -->
+	<update id="PlusViewCnt" parameterType="int">
+		update article 
+		set article_viewcnt = article_viewcnt + 1
+		where article_id = #{article_id}
+	</update>
+	
 </mapper>

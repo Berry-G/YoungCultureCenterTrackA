@@ -12,13 +12,12 @@ import com.youngtvjobs.ycc.member.mail.MailHandler;
 import com.youngtvjobs.ycc.member.mail.TempKey;
 
 @Repository
-public class MemberDaoImpl implements MemberDao
-{
+public class MemberDaoImpl implements MemberDao{
+	
 	@Autowired
 	private SqlSession session;
 	private static String namespace = "com.youngtvjobs.ycc.member.memberMapper.";
 	MemberDto memberDto;
-	JavaMailSender mailSender;
 	
 
 	@Override
@@ -66,6 +65,23 @@ public class MemberDaoImpl implements MemberDao
 	}
 
 
-
+	//아이디 찾기
+	@Override
+	public String findId(String user_email) throws Exception {
+		
+		return session.selectOne(namespace + "findId", user_email);
+	}
+	
+	//패스워드 찾기
+	@Override
+	public String findPw(String user_id) throws Exception {
+		
+		return session.selectOne(namespace + "findPw", user_id);
+	}
+	
+	public String findPword(String user_email) throws Exception {
+		
+		return session.selectOne(namespace + "findPword", user_email);
+	}
 
 }

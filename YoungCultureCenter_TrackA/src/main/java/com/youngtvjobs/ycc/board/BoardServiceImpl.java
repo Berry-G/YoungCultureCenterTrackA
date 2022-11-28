@@ -1,6 +1,7 @@
 package com.youngtvjobs.ycc.board;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,27 +58,16 @@ public class BoardServiceImpl implements BoardService{
 		boardDao.PlusViewCnt(article_id);
 		return boardDto;
 	}
-	//이전글
-	@Override
-	public BoardDto preView(int preView) throws Exception {
-		return boardDao.preView(preView);
-	}
-	//다음글
-	@Override
-	public BoardDto nextView(int nextView) throws Exception {
-		return boardDao.nextView(nextView);
-	}
 
 	@Override
-	public int postDelete(Integer article_id) throws Exception {
-		return boardDao.postDelete(article_id);
+	public BoardDto movePage(Integer article_id) throws Exception {
+		return boardDao.movePage(article_id);
 	}
 
+	
 
-
-
-
-
+	
+	
 	
 	
 }

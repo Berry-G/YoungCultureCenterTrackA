@@ -295,7 +295,6 @@ public class MemberController {
 	// 1:1 문의글: 작성한 글 등록하기
 	@PostMapping("/mypage/inquiry/write")
 	public String inquiryWrite(InquiryDto inquiryDto, RedirectAttributes rattr, Model m, HttpSession session) {
-		System.out.println("post매핑 진입 확인");
 		String id = (String) session.getAttribute("id");
 		inquiryDto.setUser_id(id);
 		inquiryDto.setInq_date(new Date());
@@ -332,8 +331,6 @@ public class MemberController {
 			InquiryDto inquiryDto = inquiryService.read(id,inq_id);
 			
 			m.addAttribute(inquiryDto);
-			m.addAttribute("page", page);
-			m.addAttribute("pageSize", pageSize);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

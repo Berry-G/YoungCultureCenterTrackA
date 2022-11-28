@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.youngtvjobs.ycc.common.YccMethod;
 
@@ -175,17 +178,22 @@ public class MemberController {
 	}
 
 
-
+	//1:1 문의
 	// 나의 문의 내역 - 기간별 조회
 		@GetMapping("/mypage/inquiry")
-		public String inquiryHistory(String settedInterval,HttpSession session, Model m, 
+		public String inquiryHistory(@RequestParam(defaultValue="1") Integer page, 
+				@RequestParam(defaultValue="6") Integer pageSize,
+				String settedInterval,HttpSession session, Model m,
 				HttpServletRequest request, String startDate, String endDate) {
 			//로그인 여부 확인
 			if (!YccMethod.loginSessionCheck(request))
-				return "redirect:/login/login?toURL=" + request.getRequestURL();
+				return "redirect:/login?toURL=" + request.getRequestURL();
 			
 			
 			try {
+				int totalCnt;
+				InqPageResolver pr= new InqPageResolver(pageSize,page);
+				System.out.println(pr.getOffset());
 				//서비스 메소드에 파라미터로 넣어줄 id,디폴트 settedInterval(1개월) 불러오기
 				String id = (String) session.getAttribute("id");
 				InquiryDto inquiryDto = new InquiryDto();
@@ -193,43 +201,57 @@ public class MemberController {
 				if(settedInterval == null) {
 					settedInterval = inquiryDto.getSettedInterval();
 				}
+				
 				//1개월,3개월 버튼을 클릭했을 때 동작(name="settedInterval")
 				if (settedInterval.equals("3month") || settedInterval.equals("6month")) {
-					
-					
-					List<InquiryDto> inqList = inquiryService.getPage(id, settedInterval);
+					//list
+					List<InquiryDto> inqList = inquiryService.getPage(id, settedInterval, pr);
 					m.addAttribute("inqList", inqList);
 					
+					//pagination
+					totalCnt= inquiryService.getPageCnt(id, settedInterval, pr);
+					pr = new InqPageResolver(totalCnt, pageSize, page);
+					m.addAttribute("pr", pr);					
+					m.addAttribute("totalCnt", totalCnt);
+					
+					System.out.println("토탈: " +totalCnt);
 					return "member/inquiryHistory";
 				}
+				//조회기간을 직접 설정해 주었을 때 동작
 				else if (startDate != null && endDate != null &&!startDate.equals("") && !endDate.equals("")) {
 
 					//String으로 받은 날짜를 Date로 형변환
 					Date sd =YccMethod.str_toDate(startDate);
 					Date ed = YccMethod.str_toDate(endDate);
 					
-					System.out.println(sd);
-					System.out.println(ed);
-					
-					List<InquiryDto> inqList = inquiryService.getPageByInput(id, sd, ed);
+					List<InquiryDto> inqList = inquiryService.getPageByInput(id, sd, ed, pr);
 					
 					m.addAttribute("inqList", inqList);
 					m.addAttribute("startDate",startDate);
 					m.addAttribute("endDate",endDate);
 					
-
+					//pagination
+					totalCnt= inquiryService.getPageByInputCnt(id, sd, ed, pr);
+					pr = new InqPageResolver(totalCnt, pageSize, page);
+					m.addAttribute("pr", pr);
+					m.addAttribute("totalCnt", totalCnt);
+					
+					System.out.println("토탈: " +totalCnt);
 					return "member/inquiryHistory";
 				}
-				// 조회 시작일, 종료일 중 하나라도 null값일 경우 alert창
-//				else if(startDate == null || endDate == null) {
-//					System.out.println("하나라도 null 값이 있을 경우 ");
-//					m.addAttribute("alert","<script>alert('조회 시작일과 종료일을 모두 지정해 주세요.')</script>");
-//					return "member/inquiryHistory";					
-//				}
-				
-				List<InquiryDto> inqList = inquiryService.getPage(id, inquiryDto.getSettedInterval());
+				//list
+				List<InquiryDto> inqList = inquiryService.getPage(id, inquiryDto.getSettedInterval(), pr);
 				m.addAttribute("inqList", inqList);
 				
+				//pagination
+				totalCnt= inquiryService.getPageCnt(id, settedInterval, pr);
+				pr = new InqPageResolver(totalCnt, pageSize, page);
+				m.addAttribute("pr", pr);
+				m.addAttribute("totalCnt", totalCnt);
+				
+				System.out.println("오프셋 : " + pr.getOffset());
+				System.out.println("토탈: " +totalCnt);
+
 				return "member/inquiryHistory";
 
 			} catch (Exception e) {
@@ -239,16 +261,62 @@ public class MemberController {
 			return "member/inquiryHistory";
 		}
 
-	// 1:1 문의 작성 페이지
-	@RequestMapping("/mypage/inquiry/write")
-	public String inquiryWrite() {
-
+	// 1:1 문의글: 작성하기 
+	@GetMapping("/mypage/inquiry/write")
+	public String inquiryWrite(Model m) {
+		//글 작성하기 페이지에서는 "mode"를 "new"로 지정하여 전달
+		
 		return "member/inquiryWrite";
+	}
+	
+	// 1:1 문의글: 작성한 글 등록하기
+	@PostMapping("/mypage/inquiry/write")
+	public String inquiryWrite(InquiryDto inquiryDto, RedirectAttributes rattr, Model m, HttpSession session) {
+		System.out.println("post매핑 진입 확인");
+		String id = (String) session.getAttribute("id");
+		inquiryDto.setUser_id(id);
+		inquiryDto.setInq_date(new Date());
+		
+		try {
+			// 등록에 실패하면 예외처리
+			if (inquiryService.wirteInq(inquiryDto) !=1) {
+				throw new Exception("Write Failed");}
+				
+			rattr.addFlashAttribute("msg", "WRT_OK");
+			
+			return "redirect:/mypage/inquiry";	
+			
+		} catch (Exception e) { 
+			e.printStackTrace();
+			m.addAttribute("inquiryDto",inquiryDto);
+			m.addAttribute("msg", "WRT_ERR");
+			
+			return "member/inquiryWrite";
+		}
+		
+		
 	}
 
 	// 1:1 문의글 읽기 페이지
-	@RequestMapping("/mypage/inquiry/read")
-	public String inquiryRead() {
-		return "member/inquiryWrite";
+	@GetMapping("/mypage/inquiry/read")
+	public String inquiryRead(Integer inq_id, 
+			@RequestParam(defaultValue="1") Integer page, 
+			@RequestParam(defaultValue="6") Integer pageSize,Model m, HttpSession session
+			) {
+		try {
+			//id 와 inq_id로 문의글 내용 불러오기
+			String id = (String) session.getAttribute("id");
+			InquiryDto inquiryDto = inquiryService.read(id,inq_id);
+			
+			m.addAttribute(inquiryDto);
+			m.addAttribute("page", page);
+			m.addAttribute("pageSize", pageSize);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "redirect:/mypage/inquiry";
+		}
+		
+		return "member/inquiryRead";
 	}
 }

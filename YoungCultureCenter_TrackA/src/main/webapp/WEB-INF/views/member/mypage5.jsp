@@ -43,7 +43,7 @@
 							</colgroup>
 							<!-- 성명 -->
 							<tr>
-								<th scope="row">성명</th>
+								<th scope="row">이름</th>
 								<td>
 									<div class="col-md-5">
 										<input type="name" class="form-control" id="user_name" name="user_name" placeholder="이름을 입력해주세요." autofocus required>

@@ -1,6 +1,8 @@
 package com.youngtvjobs.ycc.member;
 
 import java.sql.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,18 +69,24 @@ public class MemberDaoImpl implements MemberDao{
 
 	//아이디 찾기
 	@Override
-	public String findId(String user_email) throws Exception {
+	public String findId(String user_email, String user_name) throws Exception {
+		Map map = new HashMap();
+		map.put("user_email", user_email);
+		map.put("user_name", user_name);
 		
-		return session.selectOne(namespace + "findId", user_email);
+		return session.selectOne(namespace + "findId", map);
 	}
 	
 	//패스워드 찾기
 	@Override
-	public String findPw(String user_id) throws Exception {
-		
-		return session.selectOne(namespace + "findPw", user_id);
+	public String findPw(String user_id, String user_name) throws Exception {
+		Map map = new HashMap();
+		map.put("user_id", user_id);
+		map.put("user_name", user_name);
+		return session.selectOne(namespace + "findPw", map);
 	}
 	
+	//패스워드 이메일로 발송
 	public String findPword(String user_email) throws Exception {
 		
 		return session.selectOne(namespace + "findPword", user_email);

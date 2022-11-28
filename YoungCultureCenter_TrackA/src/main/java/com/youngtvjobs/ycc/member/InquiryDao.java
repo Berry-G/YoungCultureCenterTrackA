@@ -7,11 +7,18 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InquiryDao {
-
-	List<InquiryDto> selectPageByInput(String id,Date startDate, Date endDate) throws Exception;
+	//기간 직접입력 조회
+	List<InquiryDto> selectPageByInput(String id,Date startDate, Date endDate, InqPageResolver pr) throws Exception;
+	int selectPageByInputCnt(String id,Date startDate, Date endDate,  InqPageResolver pr) throws Exception;
 	
-	List<InquiryDto> selectPage(String id, String settedInterval) throws Exception;
-
+	//설정된 기간(버튼) 조회
+	List<InquiryDto> selectPage(String id, String settedInterval, InqPageResolver pr) throws Exception;
+	int selectPageCnt(String id, String settedInterval, InqPageResolver pr) throws Exception;
 	
+	int insert(InquiryDto inquiryDto) throws Exception;
+	
+	InquiryDto select(String id, Integer inq_id);
+	
+
 
 }

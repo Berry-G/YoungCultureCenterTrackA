@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -21,12 +22,53 @@
       <!-- include header -->
 <%@include file="/WEB-INF/views/header.jsp"%>
 
+	<script type="text/javascript">
+		$(document).ready(function() {	
+			
+			let formCheck = function() {
+				let form = document.getElementById("form")
+				if(form.inq_cate.value==""){
+					alert("분류를 선택해 주세요.")
+					return false
+				}
+				if(form.inq_title.value=="") {
+					alert("제목을 입력해 주세요.")
+					form.inq_title.focus()
+					return false
+				}
+				if(form.inq_content.value=="		        ") {
+					alert("내용을 입력해 주세요.")
+					form.inq_content.focus()
+					return false
+				}	
+				return true;
+			}
+			
+			$("#writeBtn").on("click", function() {
+				let form = $("#form");
+				form.attr("action", "<c:url value ='/mypage/inquiry/write'/>")
+				form.attr("method", "post")
+				
+				if(formCheck())
+					form.submit()
+			})
+			
+
+		}) 
+	</script>
+
+	<script type="text/javascript">
+  		let msg = "${msg}"
+  	  	if(msg=="WRT_ERR") alert("문의글 등록에 실패하였습니다. 다시 시도해 주세요.")
+  	</script>
 
 	<!-- 1:1 문의 작성 폼  -->
    <div class="container mt-3">
     <h2>1:1 문의</h2>
     <hr>
   </div>
+  <form action="" method="post" id="form"> <!-- 비동기처리를 위해 action 속성은 비워둠 -->
+  <input type="hidden" name="inq_id">
     <div class="container border border-secondary rounded" >
      <br>
       *는 필수항목입니다.
@@ -36,83 +78,61 @@
               <p>문의 유형: * </p>
               <div class="row">
               <select
-                name="inq_type_main"
+                name="inq_cate"
                 class="form-select form-select-sm me-lg-1"
-                style="display: inline;width: 30%;margin-left: 1em;"
-                required>
-                <option value="">문의 유형</option>
-                <option value="Payment">결제</option>
-                <option value="Class">교육강좌</option>
-                <option value="Etc">기타</option>
+                style="display: inline;width: 30%;margin-left: 1em;">
+                <option value="">문의유형</option>
+                <option value="결제">결제</option>
+                <option value="교육강좌">교육강좌</option>
+                <option value="기타">기타</option>
               </select>
-<!--          	<select
-              name="inq_type_sub"
-              class="form-select form-select-sm"
-              style="display: inline;width: 30%;"
-              required>
-              <option value="">분류 선택</option>
-              <option value="Refund">결제 취소, 환불</option>
-              <option value="Application Inquiry">영수증 발급</option>
-              <option value="Ticket Inquiry">결제수단 변경</option>
-            </select> -->
               </div>
             </li>
             <hr>
             <li>
               <p>문의 내용: * </p>
               <input
+              name="inq_title"
               type="text"
               class="form-control mb-2"
               placeholder="제목을 입력해주세요"
-            /></li>
-            <li>
-<!--   썸머노트 스마트 에디터로 교체           
-
- <textarea
-          class="form-control"
-          aria-label="With textarea"
-          style="height: 400px; margin-bottom: 10px"
-          placeholder="내용을 입력하세요"
-        ></textarea> -->
-        
-        <textarea class="summernote" name="editordata" 
-        style="margin-bottom: 30px;">
-        </textarea>
-        <script>
-            $('.summernote').summernote({
-            	placeholder:"내용을 입력하세요",
-                height: 600,
-                lang: "ko-KR",
-                disableResizeEditor: true,	// 크기 조절 삭제
-                toolbar: [
-                    // [groupName, [list of button]]
-                    ['fontname', ['fontname']],
-                    ['fontsize', ['fontsize']],
-                    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
-                    ['color', ['forecolor','color']],
-                    ['table', ['table']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                    ['height', ['height']],
-                    ['insert',['picture','link','video']],
-                    ['view',['help']]
-                  ]
-
-            });
-        </script>
+            	/>
             </li>
             <li>
-              <div class="mb-3">
-                <label for="formFileMultiple" class="form-label">파일 첨부:</label>
-                <input class="form-control" type="file" id="formFileMultiple" multiple>
-              </div>
+				<!--text area :썸머노트 스마트 에디터로 교체-->
+		        <textarea class="summernote" name="inq_content" 
+		        style="margin-bottom: 30px;">
+		        </textarea>
+		        <script>
+		            $('.summernote').summernote({
+		            	placeholder:"내용을 입력하세요.",
+		                height: 600,
+		                lang: "ko-KR",
+		                disableResizeEditor: true,	// 크기 조절 삭제
+		                toolbar: [
+		                    // [groupName, [list of button]]
+		                    ['fontname', ['fontname']],
+		                    ['fontsize', ['fontsize']],
+		                    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+		                    ['color', ['forecolor','color']],
+		                    ['table', ['table']],
+		                    ['para', ['ul', 'ol', 'paragraph']],
+		                    ['height', ['height']],
+		                    ['insert',['picture','link','video']],
+		                    ['view',['help']]
+		                  ]
+		
+		            });
+		        </script>
             </li>
-            <li>
-              <button class="btn btn-primary" onclick="location.href='./history'">등록</button>
-            </li>
+	            <li>
+	              <!-- submit으로 넘어가지 않도록 button타입 지정 -->
+	              <button type="button" class="btn btn-primary mt-3" id="writeBtn">등록</button>
+	            </li>   
           </ul>
 
       </div>
-
+	</form>
 
 
 

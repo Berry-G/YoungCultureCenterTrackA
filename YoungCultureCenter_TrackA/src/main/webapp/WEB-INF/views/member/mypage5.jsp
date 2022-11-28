@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <!-- head & meta tag include -->
 <%@ include file="/WEB-INF/views/metahead.jsp"%>
 <title>아이디/비밀번호 찾기</title>
@@ -65,17 +66,17 @@
 									<div class="col-md-12">
 										<div class="row g-1">
 											<div class="col-md-4">
-												<input type="text" class="form-control" name="user_email" placeholder="abc123" aria-label="Username" required>
+												<input type="text" class="form-control" name="user_email" id="user_email" placeholder="abc123" aria-label="Username" required>
 											</div>
 											<div class="col-md-5">
 												<div class="input-group">
 													<span class="input-group-text">@</span>
 													<!-- <input id='name' onchange='printName()' /><div id='result'></div> -->
-													<select class="form-select form-select-sm" aria-label=".form-select-sm example" required>
+													<select class="form-select form-select-sm" id="detail_email" name="detail_email" aria-label=".form-select-sm example" required>
 														<option selected></option>
-														<option value="1">naver.com</option>
-														<option value="2">hanmail.net</option>
-														<option value="3">google.com</option>
+														<option value="naver.com">naver.com</option>
+														<option value="hanmail.net">hanmail.net</option>
+														<option value="gmail.com">gmail.com</option>
 													</select>
 													<!-- <input type="text" class="form-control" placeholder="example.com" aria-label="Server"> -->
 												</div>
@@ -104,7 +105,7 @@
 					<hr>
 					<div class="d-grid d-sm-block text-end">
 						<!-- Button trigger modal -->
-						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">아이디찾기</button>
+						<button type="button" id="findId" name="findId" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">아이디찾기</button>
 					</div>
 				</form>
 			</div>
@@ -147,8 +148,8 @@
 						<p>비밀번호 찾기를 누르시면 <span class="text-danger">아이디에 등록된 이메일</span>로 새	비밀번호 발급절차가 진행됩니다.</p>
 						<p>등록된 이메일 주소를 기억하지 못할 경우 관리자에게 연락 주십시오.</p>
 					</div>
-					<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">비밀번호찾기</button>
+					<div class="d-grid d-sm-block text-end">
+						<button type="button" class="btn btn-primary" id="findPw" name ="findPw" data-bs-toggle="modal" data-bs-target="#exampleModal2">비밀번호찾기</button>
 					</div>
 				</form>
 			</div>
@@ -159,15 +160,15 @@
 	<%@ include file="/WEB-INF/views/footer.jsp"%>
 	
 	<!-- 아이디찾기 Modal -->
-	<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+	<div class="modal fade" name="exampleModal1" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h1 class="modal-title fs-5" id="exampleModalLabel1">Modal title</h1>
+	        <h1 class="modal-title fs-5" id="exampleModalLabel1">아이디 찾기</h1>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	      </div>
 	      <div class="modal-body text-center">
-	        <p class="fs-5"><b>abcdef***</b></p>
+	        <input type="text" class="user_id" id="user_id" readonly="true"/>
 	       	<p>개인정보 보호를 위해 아이디의 일부만 노출됩니다.</p>
 	      </div>
 	      <div class="modal-footer">
@@ -196,5 +197,70 @@
 	    </div>
 	  </div>
 	</div>
+	
+<script>
+	//아이디 찾기(모달창에 정보 띄우기)
+	$("#findId").click(function() {
+		let a = $('#user_email').val()+'@'+$('#detail_email').val()
+		//아이디 찾기 이메일 데이터 넘기기 Todo 성명, 생년월일, 이메일, 성별 모두 넘기기 
+       	$.ajax({
+          type: 'post',
+          url: '/ycc/mypage/findId',
+          headers : {"content-type" : "application/json"},
+          data: JSON.stringify({user_email:a}),
+          dataType: 'text',
+          success: function(user_id) {
+        	if (user_id == ""){
+        		alert("이메일이 잘못 입력되었습다. 이메일을 다시 입력해주세요")
+        	}
+        	else{
+				let str_length = user_id.length		//str(admin)의 length를 받음 : 5글자
+				user_id = user_id.substr(0, (str_length/2))	//id값의 반만 보여줌 : admin : ad
+				user_id = user_id.padEnd(str_length,"*")	//없는 글자 이후(3,4) : in 부분을 **로 채움
+				$(".modal-body #user_id").val(user_id)	//모달창에 갑을 전달하는 함수
+        	}
+			},
+          error: function(){
+          	alert ("error")
+          	}
+          
+         })
+	})
+</script>
+<script>
+	//패스워드 찾기(모달창에 정보 띄우기)
+	$("#findPw").click(function() {
+		let a = $('#user_id').val()
+		alert("모달창 집입") 
+		//아이디 찾기 이메일 데이터 넘기기 Todo 성명, 생년월일, 이메일, 성별 모두 넘기기 
+        $.ajax({
+          type: 'POST',
+          url: '/ycc/mypage/findPw',
+          headers : { "content-type" : "application/json" },
+          data: JSON.stringify({user_id:a}), 
+          dataType: 'text',
+          success: function(user_email) {
+        	  $.ajax({
+    	          type: 'post',
+    	          url: '/ycc/signin/pwEmail',
+    	          headers : { "content-type" : "application/json" },
+    	          data: JSON.stringify({user_email:user_email}), 
+    	          dataType: 'text',
+    	          success: function(user_email) {
+    	        	  alert(a+": "+user_email)
+    	          },
+    	          error: function(){
+    	            alert ("정보를 다시 확인해주세요.")
+    	          }
+    	          
+    	         })
+          },
+          error: function(){
+            alert ("error"+"3")
+          }
+          
+         })
+	  })
+</script>
 </body>
 </html>

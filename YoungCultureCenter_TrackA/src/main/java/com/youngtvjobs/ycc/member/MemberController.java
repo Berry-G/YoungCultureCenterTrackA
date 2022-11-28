@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +88,14 @@ public class MemberController {
 		
 		return memberService.insertMember(memberdto.getUser_email());
 	}
+		
+	// 비밀번호 보내기
+	@PostMapping("/signin/pwEmail")
+	@ResponseBody
+	public String emailSendPw(@RequestBody MemberDto memberdto) throws Exception {
+		return memberService.pwSendEmail(memberdto.getUser_email());
+	}
+
 
 	// 마이페이지1 : 본인인증
 	@GetMapping("/mypage/pwcheck")
@@ -177,6 +186,20 @@ public class MemberController {
 		return "member/mypage5";
 	}
 
+	//아이디 찾기
+	@PostMapping("/mypage/findId")
+	@ResponseBody
+	public String findId(HttpServletResponse response, @RequestBody MemberDto memberDto) throws Exception{
+		
+		return memberService.findId(response, memberDto.getUser_email());
+	}
+	//패스워드 찾기
+	@PostMapping("/mypage/findPw")
+	@ResponseBody
+	public String findPw(HttpServletResponse response, @RequestBody MemberDto memberDto) throws Exception{
+		
+		return memberService.findPw(response, memberDto.getUser_id());
+	}
 
 	//1:1 문의
 	// 나의 문의 내역 - 기간별 조회

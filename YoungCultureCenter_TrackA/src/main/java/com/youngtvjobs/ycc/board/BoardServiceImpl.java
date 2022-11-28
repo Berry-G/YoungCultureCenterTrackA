@@ -59,14 +59,20 @@ public class BoardServiceImpl implements BoardService{
 	}
 	//이전글
 	@Override
-	public BoardDto preView(int article_id) throws Exception {
-		return boardDao.preView(article_id);
+	public BoardDto preView(int preView) throws Exception {
+		return boardDao.preView(preView);
 	}
 	//다음글
 	@Override
-	public BoardDto nextView(int article_id) throws Exception {
-		return boardDao.nextView(article_id);
+	public BoardDto nextView(int nextView) throws Exception {
+		return boardDao.nextView(nextView);
 	}
+
+	@Override
+	public int postDelete(Integer article_id) throws Exception {
+		return boardDao.postDelete(article_id);
+	}
+
 
 
 

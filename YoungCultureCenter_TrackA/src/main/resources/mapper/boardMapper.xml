@@ -69,21 +69,6 @@
 		limit #{pageSize} offset #{offset}		
 	</select>
 	
-	<!-- 이전글    -->
-	<select id="preView" parameterType="int" resultType="BoardDto">
-		select article_title,
-		lag(article_id) over (order by article_id) preView
-		from article
-	</select>
-	
-	<!-- 다음글 -->
-	<select id="nextView" parameterType="int" resultType="BoardDto">
-		select article_title,
-		lead (article_id) over (order by article_id) nextView
-		from article
-	</select>
-	
-	
 	<!-- 이벤트/행사 게시판 리스트 : article 테이블에 insert된 정보 중 이벤트/행사만 조회한 리스트 -->
 	<select id="eSelectPage" parameterType="map" resultType="BoardDto">
 		<include refid="selectFromBoard" />
@@ -110,6 +95,26 @@
 		limit #{pageSize} offset #{offset}		
 	</select>
 	
+	<!-- 이전글    -->
+	<select id="preView" parameterType="int" resultType="BoardDto">
+		select 
+		article_id ,article_title,
+		lag(article_id) over(order by article_id) as preView,
+		lag(article_title) over(order by article_title) as preTitle
+		from article
+		order by article_id desc limit 1
+	</select>
+	
+	<!-- 다음글 -->
+	<select id="nextView" parameterType="int" resultType="BoardDto">
+		select 
+		article_id, article_title,
+		lead(article_id) over(order by article_id) as nextView,
+		lead(article_title) over(order by article_title) as nextTitle
+		from article
+		order by article_id asc limit 1
+	</select>
+	
 	<!-- 조회수 증가 : 상세보기 클릭 시 article 테이블에 조회수 증가 update  -->
 	<update id="PlusViewCnt" parameterType="int">
 		update article 
@@ -117,4 +122,9 @@
 		where article_id = #{article_id}
 	</update>
 	
+	<!-- 게시글 삭제 -->
+	<delete id="postDelete" parameterType="int">
+		delete from article 
+		where article_id = #{article_id}
+	</delete>
 </mapper>

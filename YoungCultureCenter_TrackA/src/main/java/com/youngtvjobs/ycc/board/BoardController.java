@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 //게시판 컨트롤러
@@ -25,8 +26,6 @@ public class BoardController
 		super();
 		this.boardService = boardService;
 	}
-	
-
 	
 	//공지사항 게시판 
 	@GetMapping("/board/notice")
@@ -69,13 +68,18 @@ public class BoardController
 	
 		return "board/event";
 	}
+	
 	//게시글 상세 보기 
 	@GetMapping("/board/post")
-	public String postSelect(SearchItem sc, Integer article_id,  Model m) {
+	public String postSelect(SearchItem sc,
+			@RequestParam ("article_id") Integer article_id, Model m) {
 	
 		try {
 			BoardDto boardDto = boardService.postSelect(article_id);
+	
 			m.addAttribute("boardDto", boardDto);
+			m.addAttribute("preView", boardService.preView(boardDto.getPreView()));
+			System.out.println(String.valueOf(boardDto));
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -85,24 +89,15 @@ public class BoardController
 		
 		return "board/post";
 	}
+	
 	//게시글 작성 접속 
 	@GetMapping("/board/write")
 	public String write(BoardDto boardDto, Model model ,HttpServletRequest request) {
-		//로그인이 안되어있으면 로그인 페이지로 이동 
-		if(!loginCheck(request))
-			return "redirect:/login?toURL=" + request.getRequestURL();
-		//로그인 되어있으면 글 작성 페이지로 이동 
-		else 
+		
 			return "board/write";
 	}
 	
-	private boolean loginCheck(HttpServletRequest request) {
-		// session 얻어서 false는 session이 없어도 새로 생성하지 않음. 반환값 null
-		 HttpSession session = request.getSession(false);	
-		// session id가 있는지 확인, 있으면 true 반환 아이디에 대한 값이 있으니 로그인 페이지로 이동X
-		 return session != null && session.getAttribute("id") != null; 
-	
-	}
+
 	//게시글 작성 
 	@PostMapping("/board/write")
 	public String writePage(BoardDto boardDto, RedirectAttributes rttr, Model model,
@@ -113,11 +108,8 @@ public class BoardController
         	//boardDto에 user_id 설정
         	boardDto.setUser_id(user_id);
 		
-			
 			try {
 				boardService.writeInsert(boardDto);
-				rttr.addFlashAttribute("result", "write success");
-				
 				return "redirect:/board/notice";
 				
 			} catch (Exception e) {
@@ -127,7 +119,13 @@ public class BoardController
 		return "redirect:/board/notice";
 	}
 	
-
+	//게시글 삭제
+	@PostMapping("/board/delete")
+	public String postDelete() {
+			return "/board/notice";
+		
+	
+	}
 		
 	//게시글 수정
 	@RequestMapping("/board/edit")

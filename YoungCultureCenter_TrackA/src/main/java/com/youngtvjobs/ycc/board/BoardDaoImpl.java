@@ -1,6 +1,8 @@
 package com.youngtvjobs.ycc.board;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,18 +63,20 @@ public class BoardDaoImpl implements BoardDao{
 	}
 	//이전글
 	@Override
-	public BoardDto preView(int article_id) throws Exception {
-		return session.selectOne(namespace + "preView", article_id);
+	public BoardDto preView(int preView) throws Exception {
+		return session.selectOne(namespace + "preView", preView);
 	}
 	//다음글
 	@Override
-	public BoardDto nextView(int article_id) throws Exception {
-		return session.selectOne(namespace + "nextView", article_id);
+	public BoardDto nextView(int nextView) throws Exception {
+		return session.selectOne(namespace + "nextView", nextView);
+	}
+	//게시글 삭제 
+	@Override
+	public int postDelete(Integer article_id) throws Exception {
+		return session.delete(namespace + "postDelete", article_id);
 	}
 
 
-
-	
-	
 	
 }

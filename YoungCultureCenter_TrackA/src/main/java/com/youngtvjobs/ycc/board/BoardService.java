@@ -11,7 +11,7 @@ public interface BoardService {
 	//공지사항 게시판 리스트 
 	List<BoardDto> nSelectPage (SearchItem sc) throws Exception;
 	
-	//공지사항
+	//공지사항 총 게시물 개수
 	int nSearchResultCnt(SearchItem sc) throws Exception;
 	
 	//공지사항
@@ -20,7 +20,7 @@ public interface BoardService {
 	//이벤트-행사 게시판 리스트 
 	List<BoardDto> eSelectPage (SearchItem sc) throws Exception;
 	
-	//이벤트-행사
+	//이벤트-행사 총 게시물 개수
 	int eSearchResultCnt(SearchItem sc) throws Exception;
 	
 	//이벤트-행사
@@ -30,9 +30,11 @@ public interface BoardService {
 	BoardDto postSelect(Integer article_id) throws Exception;
 	
 	//이전글
-	BoardDto preView(int article_id) throws Exception;
+	BoardDto preView(int preView) throws Exception;
 	
 	//다음글
-	BoardDto nextView(int article_id) throws Exception;
+	BoardDto nextView(int nextView) throws Exception;
 	
+	//게시글 삭제 
+	int postDelete(Integer article_id) throws Exception;
 }

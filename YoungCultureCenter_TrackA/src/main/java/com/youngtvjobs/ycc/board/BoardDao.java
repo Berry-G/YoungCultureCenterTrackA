@@ -34,11 +34,14 @@ public interface BoardDao {
 	int PlusViewCnt(Integer article_id) throws Exception; 
 	
 	//이전글
-	BoardDto preView(int article_id) throws Exception;
+	BoardDto preView(int preView) throws Exception;
 	
-	//다음글
-	BoardDto nextView(int article_id) throws Exception;
-
+	//다음글 
+	BoardDto nextView(int nextView) throws Exception;
+	
+	//게시글 삭제 
+	int postDelete(Integer article_id) throws Exception;
+	
 	
 	
 }

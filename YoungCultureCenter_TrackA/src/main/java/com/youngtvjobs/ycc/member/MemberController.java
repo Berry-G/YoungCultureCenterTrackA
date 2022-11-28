@@ -97,6 +97,7 @@ public class MemberController {
 	}
 
 
+
 	// 마이페이지1 : 본인인증
 	@GetMapping("/mypage/pwcheck")
 	public String pwCheck(HttpSession session, HttpServletRequest request, String inputPassword) throws Exception {
@@ -191,15 +192,16 @@ public class MemberController {
 	@ResponseBody
 	public String findId(HttpServletResponse response, @RequestBody MemberDto memberDto) throws Exception{
 		
-		return memberService.findId(response, memberDto.getUser_email());
+		return memberService.findId(response, memberDto.getUser_email(), memberDto.getUser_name());
 	}
 	//패스워드 찾기
 	@PostMapping("/mypage/findPw")
 	@ResponseBody
 	public String findPw(HttpServletResponse response, @RequestBody MemberDto memberDto) throws Exception{
 		
-		return memberService.findPw(response, memberDto.getUser_id());
+		return memberService.findPw(response, memberDto.getUser_id(), memberDto.getUser_name());
 	}
+
 
 	//1:1 문의
 	// 나의 문의 내역 - 기간별 조회

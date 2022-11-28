@@ -57,21 +57,21 @@
   </delete>
   
 	<!-- 아이디 찾기 -->
-	<select id="findId" parameterType="String" resultType="String">
+	<select id="findId" parameterType="MemberDto" resultType="String">
 		select user_id from tb_user 
-		where user_email = #{user_email}
-	</select>
-	
-	<!-- 패스워드 찾기(이메일) -->
-	<select id="findPw" parameterType="String" resultType="String">
-		select user_email from tb_user 
-		where user_id = #{user_id}
+		where user_email = #{user_email} and user_name = #{user_name}
 	</select>
 	
 	<!-- 패스워드 찾기 -->
+	<select id="findPw" parameterType="MemberDto" resultType="String">
+		select user_email from tb_user 
+		where user_id = #{user_id} and user_name = #{user_name}
+	</select>
+	
+	<!-- 패스워드 찾기(이메일 발송) -->
 	<select id="findPword" parameterType="String" resultType="String">
 		select user_pw from tb_user 
-		where user_email = #{user_email}
+		where user_email = #{user_email} 
 	</select>
   
   </mapper>

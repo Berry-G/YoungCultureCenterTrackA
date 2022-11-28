@@ -47,9 +47,9 @@ public class MemberServiceImpl implements MemberService{
 	
 	//아이디 찾기
 	@Override
-	public String findId(HttpServletResponse response, String user_email) throws Exception {
+	public String findId(HttpServletResponse response, String user_email, String user_name) throws Exception {
 
-		String user_id = memberDao.findId(user_email);
+		String user_id = memberDao.findId(user_email, user_name);
 		
 		if (user_id == null) {
 			return null;
@@ -60,8 +60,9 @@ public class MemberServiceImpl implements MemberService{
 	
 	//패스워드 찾기
 	@Override
-	public String findPw(HttpServletResponse response, String user_id) throws Exception {
-		String user_email = memberDao.findPw(user_id);
+	public String findPw(HttpServletResponse response, String user_id, String user_name) throws Exception {
+		
+		String user_email = memberDao.findPw(user_id, user_name);
 		
 		if (user_email == null) {
 			return null;
@@ -83,7 +84,7 @@ public class MemberServiceImpl implements MemberService{
 					"<br>아래 인증번호를 인증번호 입력창에 입력해주세요." +
 					"<p><b>인증번호: "+ mail_key +"</b></p>";
 			
-			this.snedEmail(user_email, mail_title, mail_text);
+			this.sendEmail(user_email, mail_title, mail_text);
 			
 			
 			return mail_key;
@@ -92,21 +93,21 @@ public class MemberServiceImpl implements MemberService{
 	//패스워드 찾을때 이메일 발송 세팅
 	public String pwSendEmail(String user_email) throws Exception {
 		
-		//랜덤 문자열을 생성해서 mail_key 컬럼에 넣어주기
+		//랜덤 문자열을 생성해서 pw 컬럼에 넣어주기
 		String pw = memberDao.findPword(user_email);
 		
 		String email_title = "[Young문화체육센터 비밀번호 입니다.]";
 		String email_text = "<h1>Young문화체육센터 비밀번호 찾기</h1>" +
 				"<p><b>비밀 번호 : "+ pw +"</b></p>";
 		
-		this.snedEmail(user_email, email_title, email_text);
+		this.sendEmail(user_email, email_title, email_text);
 		
 		return user_email;
 		
 	}
 	
 	//이메일 발송 함수
-	public void snedEmail(String user_email, String email_title, String email_text) throws Exception {
+	public void sendEmail(String user_email, String email_title, String email_text) throws Exception {
 		//회원가입 완료하면 인증을 위한 이메일 발송
 		MailHandler sendMail = new MailHandler(mailSender);
 		sendMail.setSubject(email_title); 	//메일제목

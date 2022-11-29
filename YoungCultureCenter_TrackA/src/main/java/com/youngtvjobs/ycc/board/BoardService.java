@@ -9,29 +9,29 @@ public interface BoardService {
 	void writeInsert(BoardDto boardDto) throws Exception;
 	int remove(Integer article_id, String user_id) throws Exception;
 	
-	//공지사항 게시판 리스트 
+	//공지사항 : 게시글 리스트
 	List<BoardDto> nSelectPage (SearchItem sc) throws Exception;
 	
-	//공지사항 총 게시물 개수
+	//공지사항 : 검색 결과 개수 
 	int nSearchResultCnt(SearchItem sc) throws Exception;
 	
-	//공지사항
+	//공지사항 : 검색 결과 페이지 
 	List<BoardDto> nSearchSelectPage(SearchItem sc) throws Exception;
 	
-	//이벤트-행사 게시판 리스트 
+	//이벤트-행사 : 게시글 리스트
 	List<BoardDto> eSelectPage (SearchItem sc) throws Exception;
 	
-	//이벤트-행사 총 게시물 개수
+	//이벤트-행사 : 검색 결과 개수 
 	int eSearchResultCnt(SearchItem sc) throws Exception;
 	
-	//이벤트-행사
+	//이벤트-행사 : 검색 결과 페이지 
 	List<BoardDto> eSearchSelectPage(SearchItem sc) throws Exception;
 	
 	//상세보기 
 	BoardDto postSelect(Integer article_id) throws Exception;
 	
+	//상세보기 : 이전글, 다음글 
 	BoardDto movePage(Integer article_id) throws Exception;
-
 	
 
 

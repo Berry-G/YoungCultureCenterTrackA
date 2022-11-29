@@ -26,34 +26,33 @@ public class BoardServiceImpl implements BoardService{
 		return boardDao.delete(article_id, user_id);
 	}
 	
-	//공지사항 게시판 리스트 
-	@Override
-	public List<BoardDto> nSelectPage(SearchItem sc) throws Exception {
-		return boardDao.nSelectPage(sc);
-	}
+	//공지사항 : 게시글 리스트
+		@Override
+		public List<BoardDto> nSelectPage(SearchItem sc) throws Exception {
+			return boardDao.nSelectPage(sc);
+		}
 
-	//공지사항
+	//공지사항 : 검색 결과 개수 
 	@Override
 	public int nSearchResultCnt(SearchItem sc) throws Exception {
 		return boardDao.nSearchResultCnt(sc) ;
 	}
-	//공지사항 
+	//공지사항 : 검색 결과 페이지 
 	@Override
 	public List<BoardDto> nSearchSelectPage(SearchItem sc) throws Exception {
 		return boardDao.nSearchSelectPage(sc);
 	}
-	//이벤트-행사 게시판 리스트
+	//이벤트-행사 : 게시글 리스트
 	@Override
 	public List<BoardDto> eSelectPage(SearchItem sc) throws Exception {
 		return boardDao.eSearchSelectPage(sc);
 	}
-
-	//이벤트-행사
+	//이벤트-행사 : 검색 결과 개수 
 	@Override
 	public int eSearchResultCnt(SearchItem sc) throws Exception {
 		return boardDao.eSearchResultCnt(sc);
 	}
-	//이벤트-행사
+	//이벤트-행사 : 검색 결과 페이지
 	@Override
 	public List<BoardDto> eSearchSelectPage(SearchItem sc) throws Exception {
 		return boardDao.eSearchSelectPage(sc);
@@ -62,15 +61,15 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public BoardDto postSelect(Integer article_id) throws Exception {	
 		BoardDto boardDto = boardDao.postSelect(article_id);
+		//조회수 증가 로직 추가 
 		boardDao.PlusViewCnt(article_id);
 		return boardDto;
 	}
-
+	//상세보기 : 이전글, 다음글 
 	@Override
 	public BoardDto movePage(Integer article_id) throws Exception {
 		return boardDao.movePage(article_id);
 	}
-
 	
 
 	

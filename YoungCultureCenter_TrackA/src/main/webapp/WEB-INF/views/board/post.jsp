@@ -59,13 +59,29 @@
 				    			<tbody>
 				    				<tr>
 				    					<th scope="row" class="text-center" >이전글</th>
-				    					<td class="pre" id="preTitle" > ${preView.preTitle}
-		      							</td>
+				    						<td class="pre" id="preTitle"> 
+				    							<c:if test ="${preView.preId != 9999}">
+				    								<a style="text-decoration: none; color: black;"
+				    								 href="<c:url value="/board/post?article_id=${preView.preId  }"/>">	 
+				    								${preView.preTitle}</a>
+		      									</c:if>
+		      									<c:if test = "${preView.preId == 9999}">
+		      										<div class="fs-6">이전글이 없습니다.</div>
+		      									</c:if>
+		      								</td>
 				    				</tr>
 				    				<tr>
 				    					<th scope="row" class="text-center">다음글</th>
-				    					<td  class="next" id="nextView">${nextView.nextTitle}
-				    					</td>
+				    						<td  class="next" id="nextTitle">
+				    							<c:if test ="${nextView.nextId != 9999}" >
+				    								<a style="text-decoration: none; color: black;"
+				    								 href="<c:url value="/board/post?article_id=${nextView.nextId  }"/>">
+				    							 	${nextView.nextTitle}</a>
+				    							</c:if>
+				    							<c:if test ="${nextView.nextId == 9999}">
+				    								<div class="fs-6">다음글이 없습니다.</div>
+				    							</c:if>
+				    						</td>
 				    				</tr>
 				    			</tbody>
 			    		</table>

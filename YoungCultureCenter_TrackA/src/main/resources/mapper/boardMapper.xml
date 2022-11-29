@@ -31,9 +31,9 @@
 	<!-- 글쓰기 : article 테이블에 게시글 추가 -->
 	<insert id="writeInsert" parameterType="BoardDto">
 		INSERT INTO article
-			(article_date, article_board_type, user_id, article_title, article_contents, article_viewcnt)
+		(article_date, article_board_type, user_id, article_title, article_contents, article_viewcnt)
 		VALUES
-			(now(), 'N', #{user_id}, #{article_title}, #{article_contents}, #{article_viewcnt})
+		(now(), 'N', #{user_id}, #{article_title}, #{article_contents}, #{article_viewcnt})
 	</insert>
 	
 	<!-- 삭제하기 :  article 테이블에 게시글 삭제-->
@@ -92,6 +92,7 @@
 		and  true 
 		<include refid="searchCondition" />
 	</select>
+	
 	<!-- 이벤트/행사 : 검색 결과 페이지  -->
 	<select id="eSearchSelectPage" parameterType="SearchItem" resultType="BoardDto">
 		<include refid="selectFromBoard"></include>
@@ -102,6 +103,11 @@
 		limit #{pageSize} offset #{offset}		
 	</select>
 	
+<!-- 	게시글 상세보기 : 이전글, 다음글 _ title 클릭시 이전글, 다음글로 이동	 -->
+<!-- 	LEAD : 다음행, LAG : 이전행 -->
+<!-- 	([속성],[이동값],[이동후값이없을경우 넣을 값]) over(order by [속성]) as [지정해줄이름] -->
+<!--  	title클릭시 이동하기 때문에 article_id, article_title 속성을 지정해준 뒤  -->
+<!--  	primary key인 article_id로 title을 구해줌 : article_id만 parameter로 필요하기 때문에 Type 을 int로 설정   -->
 	<select id="movePage" parameterType="int" resultType="BoardDto">
 		select * from ( 
 		select article_id, article_title,
@@ -122,5 +128,4 @@
 		set article_viewcnt = article_viewcnt + 1
 		where article_id = #{article_id}
 	</update>
-	
 </mapper>

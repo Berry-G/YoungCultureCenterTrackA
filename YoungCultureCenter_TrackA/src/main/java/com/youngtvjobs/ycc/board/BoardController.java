@@ -49,7 +49,6 @@ public class BoardController
 		
 		return "board/notice";
 	}
-	
 	//이벤트 게시판 
 	@GetMapping("/event")
 	public String eventBoard(Model model, SearchItem sc) {
@@ -79,9 +78,12 @@ public class BoardController
 		try {
 			BoardDto boardDto = boardService.postSelect(article_id);
 			m.addAttribute("boardDto", boardDto);
-			//이전글, 다음글 
+			
+			//이전글: article_id를 boardService의 movePage를 model에 담음 
 			m.addAttribute("preView", boardService.movePage(article_id));
+			//다음글: article_id를 boardService의 movePage를 model에 담음
 			m.addAttribute("nextView", boardService.movePage(article_id));
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 			//예외 발생시 게시판 페이지로 이동 요청 
@@ -98,10 +100,11 @@ public class BoardController
 			return "board/write";
 	}
 	
+
 	//게시글 작성 
 	@PostMapping("/write")
-	public String writePage(BoardDto boardDto, RedirectAttributes rttr, Model model,
-			HttpSession session	) throws Exception {		
+	public String writePage(BoardDto boardDto, RedirectAttributes rttr, 
+			Model model, HttpSession session) throws Exception {		
 			
 			//session에 저장된 user_id를 저장 
         	String user_id = (String)session.getAttribute("id");

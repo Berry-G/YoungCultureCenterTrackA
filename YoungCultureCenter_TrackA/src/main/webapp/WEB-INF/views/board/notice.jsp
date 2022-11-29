@@ -16,7 +16,8 @@
 <div class="container pt-5">
   <h3>공지사항</h3>
   <!-- 게시판 테이블 -->
-		<table class="table table-group-divider mt-5" style="table-layout: fixed;">
+		
+		<table class="table table-group-divider mt-5" >
 			<colgroup>
 				<col width="50%">
 				<col width="15%">
@@ -44,8 +45,8 @@
 					<td class="viewcnt" style = text-align:center;>${boardDto.article_viewcnt }</td>
 				</tr>
 			</c:forEach>
-		</table>
-	
+		 </table>
+
 		<!-- 작성하기 버튼  -->
 		<!-- 관리자만 보이도록 구현하기 -->
 		<c:if test = "${sessionScope.id!=null}">
@@ -55,6 +56,7 @@
 		 	</div>
 		</div>
 		</c:if>
+		
 		<!-- 페이징 시작 -->
 		<div class="paging-container">
 			<ul class="pagination pt-3" style="justify-content: center;">

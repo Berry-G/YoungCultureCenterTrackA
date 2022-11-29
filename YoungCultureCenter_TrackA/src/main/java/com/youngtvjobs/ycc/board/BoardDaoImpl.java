@@ -61,22 +61,10 @@ public class BoardDaoImpl implements BoardDao{
 	public int PlusViewCnt(Integer article_id) throws Exception {
 		return session.update(namespace + "PlusViewCnt" , article_id);
 	}
-	//이전글
 	@Override
-	public BoardDto preView(int preView) throws Exception {
-		return session.selectOne(namespace + "preView", preView);
+	public BoardDto movePage(Integer article_id) throws Exception {
+		return session.selectOne(namespace + "movePage", article_id);
 	}
-	//다음글
-	@Override
-	public BoardDto nextView(int nextView) throws Exception {
-		return session.selectOne(namespace + "nextView", nextView);
-	}
-	//게시글 삭제 
-	@Override
-	public int postDelete(Integer article_id) throws Exception {
-		return session.delete(namespace + "postDelete", article_id);
-	}
-
-
+	
 	
 }

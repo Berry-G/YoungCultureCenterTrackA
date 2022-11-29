@@ -38,7 +38,7 @@ public class BoardController
 			//System.out.println(totalCnt);
 			PageResolver pageResolver = new PageResolver(totalCnt, sc);
 			
-			List<BoardDto> nList = boardService.nSelectPage(sc);
+			List<BoardDto> nList = boardService.nSearchSelectPage(sc);
 			model.addAttribute("nList", nList);
 			model.addAttribute("pr", pageResolver);
 			
@@ -58,7 +58,7 @@ public class BoardController
 			//System.out.println(totalCnt);
 			PageResolver pageResolver = new PageResolver(totalCnt, sc);
 			
-			List<BoardDto> eList = boardService.eSelectPage(sc);
+			List<BoardDto> eList = boardService.eSearchSelectPage(sc);
 			model.addAttribute("eList", eList);
 			model.addAttribute("pr", pageResolver);
 			
@@ -76,11 +76,10 @@ public class BoardController
 	
 		try {
 			BoardDto boardDto = boardService.postSelect(article_id);
-	
 			m.addAttribute("boardDto", boardDto);
-			m.addAttribute("preView", boardService.preView(boardDto.getPreView()));
-			System.out.println(String.valueOf(boardDto));
-			
+			//이전글, 다음글 
+			m.addAttribute("preView", boardService.movePage(article_id));
+			m.addAttribute("nextView", boardService.movePage(article_id));
 		} catch(Exception e) {
 			e.printStackTrace();
 			//예외 발생시 게시판 페이지로 이동 요청 

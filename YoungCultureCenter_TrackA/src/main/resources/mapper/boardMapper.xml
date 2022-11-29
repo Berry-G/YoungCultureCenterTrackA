@@ -51,7 +51,7 @@
 		limit #{pageSize} offset #{offset}		
 	</select>
 	
-	<!-- 공지사항  -->
+	<!-- 공지사항 : 검색 결과 개수   -->
 	<select id="nSearchResultCnt" parameterType="SearchItem" resultType="int">
 		select count(*) 
 		from article
@@ -59,7 +59,8 @@
 		and  true 
 		<include refid="searchCondition" />
 	</select>
-	<!-- 공지사항  -->
+	
+	<!-- 공지사항 : 검색 결과 페이지  -->
 	<select id="nSearchSelectPage" parameterType="SearchItem" resultType="BoardDto">
 		<include refid="selectFromBoard"></include>
 		where article_Board_type = 'N'
@@ -77,7 +78,7 @@
 		limit #{pageSize} offset #{offset}		
 	</select>
 	
-	<!-- 이벤트/행사 -->
+	<!-- 이벤트/행사 : 검색 결과 개수  -->
 	<select id="eSearchResultCnt" parameterType="SearchItem" resultType="int">
 		select count(*) 
 		from article
@@ -85,7 +86,7 @@
 		and  true 
 		<include refid="searchCondition" />
 	</select>
-	<!-- 이벤트/행사 -->
+	<!-- 이벤트/행사 : 검색 결과 페이지  -->
 	<select id="eSearchSelectPage" parameterType="SearchItem" resultType="BoardDto">
 		<include refid="selectFromBoard"></include>
 		where article_Board_type = 'E'
@@ -95,25 +96,19 @@
 		limit #{pageSize} offset #{offset}		
 	</select>
 	
-	<!-- 이전글    -->
-	<select id="preView" parameterType="int" resultType="BoardDto">
-		select 
-		article_id ,article_title,
-		lag(article_id) over(order by article_id) as preView,
-		lag(article_title) over(order by article_title) as preTitle
-		from article
-		order by article_id desc limit 1
+	<select id="movePage" parameterType="int" resultType="BoardDto">
+		select * from ( 
+		select article_id, article_title,
+		lead(article_id, 1, 9999) over(order by article_id) as nextId,
+		lead(article_title, 1, '다음글') over(order by article_id) as nextTitle,
+		lag(article_id, 1, 9999) over(order by article_id) as preId,
+		lag(article_title, 1, '이전글') over(order by article_id) as preTitle
+		from article 
+		) as f
+		where article_id = #{article_id}
+		order by article_id  desc;
 	</select>
 	
-	<!-- 다음글 -->
-	<select id="nextView" parameterType="int" resultType="BoardDto">
-		select 
-		article_id, article_title,
-		lead(article_id) over(order by article_id) as nextView,
-		lead(article_title) over(order by article_title) as nextTitle
-		from article
-		order by article_id asc limit 1
-	</select>
 	
 	<!-- 조회수 증가 : 상세보기 클릭 시 article 테이블에 조회수 증가 update  -->
 	<update id="PlusViewCnt" parameterType="int">
@@ -122,9 +117,4 @@
 		where article_id = #{article_id}
 	</update>
 	
-	<!-- 게시글 삭제 -->
-	<delete id="postDelete" parameterType="int">
-		delete from article 
-		where article_id = #{article_id}
-	</delete>
 </mapper>

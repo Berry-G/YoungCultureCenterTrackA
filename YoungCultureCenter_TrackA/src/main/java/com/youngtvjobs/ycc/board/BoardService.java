@@ -29,12 +29,7 @@ public interface BoardService {
 	//상세보기 
 	BoardDto postSelect(Integer article_id) throws Exception;
 	
-	//이전글
-	BoardDto preView(int preView) throws Exception;
-	
-	//다음글
-	BoardDto nextView(int nextView) throws Exception;
-	
-	//게시글 삭제 
-	int postDelete(Integer article_id) throws Exception;
+	BoardDto movePage(Integer article_id) throws Exception;
+
+
 }

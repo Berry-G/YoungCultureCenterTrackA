@@ -25,11 +25,16 @@
   		<!--container start-->
   		<form action='<c:url value="/board/write" />' name="writeForm" method="post">
   			<div class="container mt-5">
-    			<h3 class="posttitle pt-3">글 작성하기</h3>
-   				<br>
-   					<input type="text" class="form-control mb-3" id="title" name="article_title"
+    			<h3 class="posttitle pt-3">글쓰기</h3>
+   				<hr>
+	   				<select class="form-select mb-2"  id="article_Board_type" name="article_Board_type" style="width: 180px;">
+						  <option selected disabled="disabled">게시판 유형</option>
+						  <option value="N">공지사항</option>
+						  <option value="E">이벤트/행사</option>
+					</select>
+   					<input type="text" class="form-control mb-3" id="article_title" name="article_title"
    					 placeholder="제목을 입력해주세요" value="${boardDto.article_title }">
-    				<textarea class="summernote mb-3" id="contents" name="article_contents"  >
+    				<textarea class="summernote mb-3" id="article_contents" name="article_contents"  >
     				${boardDto.article_contents}</textarea>
     				
 				
@@ -45,13 +50,15 @@
   		</form>
 
   <script>
-  //summernot 
+
+   //summernot 
   $('.summernote').summernote({
       height: 400,
       lang: "ko-KR"
-
     });
   
+   
+   
   
   function regCheck() {
 	  	//title에 값이 없으면 alert창 띄우고 ,focus
@@ -71,6 +78,8 @@
 		}
 				
   }
+  </script>
+    <!-- footer inlcude -->
   </script>
     <!-- footer inlcude -->
 <%@include file="/WEB-INF/views/footer.jsp"%>

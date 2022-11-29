@@ -17,7 +17,7 @@
   <h3>공지사항</h3>
   <!-- 게시판 테이블 -->
 		
-		<table class="table table-group-divider mt-5" >
+		<table class="table table-group-divider table table-striped mt-5" >
 			<colgroup>
 				<col width="50%">
 				<col width="15%">
@@ -25,13 +25,14 @@
 				<col width="15%">
 			</colgroup>
 			<thead>
-		 		<tr>
+		 		<tr class="table-primary">
 				     <th scope="col" class="title" style="text-align: center;">제목</th>
-					 <th scope="col" class="writer" style="text-align: center;">작성자</th>
-					 <th scope="col" class="regdate" style="text-align: center;">작성일</th>
-					 <th scope="col" class="viewcnt" style="text-align: center;">조회수</th>
+					 <th scope="col" class="writer" style="text-align: center; ">작성자</th>
+					 <th scope="col" class="regdate" style="text-align: center; ">작성일</th>
+					 <th scope="col" class="viewcnt" style="text-align: center;  ">조회수</th>
 				</tr>
 			</thead>
+	
 	
 			<c:forEach var="boardDto" items="${nList }">
 				<tr>
@@ -113,7 +114,9 @@
  	<!-- 검색 끝 -->
 	</div>
   <!-- footer inlcude -->
+
+  
 <%@include file="/WEB-INF/views/footer.jsp"%>
- 
+ 	
 </body>
 </html>

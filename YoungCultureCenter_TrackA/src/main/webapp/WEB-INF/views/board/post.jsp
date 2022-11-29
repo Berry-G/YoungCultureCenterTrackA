@@ -19,10 +19,16 @@
 	<main class="mt-5 pt-5">
 			<div class="container px-4">
 				<!-- 제목 -->
-				<h2 class="writing-header">공지사항</h2>
+				<c:if test="${boardDto.article_Board_type == 'N'}">
+					<h2 class="writing-header mb-3">공지사항</h2>
+				</c:if>
+				<c:if test="${boardDto.article_Board_type == 'E'}">
+					<h2 class="writing-header mb-3">이벤트/행사</h2>
+				</c:if>
 				<form id="form" class="frm" action="" method="post">
 					<div class="card mb-4">
 	    				<div class="card-body">
+
     						<!-- 게시글 정보 -->
     						<input type="hidden" name="article_id" value="${boardDto.article_id }">
   							<h4 class="title" >${boardDto.article_title }</h4>
@@ -30,6 +36,7 @@
    								게시일 : <fmt:formatDate value="${boardDto.article_date }" pattern="yyyy-MM-dd" type="date"/> 
   								| 조회수 : ${boardDto.article_viewcnt }
  							</p>
+ 							<hr>
  							<!-- 내용 -->
   							<p class="content" >${boardDto.article_contents }</p>	    					
 	    				</div>
@@ -58,7 +65,7 @@
 							</colgroup>
 				    			<tbody>
 				    				<tr>
-				    					<th scope="row" class="text-center" >이전글</th>
+				    					<th scope="row" class="text-center table-primary"  >이전글</th>
 				    						<td class="pre" id="preTitle"> 
 				    							<c:if test ="${preView.preId != 9999}">
 				    								<a style="text-decoration: none; color: black;"
@@ -71,7 +78,7 @@
 		      								</td>
 				    				</tr>
 				    				<tr>
-				    					<th scope="row" class="text-center">다음글</th>
+				    					<th scope="row" class="text-center table-primary">다음글</th>
 				    						<td  class="next" id="nextTitle">
 				    							<c:if test ="${nextView.nextId != 9999}" >
 				    								<a style="text-decoration: none; color: black;"

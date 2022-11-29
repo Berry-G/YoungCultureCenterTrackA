@@ -113,11 +113,20 @@ public class BoardController
 		
 			try {
 				boardService.writeInsert(boardDto);
-				return "redirect:/board/notice";
-				
+				//boardDto에서 받은 board-type이 "N"이면 공지사항게시판에 insert
+				if(boardDto.getArticle_Board_type().equals("N") ) {
+					//insert 후 공지사항 게시판으로 보여줌
+					return "redirect:/board/notice";					
+				}
+				//boardDto에서 받은 board-type이 "E"이면 이벤트/행사 게시판에 insert
+				else if(boardDto.getArticle_Board_type().equals("E") ) {
+					//insert 후 이벤트 게시판으로 보여줌 
+					return "redirect:/board/event";
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		
 			
 		return "redirect:/board/notice";
 	}

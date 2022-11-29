@@ -76,8 +76,10 @@
 	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 	
 	<script>
-	$("#listBtn").on("click", function() {
-		location.href ="<c:url value='/mypage/inquiry'/>";
+	$(document).ready(function(){
+		$("#listBtn").on("click", function() {
+			location.href ="/mypage/inquiry?page=2&pageSize=6";
+		})
 	})
 	</script>
 	

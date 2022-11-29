@@ -5,8 +5,8 @@ import java.util.List;
 
 public interface InquiryService {
 	
-	List<InquiryDto> getPage(String id, String settedInterval,InqPageResolver pr) throws Exception;
-	int getPageCnt(String id, String settedInterval,InqPageResolver pr)throws Exception;
+	List<InquiryDto> getPage(String id, SearchByPeriod sp) throws Exception;
+	int getPageCnt(String id, SearchByPeriod sp)throws Exception;
 	
 	List<InquiryDto> getPageByInput(String id, Date startDate, Date endDate,InqPageResolver pr) throws Exception;
 	int getPageByInputCnt(String id, Date startDate, Date endDate,InqPageResolver pr) throws Exception;

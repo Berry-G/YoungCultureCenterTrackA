@@ -1,5 +1,6 @@
 package com.youngtvjobs.ycc.member;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,5 +21,7 @@ public interface MemberService {
 	//이메일 인증
 	String insertMember(String user_email) throws Exception;
 	String pwSendEmail(String user_id) throws Exception;
-	
+
 }
+
+

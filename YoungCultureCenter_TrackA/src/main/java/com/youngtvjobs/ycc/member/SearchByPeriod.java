@@ -69,8 +69,8 @@ public class SearchByPeriod {
 	public String getQueryString(Integer page) {
 		return UriComponentsBuilder.newInstance().queryParam("page", page).queryParam("pageSize", pageSize)
 				.queryParam("settedInterval", settedInterval)
-//				.queryParam("startDate", startDate)
-//				.queryParam("endDate", endDate)
+				.queryParam("startDate", startDate)
+				.queryParam("endDate", endDate)
 				.build().toString();
 	}
 

@@ -23,13 +23,13 @@ public class InquiryServiceImpl implements InquiryService{
 	}
 	//기간 직접입력 조회
 	@Override
-	public List<InquiryDto> getPageByInput(String id, Date startDate, Date endDate, InqPageResolver pr) throws Exception {
+	public List<InquiryDto> getPageByInput(String id, SearchByPeriod sp) throws Exception {
 
-		return inquiryDao.selectPageByInput(id, startDate, endDate, pr);
+		return inquiryDao.selectPageByInput(id, sp);
 	}
 	@Override
-	public int getPageByInputCnt(String id, Date startDate, Date endDate, InqPageResolver pr) throws Exception {
-		return inquiryDao.selectPageByInputCnt(id, startDate, endDate, pr);
+	public int getPageByInputCnt(String id, SearchByPeriod sp) throws Exception {
+		return inquiryDao.selectPageByInputCnt(id, sp);
 	}
 	//문의글 쓰기
 	@Override

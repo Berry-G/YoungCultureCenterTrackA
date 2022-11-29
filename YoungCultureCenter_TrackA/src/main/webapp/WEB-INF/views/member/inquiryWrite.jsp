@@ -69,68 +69,59 @@
   </div>
   <form action="" method="post" id="form"> <!-- 비동기처리를 위해 action 속성은 비워둠 -->
   <input type="hidden" name="inq_id">
-    <div class="container border border-secondary rounded" >
+    <div class="container border border-secondary rounded p-5" >
      <br>
       *는 필수항목입니다.
       <hr>
-          <ul style="list-style-type:none;">
-            <li>
-              <p>문의 유형: * </p>
-              <div class="row">
-              <select
-                name="inq_cate"
-                class="form-select form-select-sm me-lg-1"
-                style="display: inline;width: 30%;margin-left: 1em;">
-                <option value="">문의유형</option>
-                <option value="결제">결제</option>
-                <option value="교육강좌">교육강좌</option>
-                <option value="기타">기타</option>
-              </select>
-              </div>
-            </li>
-            <hr>
-            <li>
-              <p>문의 내용: * </p>
-              <input
-              name="inq_title"
-              type="text"
-              class="form-control mb-2"
-              placeholder="제목을 입력해주세요"
-            	/>
-            </li>
-            <li>
-				<!--text area :썸머노트 스마트 에디터로 교체-->
-		        <textarea class="summernote" name="inq_content" 
-		        style="margin-bottom: 30px;">
-		        </textarea>
-		        <script>
-		            $('.summernote').summernote({
-		            	placeholder:"내용을 입력하세요.",
-		                height: 600,
-		                lang: "ko-KR",
-		                disableResizeEditor: true,	// 크기 조절 삭제
-		                toolbar: [
-		                    // [groupName, [list of button]]
-		                    ['fontname', ['fontname']],
-		                    ['fontsize', ['fontsize']],
-		                    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
-		                    ['color', ['forecolor','color']],
-		                    ['table', ['table']],
-		                    ['para', ['ul', 'ol', 'paragraph']],
-		                    ['height', ['height']],
-		                    ['insert',['picture','link','video']],
-		                    ['view',['help']]
-		                  ]
-		
-		            });
-		        </script>
-            </li>
-	            <li>
-	              <!-- submit으로 넘어가지 않도록 button타입 지정 -->
-	              <button type="button" class="btn btn-primary mt-3" id="writeBtn">등록</button>
-	            </li>   
-          </ul>
+           <p>문의 유형: * </p>
+           <div class="row">
+           <select
+             name="inq_cate"
+             class="form-select form-select-sm me-lg-1"
+             style="display: inline;width: 30%;margin-left: 1em;">
+             <option value="">문의유형</option>
+             <option value="결제">결제</option>
+             <option value="교육강좌">교육강좌</option>
+             <option value="기타">기타</option>
+           </select>
+           </div>
+         <hr>
+           <p>문의 내용: * </p>
+           <input
+           name="inq_title"
+           type="text"
+           class="form-control mb-2"
+           placeholder="제목을 입력해주세요"
+         	/>
+	<!--text area :썸머노트 스마트 에디터로 교체-->
+       <textarea class="summernote" name="inq_content" 
+       style="margin-bottom: 30px;">
+       </textarea>
+       <script>
+           $('.summernote').summernote({
+           	placeholder:"내용을 입력하세요.",
+               height: 600,
+               lang: "ko-KR",
+               disableResizeEditor: true,	// 크기 조절 삭제
+               toolbar: [
+                   // [groupName, [list of button]]
+                   ['fontname', ['fontname']],
+                   ['fontsize', ['fontsize']],
+                   ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+                   ['color', ['forecolor','color']],
+                   ['table', ['table']],
+                   ['para', ['ul', 'ol', 'paragraph']],
+                   ['height', ['height']],
+                   ['insert',['picture','link','video']],
+                   ['view',['help']]
+                 ]
 
+           });
+       </script>
+           <!-- submit으로 넘어가지 않도록 button타입 지정 -->
+           <div class="d-flex justify-content-end">
+          	 <button type="button" class="btn btn-primary mt-3" id="writeBtn">등록</button>
+           </div>
       </div>
 	</form>
 

@@ -12,8 +12,8 @@ public interface InquiryDao {
 	int selectPageCnt(String id, SearchByPeriod sp) throws Exception;
 	
 	//기간 직접입력 조회
-	List<InquiryDto> selectPageByInput(String id,Date startDate, Date endDate, InqPageResolver pr) throws Exception;
-	int selectPageByInputCnt(String id,Date startDate, Date endDate,  InqPageResolver pr) throws Exception;
+	List<InquiryDto> selectPageByInput(String id,SearchByPeriod sp) throws Exception;
+	int selectPageByInputCnt(String id,SearchByPeriod sp) throws Exception;
 	
 	int insert(InquiryDto inquiryDto) throws Exception;
 	

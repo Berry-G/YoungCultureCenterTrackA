@@ -5,8 +5,9 @@ import java.util.Map;
 
 public interface BoardDao {
 	
-	//글쓰기
+	//CRUD(글쓰기, 읽기, 수정, 삭제)
 	void writeInsert(BoardDto boardDto)throws Exception ;
+	int delete(Integer article_id, String user_id) throws Exception;
 	
 	
 	//공지사항 게시글 리스트
@@ -34,6 +35,9 @@ public interface BoardDao {
 	int PlusViewCnt(Integer article_id) throws Exception; 
 	
 	BoardDto movePage(Integer article_id) throws Exception;
+
+
+	
 
 
 	

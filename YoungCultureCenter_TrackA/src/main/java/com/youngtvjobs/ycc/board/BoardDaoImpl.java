@@ -20,6 +20,17 @@ public class BoardDaoImpl implements BoardDao{
 	public void writeInsert(BoardDto boardDto) throws Exception {
 		session.insert(namespace + "writeInsert", boardDto);
 	}
+	
+	//삭제하기
+	@Override
+	public int delete(Integer article_id, String user_id) throws Exception {
+		Map map = new HashMap();
+		map.put("article_id", article_id);
+		map.put("user_id", user_id);
+		
+		return session.delete(namespace+"delete", map);
+	}
+	
 	//공지사항 게시글 리스트
 	@Override
 	public List<BoardDto> nSelectPage(SearchItem sc) throws Exception {
@@ -65,6 +76,7 @@ public class BoardDaoImpl implements BoardDao{
 	public BoardDto movePage(Integer article_id) throws Exception {
 		return session.selectOne(namespace + "movePage", article_id);
 	}
+	
 	
 	
 }

@@ -19,6 +19,13 @@ public class BoardServiceImpl implements BoardService{
 		
 	}
 	
+	//삭제하기
+	@Override
+	public int remove(Integer article_id, String user_id) throws Exception {
+		
+		return boardDao.delete(article_id, user_id);
+	}
+	
 	//공지사항 게시판 리스트 
 	@Override
 	public List<BoardDto> nSelectPage(SearchItem sc) throws Exception {
@@ -63,6 +70,8 @@ public class BoardServiceImpl implements BoardService{
 	public BoardDto movePage(Integer article_id) throws Exception {
 		return boardDao.movePage(article_id);
 	}
+
+	
 
 	
 

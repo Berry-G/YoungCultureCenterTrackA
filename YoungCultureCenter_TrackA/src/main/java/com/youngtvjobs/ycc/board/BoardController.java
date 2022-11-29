@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 //게시판 컨트롤러
 @Controller
+@RequestMapping("/board")
 public class BoardController
 {
 	
@@ -23,12 +24,12 @@ public class BoardController
 	
 	@Autowired
 	public BoardController(BoardService boardService) {
-		super();
+		//super();
 		this.boardService = boardService;
 	}
 	
 	//공지사항 게시판 
-	@GetMapping("/board/notice")
+	@GetMapping("/notice")
 	public String noticeBoard(Model model, SearchItem sc) {
 		
 		try {
@@ -48,8 +49,9 @@ public class BoardController
 		
 		return "board/notice";
 	}
+	
 	//이벤트 게시판 
-	@GetMapping("/board/event")
+	@GetMapping("/event")
 	public String eventBoard(Model model, SearchItem sc) {
 		
 		try {
@@ -70,7 +72,7 @@ public class BoardController
 	}
 	
 	//게시글 상세 보기 
-	@GetMapping("/board/post")
+	@GetMapping("/post")
 	public String postSelect(SearchItem sc,
 			@RequestParam ("article_id") Integer article_id, Model m) {
 	
@@ -90,15 +92,14 @@ public class BoardController
 	}
 	
 	//게시글 작성 접속 
-	@GetMapping("/board/write")
+	@GetMapping("/write")
 	public String write(BoardDto boardDto, Model model ,HttpServletRequest request) {
 		
 			return "board/write";
 	}
 	
-
 	//게시글 작성 
-	@PostMapping("/board/write")
+	@PostMapping("/write")
 	public String writePage(BoardDto boardDto, RedirectAttributes rttr, Model model,
 			HttpSession session	) throws Exception {		
 			
@@ -119,15 +120,33 @@ public class BoardController
 	}
 	
 	//게시글 삭제
-	@PostMapping("/board/delete")
-	public String postDelete() {
-			return "/board/notice";
+	@PostMapping("/remove")
+	public String remove(Integer article_id, Integer page, Integer pageSize, 
+						RedirectAttributes rattr, HttpSession session) {
+		String user_id = (String) session.getAttribute("id");
+		String msg = "DEL_OK";
 		
-	
+		System.out.println(article_id);
+		try {
+			if(boardService.remove(article_id, user_id) != 1)
+				throw new Exception("Delete failed.");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			msg = "DEL_ERR";
+		}
+		
+		//삭제 후 메시지가 한번만 나와야 함. Model이 아닌 RedirectAttributes에 저장하면 메시지가 한번만 나옴.
+		//addFlashAttribute() : 한번 저장하고 없어지는 것임. 세션에 잠깐 저장했다가 한번 쓰고 지워버림. 세션에도 부담이 덜함.
+		rattr.addAttribute("page", page);
+		rattr.addAttribute("pageSize", pageSize);
+		rattr.addFlashAttribute("msg", msg);
+		
+		return "redirect:/board/notice";
 	}
 		
 	//게시글 수정
-	@RequestMapping("/board/edit")
+	@GetMapping("/edit")
 	public String postEdit()
 	{
 		return "board/edit";
@@ -135,7 +154,7 @@ public class BoardController
 
 	
 	//자주 묻는 질문(FAQ)
-	@RequestMapping("/board/faq")
+	@GetMapping("/faq")
 	public String faq() {
 		return "board/faq";
 	}

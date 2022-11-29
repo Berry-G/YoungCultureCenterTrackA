@@ -23,6 +23,17 @@
     
     </head>
   <body>
+  	<script type='text/javascript'>
+
+	 $(document).ready(function() { 
+	   $('input[name=settedInterval]').change(function(){
+	        $('form').submit();
+	   });
+	  });
+	
+	</script>
+  
+  
       <!-- include header -->
 	<%@include file="/WEB-INF/views/header.jsp"%>
 
@@ -34,36 +45,45 @@
 	      <div class="container p-3 text-center mb-3" style="background-color: #b0daeb;">
 	        <h4 class="mb-3">기간별 조회</h4>
 	        <div class="row">
-	          <div class="col-md-3 mb-3">
-	            <button type="submit" class="btn btn-light" name="settedInterval" value="3month">3개월</button>
-	            <button type="submit" class="btn btn-light" name="settedInterval" value="6month">6개월</button>
-	          </div>
-	          <div class="col-md-7 mb-3">
-	            <div class="row">
-	              <input
-	              class="form-control-md col-5 fs-5"
-	              type="date"
-	              name="startDate"
-	              id="startDate"
-	            />
-	            <label class="col-2 fs-4">~</label>
-	            <input
-	              class="form-control-md col-5 fs-5"
-	              type="date"
-	              name="endDate"
-	              id="endDate"
-	            />
+	          <div class="mb-3 ">
+				  <input class="form-check-input " type="radio" name="settedInterval" value="3month" id="3개월" 
+				  ${pr.sp.settedInterval == '3month'? "checked" : "" } hidden>
+				  <label class="form-check-label btn btn-light" for="3개월">
+				    3개월
+				  </label>
+				  <input class="form-check-input" type="radio" name="settedInterval" value="6month" id="6개월" 
+				  ${pr.sp.settedInterval == '6month'? "checked" : "" } hidden>
+				  <label class="form-check-label btn btn-light " for="6개월">
+				    6개월
+				  </label>
+				</div>
+				<div class="row">
+		          <div class="col-md-7 mb-3">
+		              <input
+		              class="form-control-md col-5 fs-5"
+		              type="date"
+		              name="startDate"
+		              id="startDate"
+		            />
+		            <label class="col-2 fs-4">~</label>
+		            <input
+		              class="form-control-md col-5 fs-5"
+		              type="date"
+		              name="endDate"
+		              id="endDate"
+		            />
+		            </div>
 	            </div>
 	
-	          </div>
+
 	          <div class="col-md-2 mb-3">
 	            <button type="submit" class="btn btn-primary" id="periodBtn">조회</button>
 	          </div>
+			</div>
 	        </div>
 
 	      	${startDate != null? "조회기간 : " : ""}${startDate}${startDate != null? " ~ " : ""} 
 	      	${endDate != null? endDate : ""}
-	      </div>
       </form>
 
 
@@ -93,6 +113,7 @@
 
       <button class="btn btn-primary mt-3 mb-3" onclick="location.href='./inquiry/write'">글쓰기</button>
 
+    <!-- 페이지 네비게이션 -->
     </div>
    		<nav aria-label="Page navigation example">
 			<c:if test="${totalCnt == null || totalCnt == 0}">
@@ -101,13 +122,13 @@
 			<c:if test="${totalCnt != null && totalCnt != 0}">
 				<ul class="pagination justify-content-center">
 					<c:if test="${pr.showPrev }">
-						<li class="page-item"><a class="page-link" href="<c:url value="/mypage/inquiry${pr.getQueryString(pr.beginPage-1) }" />"> &lt; </a></li>
+						<li class="page-item"><a class="page-link" href="<c:url value="/mypage/inquiry${pr.sp.getQueryString(pr.beginPage-1) }" />"> &lt; </a></li>
 					</c:if>
 					<c:forEach var="i" begin="${pr.beginPage }" end="${pr.endPage }">
-						<a class="page-link ${pr.page==i?'active':'' }" href="<c:url value="/mypage/inquiry${pr.getQueryString(i) }" />">${i }</a>
+						<a class="page-link ${pr.sp.getPage()==i?'active':'' }" href="<c:url value="/mypage/inquiry${pr.sp.getQueryString(i ) }" />">${i }</a>
 					</c:forEach>
 					<c:if test="${pr.showNext }">
-						<li class="page-item"><a class="page-link" href="<c:url value="/mypage/inquiry${pr.getQueryString(pr.endPage+1) }" />"> &raquo; </a></li>
+						<li class="page-item"><a class="page-link" href="<c:url value="/mypage/inquiry${pr.sp.getQueryString(pr.endPage+1) }" />"> &raquo; </a></li>
 					</c:if>
 				</ul>
 			</c:if>

@@ -13,14 +13,13 @@ public class InquiryServiceImpl implements InquiryService{
 	InquiryDao inquiryDao;
 	//설정된 기간(버튼) 조회
 	@Override
-	public List<InquiryDto> getPage(String id, String settedInterval ,InqPageResolver pr) throws Exception {
+	public List<InquiryDto> getPage(String id, SearchByPeriod sp) throws Exception {
 
-		return inquiryDao.selectPage(id,settedInterval,pr);
+		return inquiryDao.selectPage(id, sp);
 	}
 	@Override
-	public int getPageCnt(String id, String settedInterval, InqPageResolver pr) throws Exception {
-		System.out.println("service오프셋 : " + pr.getOffset());
-		return inquiryDao.selectPageCnt(id, settedInterval,pr);
+	public int getPageCnt(String id, SearchByPeriod sp) throws Exception {
+		return inquiryDao.selectPageCnt(id, sp);
 	}
 	//기간 직접입력 조회
 	@Override

@@ -41,7 +41,7 @@
     <!-- 직접 입력된 기간 조회 -->
     <sql id="startTOEnd">
 	    and 
-	  	inq_date between #{startDate} and #{endDate}
+	  	inq_date between #{startDate}::Date and #{endDate}::Date
     </sql>
     
   <select id ="selectPageByInput" parameterType="map" resultType="InquiryDto">

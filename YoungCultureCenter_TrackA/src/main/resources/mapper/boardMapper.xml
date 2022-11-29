@@ -31,10 +31,16 @@
 	<!-- 글쓰기 : article 테이블에 게시글 추가 -->
 	<insert id="writeInsert" parameterType="BoardDto">
 		INSERT INTO article
-			(article_date, article_board_type, user_id, article_title, article_contents,article_viewcnt)
+			(article_date, article_board_type, user_id, article_title, article_contents, article_viewcnt)
 		VALUES
 			(now(), 'N', #{user_id}, #{article_title}, #{article_contents}, #{article_viewcnt})
 	</insert>
+	
+	<!-- 삭제하기 :  article 테이블에 게시글 삭제-->
+	<delete id="delete" parameterType="map">
+		delete from article 
+		where article_id = #{article_id} and user_id = #{user_id}	
+	</delete>
 	
 	
 	<!-- 상세보기 : article 테이블에 select하여 게시글 상세보기  -->

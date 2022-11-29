@@ -5,8 +5,9 @@ import java.util.Map;
 
 public interface BoardService {
 	
-	//글쓰기
+	//CRUD(글쓰기, 읽기, 수정, 삭제)
 	void writeInsert(BoardDto boardDto) throws Exception;
+	int remove(Integer article_id, String user_id) throws Exception;
 	
 	//공지사항 게시판 리스트 
 	List<BoardDto> nSelectPage (SearchItem sc) throws Exception;
@@ -30,6 +31,8 @@ public interface BoardService {
 	BoardDto postSelect(Integer article_id) throws Exception;
 	
 	BoardDto movePage(Integer article_id) throws Exception;
+
+	
 
 
 }

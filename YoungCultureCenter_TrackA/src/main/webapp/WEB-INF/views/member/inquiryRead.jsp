@@ -16,7 +16,7 @@
 
 	<div class="container mt-5">
 		<h2>1:1 문의</h2>
-		<table class="table table-group-divider text-center">
+		<table class="table table-group-divider">
 			<tbody>
 			<colgroup><col width="15%" class="bg-light" id="w-28"></colgroup>
 			<!-- 문의유형 -->
@@ -37,9 +37,7 @@
 			<tr>
 				<th class="col" >문의내용</th>
 					<td height="400" style="word-break:break-all">
-						<div class="form-control-plaintext word-wrap"id="inq_content" name="inq_content" 
-						style="display:flex;"
-						readonly>
+						<div name="inq_content">
 							${inquiryDto.inq_content}
 						</div>
 					</td>
@@ -63,7 +61,10 @@
 			</tr>
 			</tbody>
 		</table>
+		<div class="d-flex justify-content-center">
+		<button type="button" class="btn btn-outline-primary mr-2" onClick="location.href='javascript:history.back()'">이전</button>
 		<button type="button" class="btn btn-primary" id="listBtn">목록</button>
+		</div>
 	</div>
 	
 	  

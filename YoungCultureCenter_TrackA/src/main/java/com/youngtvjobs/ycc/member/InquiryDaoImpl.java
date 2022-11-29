@@ -38,23 +38,22 @@ public class InquiryDaoImpl implements InquiryDao{
 	
 	//기간 직접입력 조회
 	@Override
-	public List<InquiryDto> selectPageByInput(String id, Date startDate, Date endDate, InqPageResolver pr) throws Exception {
+	public List<InquiryDto> selectPageByInput(String id, SearchByPeriod sp) throws Exception {
 		Map map = new HashMap();
 		map.put("id", id);
-		map.put("startDate", startDate);
-		map.put("endDate", endDate);
-//		map.put("pageSize", pr.getPageSize());
-//		map.put("offset",pr.getOffset());
+		map.put("startDate", sp.getStartDate());
+		map.put("endDate", sp.getEndDate());
+		map.put("pageSize", sp.getPageSize());
+		map.put("offset",sp.getOffset());
 		return session.selectList(namespace+"selectPageByInput", map);
 	}
 
 	@Override
-	public int selectPageByInputCnt(String id, Date startDate, Date endDate, InqPageResolver pr) throws Exception {
+	public int selectPageByInputCnt(String id, SearchByPeriod sp) throws Exception {
 		Map map = new HashMap();
 		map.put("id", id);
-		map.put("startDate", startDate);
-		map.put("endDate", endDate);
-//		map.put("pageSize", pr.getPageSize());
+		map.put("startDate", sp.getStartDate());
+		map.put("endDate", sp.getEndDate());
 		return session.selectOne(namespace +"selectPageByInputCnt", map);
 	}
 	

@@ -249,22 +249,18 @@ public class MemberController {
 				}
 				//조회기간을 직접 설정해 주었을 때 동작
 				else if (startDate != null && endDate != null &&!startDate.equals("") && !endDate.equals("")) {
-
-//					//String으로 받은 날짜를 Date로 형변환
-//					Date sd =YccMethod.str_toDate(startDate);
-//					Date ed = YccMethod.str_toDate(endDate);
-//					
-//					List<InquiryDto> inqList = inquiryService.getPageByInput(id, sd, ed, pr);
-//					
-//					m.addAttribute("inqList", inqList);
-//					m.addAttribute("startDate",startDate);
-//					m.addAttribute("endDate",endDate);
-//					
-//					//pagination
-//					totalCnt= inquiryService.getPageByInputCnt(id, sd, ed, pr);
-//					pr = new InqPageResolver(sp, totalCnt);
-//					m.addAttribute("pr", pr);
-//					m.addAttribute("totalCnt", totalCnt);
+					//list
+					List<InquiryDto> inqList = inquiryService.getPageByInput(id, sp);
+					
+					m.addAttribute("inqList", inqList);
+					m.addAttribute("startDate",sp.getStartDate());
+					m.addAttribute("endDate",sp.getEndDate());
+					
+					//pagination
+					totalCnt= inquiryService.getPageByInputCnt(id, sp);
+					pr = new InqPageResolver(sp, totalCnt);
+					m.addAttribute("pr", pr);
+					m.addAttribute("totalCnt", totalCnt);
 					
 					return "member/inquiryHistory";
 				}

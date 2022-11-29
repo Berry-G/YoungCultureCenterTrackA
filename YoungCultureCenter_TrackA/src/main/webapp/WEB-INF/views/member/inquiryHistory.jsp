@@ -38,14 +38,14 @@
 	<%@include file="/WEB-INF/views/header.jsp"%>
 
     <div class="container mt-3">
-    <h2>나의 문의 내역</h2>
+    <h2><a class="text-decoration-none" style="color:black;" href="<c:url value='/mypage/inquiry'/>">나의 문의 내역</a></h2>
   </div>
       <!-- 기간별 조회 박스 -->
       <form action="<c:url value='/mypage/inquiry'/>" method="get" id="frm">
-	      <div class="container p-3 text-center mb-3" style="background-color: #b0daeb;">
+	      <div class="container p-4" style="background-color: #b0daeb;">
 	        <h4 class="mb-3">기간별 조회</h4>
 	        <div class="row">
-	          <div class="mb-3 ">
+	          <div class="col-md-3 mb-3 ">
 				  <input class="form-check-input " type="radio" name="settedInterval" value="3month" id="3개월" 
 				  ${pr.sp.settedInterval == '3month'? "checked" : "" } hidden>
 				  <label class="form-check-label btn btn-light" for="3개월">
@@ -56,34 +56,30 @@
 				  <label class="form-check-label btn btn-light " for="6개월">
 				    6개월
 				  </label>
-				</div>
-				<div class="row">
-		          <div class="col-md-7 mb-3">
-		              <input
-		              class="form-control-md col-5 fs-5"
+			  </div>  
+		      <div class="col-md-7 mb-3">
+		            <input
+		              class="form-control-md col-5 fs-5 d-inline"
 		              type="date"
 		              name="startDate"
 		              id="startDate"
 		            />
-		            <label class="col-2 fs-4">~</label>
+		            <label>~</label>
 		            <input
-		              class="form-control-md col-5 fs-5"
+		              class="form-control-md col-5 fs-5 d-inline"
 		              type="date"
 		              name="endDate"
 		              id="endDate"
 		            />
-		            </div>
-	            </div>
-	
-
+		      </div>
 	          <div class="col-md-2 mb-3">
-	            <button type="submit" class="btn btn-primary" id="periodBtn">조회</button>
+	          		<button type="submit" class="btn btn-primary" id="periodBtn">조회</button>
 	          </div>
-			</div>
-	        </div>
-
-	      	${startDate != null? "조회기간 : " : ""}${startDate}${startDate != null? " ~ " : ""} 
-	      	${endDate != null? endDate : ""}
+	            ${startDate != null? "조회기간 : " : ""}${startDate}${startDate != null? " ~ " : ""} 
+	      		${endDate != null? endDate : ""}
+          	</div>
+          </div>
+			
       </form>
 
 
@@ -110,11 +106,14 @@
       </c:forEach>
         </tbody>
       </table>
-
-      <button class="btn btn-primary mt-3 mb-3" onclick="location.href='./inquiry/write'">글쓰기</button>
-
-    <!-- 페이지 네비게이션 -->
+      <div class="d-flex justify-content-end">
+      	<button class="btn btn-primary mt-3 mb-3" 
+      	onclick="location.href='./inquiry/write'" style="">글쓰기</button>
+      </div>
     </div>
+    
+    <!-- 페이지 네비게이션 -->
+
    		<nav aria-label="Page navigation example">
 			<c:if test="${totalCnt == null || totalCnt == 0}">
 				<div class="text-center mb-5">등록된 문의가 없습니다.</div>

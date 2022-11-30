@@ -19,6 +19,20 @@ public class BoardServiceImpl implements BoardService{
 		
 	}
 	
+	//수정하기 : 데이터 가져오기
+	@Override
+	public BoardDto getArticleEdit(Integer article_id) throws Exception {
+		
+		return boardDao.articleEdit(article_id);
+	}
+	
+	//수정하기 : 등록하기 버튼
+	@Override
+	public void modify(BoardDto boardDto) throws Exception {
+		
+		boardDao.update(boardDto);
+	}
+	
 	//삭제하기
 	@Override
 	public int remove(Integer article_id, String user_id) throws Exception {

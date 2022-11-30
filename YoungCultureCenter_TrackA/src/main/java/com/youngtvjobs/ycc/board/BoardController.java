@@ -156,12 +156,46 @@ public class BoardController
 		
 		return "redirect:/board/notice";
 	}
-		
-	//게시글 수정
+	
+	//게시글 수정페이지로 이동
 	@GetMapping("/edit")
-	public String postEdit()
-	{
-		return "board/edit";
+	public String getArticleEdit(Integer article_id, Model m) {
+		//boardMapper.xml에 select값을 가져오는 로직 --> 질문하기
+		try {
+			BoardDto boardDto = boardService.getArticleEdit(article_id);
+			m.addAttribute("boardDto", boardDto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	 return "/board/edit";
+	}
+	
+	//게시글 수정
+	@PostMapping("/edit1")
+	public String modify(BoardDto boardDto, Integer page, Integer pageSize, 
+						RedirectAttributes rattr, Model m, HttpSession session) {
+		
+		String user_id = (String) session.getAttribute("id");
+		boardDto.setUser_id(user_id);
+		
+		String msg = "MOD_OK";
+
+		
+		//등록버튼 누를 시 수정됨
+		try {
+			boardService.modify(boardDto);
+			//if(boardService.modify(boardDto) != 1)
+			//	throw new Exception("Modify failed");
+
+			m.addAttribute("boardDto", boardDto);
+			rattr.addAttribute("page", page);
+			rattr.addAttribute("pageSize", pageSize);
+			rattr.addFlashAttribute("msg", msg);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "redirect:/board/notice";
 	}
 
 	

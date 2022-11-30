@@ -14,4 +14,17 @@
 <link href="/ycc/resources/css/bootstrap.min.css" rel="stylesheet" type="text/css" >
 <script src="/ycc/resources/js/bootstrap.min.js"></script>
 <script src="/ycc/resources/js/bootstrap.bundle.min.js"></script>
+
+<style>
+
+.hover-timer:hover span{
+  display: none;
+}
+
+.hover-timer:hover p:after {
+  content:'연장';
+}
+
+
+}</style>
 <!-- metahead end -->

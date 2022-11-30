@@ -67,6 +67,14 @@
 	          </ul>
 	        </li>
 	      </ul>
+
+	      <!-- 로그인 세션 타임아웃 -->
+		<div class="navbar-collapse nav justify-content-center">       
+             <script type="text/javascript" charset="utf-8" src="/ycc/resources/js/timeoutchk.js"></script>
+              <button class="btn btn-outline-primary border-2 hover-timer"  onclick="javascript:refreshTimer()"><span id="timer"></span><p></p></button>
+		</div>
+      
+	      
 	     
 	      <!-- 로그인시 아이디 표시, 드롭다운 -->
 			<div class="dropdown ms-auto ${loginvis}">

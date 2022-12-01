@@ -7,7 +7,7 @@ public interface BoardDao {
 	
 	//CRUD(글쓰기, 읽기, 수정, 삭제)
 	void writeInsert(BoardDto boardDto)throws Exception ;
-	int delete(Integer article_id, String user_id) throws Exception;
+	int delete(Integer article_id) throws Exception;
 	void update(BoardDto boardDto) throws Exception;
 	BoardDto articleEdit(Integer article_id) throws Exception;
 	

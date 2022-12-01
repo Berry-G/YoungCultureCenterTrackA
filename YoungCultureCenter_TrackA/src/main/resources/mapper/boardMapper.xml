@@ -39,7 +39,7 @@
 	<!-- 수정하기 : article 테이블의 게시글 수정 데이터 가져오기 -->
 	<select id="articleEdit" parameterType="int" resultType="BoardDto">
 		SELECT 
-			article_id, article_date, user_id, article_title, article_contents, article_viewcnt
+			article_id, article_Board_type, article_date, user_id, article_title, article_contents, article_viewcnt
 		FROM article
 		where article_id = #{article_id}
 	</select>
@@ -47,14 +47,14 @@
 	<!-- 수정하기 :  article 테이블에 게시글 수정(등록버튼 누를 시)-->
 	<update id="update" parameterType="BoardDto">
 		UPDATE article
-		SET article_date=now(), article_title=#{article_title}, article_contents=#{article_contents}
+		SET article_date=now(),article_Board_type=#{article_Board_type}, article_title=#{article_title}, article_contents=#{article_contents}
 		WHERE article_id= #{article_id} and user_id = #{user_id}
 	</update>
 	
 	<!-- 삭제하기 :  article 테이블에 게시글 삭제-->
-	<delete id="delete" parameterType="map">
+	<delete id="delete" parameterType="int">
 		delete from article 
-		where article_id = #{article_id} and user_id = #{user_id}	
+		where article_id = #{article_id}	
 	</delete>
 	
 	

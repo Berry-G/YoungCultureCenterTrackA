@@ -36,12 +36,9 @@ public class BoardDaoImpl implements BoardDao{
 	
 	//삭제하기
 	@Override
-	public int delete(Integer article_id, String user_id) throws Exception {
-		Map map = new HashMap();
-		map.put("article_id", article_id);
-		map.put("user_id", user_id);
+	public int delete(Integer article_id) throws Exception {
 		
-		return session.delete(namespace+"delete", map);
+		return session.delete(namespace+"delete", article_id);
 	}
 	//공지사항 : 게시글 리스트
 	@Override

@@ -35,9 +35,9 @@ public class BoardServiceImpl implements BoardService{
 	
 	//삭제하기
 	@Override
-	public int remove(Integer article_id, String user_id) throws Exception {
+	public int remove(Integer article_id) throws Exception {
 		
-		return boardDao.delete(article_id, user_id);
+		return boardDao.delete(article_id);
 	}
 	
 	//공지사항 : 게시글 리스트

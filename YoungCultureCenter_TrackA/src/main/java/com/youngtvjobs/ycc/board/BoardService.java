@@ -7,7 +7,7 @@ public interface BoardService {
 	
 	//CRUD(글쓰기, 읽기, 수정, 삭제)
 	void writeInsert(BoardDto boardDto) throws Exception;
-	int remove(Integer article_id, String user_id) throws Exception;
+	int remove(Integer article_id) throws Exception;
 	void modify(BoardDto boardDto) throws Exception;
 	BoardDto getArticleEdit(Integer article_id) throws Exception;
 	

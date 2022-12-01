@@ -47,10 +47,11 @@
 				</tr>
 			</c:forEach>
 		 </table>
+		 
 
 		<!-- 작성하기 버튼  -->
 		<!-- 관리자만 보이도록 구현하기 -->
-		<c:if test = "${sessionScope.id!=null}">
+		<c:if test = "${sessionScope.grade eq '관리자'}">
 		<div class="row">
 			<div class="col">
 				<a id="writeBtn" class="btn btn-primary " style="float:right" onclick="location.href='<c:url value="/board/write" />' "role="button">작성하기</a>    	
@@ -114,8 +115,6 @@
  	<!-- 검색 끝 -->
 	</div>
   <!-- footer inlcude -->
-
-  
 <%@include file="/WEB-INF/views/footer.jsp"%>
  	
 </body>

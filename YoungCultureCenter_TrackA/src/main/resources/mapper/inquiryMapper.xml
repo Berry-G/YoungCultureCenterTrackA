@@ -61,8 +61,8 @@
   <!-- 1:1문의 작성하기 : insert -->
   <insert id="insert" parameterType="InquiryDto">
   	INSERT INTO inq_board
-	(inq_cate, user_id,  inq_title, inq_content, inq_date, inq_yn)
-	VALUES(#{inq_cate}, #{user_id},  #{inq_title}, #{inq_content}, #{inq_date}, #{inq_yn})
+	(inq_cate, user_id,  inq_title, inq_content, inq_date)
+	VALUES(#{inq_cate}, #{user_id},  #{inq_title}, #{inq_content}, #{inq_date})
   </insert>
   
   <!--1:1문의 읽기 : select  -->

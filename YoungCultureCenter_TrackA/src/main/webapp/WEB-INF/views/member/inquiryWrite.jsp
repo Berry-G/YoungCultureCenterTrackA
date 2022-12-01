@@ -99,7 +99,7 @@
        </textarea>
        <script>
            $('.summernote').summernote({
-           	placeholder:"내용을 입력하세요.",
+           	   placeholder:"내용을 입력하세요.",
                height: 600,
                lang: "ko-KR",
                disableResizeEditor: true,	// 크기 조절 삭제

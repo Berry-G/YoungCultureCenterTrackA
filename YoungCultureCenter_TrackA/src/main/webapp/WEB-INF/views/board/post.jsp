@@ -49,10 +49,10 @@
 						<!-- 세션 아이디와 boardDto에 저장되 아이디가 같으면 수정, 삭제 버튼 활성화 -->
 						<c:if test="${sessionScope.id eq boardDto.user_id}">
 						<div class="col-auto px-1">
-			  				<a href="edit" class="btn btn-outline-success" onclick="return confirm('수정하시겠습니까?')">수정</a>
+			  				<button type="button" class="btn btn-outline-success" id="modifyBtn">수정</button>
 						</div>
 						<div class="col-auto px-1">
-			  				<button type="button" id="deleteBtn" class="btn btn-outline-danger">삭제</button>
+			  				<button type="button" class="btn btn-outline-danger" id="deleteBtn">삭제</button>
 			      		</div>
 			      		</c:if>
 			       </div>
@@ -106,9 +106,15 @@
 			location.href ="<c:url value='/board/notice${searchItem.queryString}' />";
 		})
 		
-		
+		$("#modifyBtn").on("click", function() {
+			if(!confirm("수정하시겠습니까?")) return;
+			let article_id = ${boardDto.article_id }
+			let form = $("#form")
+			form.attr("action", "<c:url value='/board/edit${searchItem.queryString}' />")
+			form.attr("method", "get")
+			form.submit()
+			})
 		 
-	
 		$("#deleteBtn").on("click", function() {
 			if(!confirm("정말로 삭제하시겠습니까?")) return;
 			

@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface MemberService {
 	//회원가입
-	void signinMember(MemberDto dto) throws Exception;
+	void signinMember(MemberDto memberDto) throws Exception;
 	//회원가입 아이디체크 
-	int idCheck(MemberDto dto) throws Exception;
+	int idCheck(MemberDto memberDto) throws Exception;
 	//회원탈퇴
 	int withdraw(String id) throws Exception;
 	//회원정보수정

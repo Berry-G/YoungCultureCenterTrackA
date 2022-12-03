@@ -25,12 +25,12 @@ public class MemberServiceImpl implements MemberService{
 	
 
 	@Override	//회원 가입
-	public void signinMember(MemberDto dto) throws Exception {
-		memberDao.signinMember(dto);
+	public void signinMember(MemberDto memberDto) throws Exception {
+		memberDao.signinMember(memberDto);
 	}
 	@Override	//아이디체크 
-	public int idCheck(MemberDto dto) throws Exception {
-		return memberDao.idCheck(dto);
+	public int idCheck(MemberDto memberDto) throws Exception {
+		return memberDao.idCheck(memberDto);
 	}
 
 	@Override	//회원 탈퇴

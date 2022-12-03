@@ -149,18 +149,19 @@ public class MemberController {
 	}
 
 	@PostMapping("/mypage/modify")
-	public String modify(String id, String pw, String tel, String postCode, String rNameAddr, String detailAddr)
+	public String modify(MemberDto memberDto)
 			throws Exception {
 
-		MemberDto dto = new MemberDto();
-		dto.setUser_id(id);
-		dto.setUser_pw(pw);
-		dto.setUser_phone_number(tel);
-		dto.setUser_postcode(postCode);
-		dto.setUser_rNameAddr(rNameAddr);
-		dto.setUser_detailAddr(detailAddr);
-
-		memberService.ModifyMemberInfo(dto);
+//		MemberDto dto = new MemberDto();
+//		dto.setUser_id(id);
+//		dto.setUser_pw(pw);
+//		dto.setUser_phone_number(tel);
+//		dto.setUser_postcode(postCode);
+//		dto.setUser_rNameAddr(rNameAddr);
+//		dto.setUser_detailAddr(detailAddr);
+//
+//		memberService.ModifyMemberInfo(dto);
+		memberService.ModifyMemberInfo(memberDto);
 
 		return "redirect:/";
 

@@ -138,39 +138,37 @@ public class BoardController
 	}
 	
 	//게시글 삭제
-	@PostMapping("/remove")
-	public String remove(BoardDto boardDto ,Integer article_id, Integer page, Integer pageSize, HttpServletRequest request,
-						RedirectAttributes rattr, HttpSession session) {
-		
-		//String user_id = (String) session.getAttribute("id");
-		//String msg = "DEL_OK";
-		
-		try {
-			if(YccMethod.permissionCheck("관리자", request)) {
-				if(boardService.remove(article_id) != 1) {
-					//boardDto에서 받은 board-type이 "N"이면 공지사항게시판에 insert
-					if(boardDto.getArticle_Board_type().equals("N") ) {
-						//insert 후 공지사항 게시판으로 보여줌
-						return "redirect:/board/notice";					
-					}
-					//boardDto에서 받은 board-type이 "E"이면 이벤트/행사 게시판에 insert
-					else if(boardDto.getArticle_Board_type().equals("E") ) {
-						//insert 후 이벤트 게시판으로 보여줌 
-						return "redirect:/board/event";
-					}
-				}
-			}
-			else {
-				System.out.println("관리자 아닌 사람이 접근");
-				return "redirect:/error/403";
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return "redirect:/board/notice";
-	}
+   @PostMapping("/remove")
+   public String remove(BoardDto boardDto ,Integer article_id, Integer page, Integer pageSize, HttpServletRequest request,
+                  RedirectAttributes rattr, HttpSession session) {
+      
+      try {
+         BoardDto tmpboard=boardService.getArticleEdit(article_id);
+         if(YccMethod.permissionCheck("관리자", request)) {
+            if(boardService.remove(article_id)== 1) {
+               //boardDto에서 받은 board-type이 "N"이면 공지사항게시판에 insert
+               if(tmpboard.getArticle_Board_type().equals("공지사항") ) {
+                  //insert 후 공지사항 게시판으로 보여줌
+                  return "redirect:/board/notice";               
+               }
+               //boardDto에서 받은 board-type이 "E"이면 이벤트/행사 게시판에 insert
+               else if(tmpboard.getArticle_Board_type().equals("이벤트") ) {
+                  //insert 후 이벤트 게시판으로 보여줌 
+                  return "redirect:/board/event";
+               }
+            }
+         }
+         else {
+            System.out.println("관리자 아닌 사람이 접근");
+            return "redirect:/error/403";
+         }
+         
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
+      
+      return "redirect:/board/notice";
+   }
 	
 	//게시글 수정페이지로 이동
 	@GetMapping("/edit")

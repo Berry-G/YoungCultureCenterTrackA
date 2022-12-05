@@ -211,7 +211,7 @@
           data: JSON.stringify({user_email:a, user_name:b}),
           dataType: 'text',
           success: function(user_id) {
-        	if (user_id == "" && user_name == ""){
+        	if (user_id == "" || user_name == ""){
         		alert("정보를 다시 확인해주세요.")
         	}
         	else{

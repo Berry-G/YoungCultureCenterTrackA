@@ -674,7 +674,7 @@
     </div>
 
 
-	<!-- footer inlcude -->
+	<!-- footer include -->
 <%@include file="/WEB-INF/views/footer.jsp"%>
 
   </body>

@@ -14,10 +14,12 @@
   <!-- header inlcude -->
 <%@include file="/WEB-INF/views/header.jsp"%>
 <div class="container pt-5">
-  <h3>이벤트/행사</h3>
+  <h2 class="eventTitle">
+  	<a id="eventList">이벤트/행사</a>
+  </h2>
   <!-- 게시판 테이블 -->
 		
-		<table class="table table-group-divider table table-striped mt-5" >
+		<table class="table table-group-divider  table table-striped table table-hover mt-5" >
 			<colgroup>
 				<col width="50%">
 				<col width="15%">
@@ -46,17 +48,10 @@
 				</tr>
 			</c:forEach>
 		 </table>
+		 
+	
 
-		<!-- 작성하기 버튼  -->
-		<!-- 관리자만 보이도록 구현하기 -->
-		<c:if test = "${sessionScope.grade eq '관리자'}">
-		<div class="row">
-			<div class="col">
-				<a id="writeBtn" class="btn btn-primary " style="float:right" onclick="location.href='<c:url value="/board/write" />' "role="button">작성하기</a>    	
-		 	</div>
-		</div>
-		</c:if>
-		
+
 		<!-- 페이징 시작 -->
 		<div class="paging-container">
 			<ul class="pagination pt-3" style="justify-content: center;">
@@ -75,7 +70,7 @@
 					</c:if>
 					<c:if test="${pr.sc.page != i }">
 						<c:if test="${pr.sc.page > 0 }">
-							<li class="page-item"><a class="page-link" href="/ycc/board/event{pr.sc.getQueryString(i)}">${i}</a></li>
+							<li class="page-item"><a class="page-link" href="/ycc/board/event${pr.sc.getQueryString(i)}">${i}</a></li>
 						</c:if>
 					</c:if>
 					</c:forEach>
@@ -86,6 +81,17 @@
 			</ul>
 		</div>
 		<!-- 페이징 끝 -->
+		
+			 <!-- 작성하기 버튼  -->
+		<!-- 관리자만 보이도록 구현하기 -->
+		<c:if test = "${sessionScope.grade eq '관리자'}">
+		<div class="row">
+			<div class="col">
+				<a id="writeBtn" class="btn btn-primary " style="float:right" onclick="location.href='<c:url value="/board/write" />' "role="button">작성하기</a>    	
+		 	</div>
+		</div>
+		</c:if>
+		
 	
 		<!-- 검색 -->
 		<div class="container text-center">
@@ -114,6 +120,14 @@
 	</div>
   <!-- footer inlcude -->
 <%@include file="/WEB-INF/views/footer.jsp"%>
+  <script type="text/javascript">
+  
+	//이벤트 클릭시 공지사항 첫 페이지로 이동 
+	$("#eventList").on("click", function() {
+		location.href ="<c:url value='/board/event'/>";
+	})
+
+  </script>
   
   
 </body>

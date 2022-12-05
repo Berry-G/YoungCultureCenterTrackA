@@ -98,6 +98,7 @@
        style="margin-bottom: 30px;">
        </textarea>
        <script>
+       $(document).ready(function(){
            $('.summernote').summernote({
            	   placeholder:"내용을 입력하세요.",
                height: 600,
@@ -117,6 +118,7 @@
                  ]
 
            });
+       }) 
        </script>
            <!-- submit으로 넘어가지 않도록 button타입 지정 -->
            <div class="d-flex justify-content-end">

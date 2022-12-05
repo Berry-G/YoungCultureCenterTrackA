@@ -62,7 +62,7 @@
 			</tbody>
 		</table>
 		<div class="d-flex justify-content-center">
-		<button type="button" class="btn btn-outline-primary mr-2" onClick="location.href='javascript:history.back()'">이전</button>
+		<button type="button" class="btn btn-outline-primary me-2" onClick="location.href='javascript:history.back()'">이전</button>
 		<button type="button" class="btn btn-primary" id="listBtn">목록</button>
 		</div>
 	</div>
@@ -79,7 +79,7 @@
 	<script>
 	$(document).ready(function(){
 		$("#listBtn").on("click", function() {
-			location.href ="/mypage/inquiry?page=2&pageSize=6";
+			location.href ="<c:url value='/mypage/inquiry' />";
 		})
 	})
 	</script>

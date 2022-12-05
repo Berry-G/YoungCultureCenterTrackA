@@ -22,7 +22,7 @@
 <title>YOUNG문화센터 - 동아리 메인</title>
 </head>
 <body>
-	<!-- header inlcude -->
+	<!-- header include -->
 	<%@include file="/WEB-INF/views/header.jsp"%>
 
 	<!-- 인기동아리, 동아리 추가 부분 -->
@@ -229,7 +229,7 @@
 	
 
 
-	<!-- footer inlcude -->
+	<!-- footer include -->
 	<%@include file="/WEB-INF/views/footer.jsp"%>
 </body>
 </html>

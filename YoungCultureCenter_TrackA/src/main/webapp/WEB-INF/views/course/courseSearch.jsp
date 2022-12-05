@@ -1,291 +1,168 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 	<!-- head & meta tag include -->
-    <%@include file="/WEB-INF/views/metahead.jsp"%>
-    
-    <!-- 커스텀 스타일 (재정의) -->
-    <link rel="stylesheet" href="<c:url value='/resources/css/courseSearch.css' />">
+	<%@include file="/WEB-INF/views/metahead.jsp"%>
+  
+  <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+  
+  <style type="text/css">
+  	.searchBox { background-color: #f1f1f1; }
+  	.tdeco-none { text-decoration: none; color: black; }
+  </style>
 	
-	<!-- JavaScript Bundle with Popper -->
-    <script type="text/javascript" src="/js/default.js"></script>
+	<title>YOUNG문화체육센터</title>
+</head>
+<body>
+	<!-- header include -->
+	<%@include file="/WEB-INF/views/header.jsp"%>
 
 	<script>
-		const myModal = document.getElementById('myModal')
-		const myInput = document.getElementById('myInput')
-		
-		myModal.addEventListener('shown.bs.modal', () => {
-		  myInput.focus()
-		})
+    function test() {
+        $('#cate').val("")
+        $('#target').val("")
+        $('#stat').val("")
+        $('#keyword').val("")
+    }
+    
+		let msg = "${msg}"
+		if(msg == "DEL_OK") alert("성공적으로 삭제되었습니다.")
+		if(msg == "DEL_ERR") alert("삭제되었거나 없는 게시물입니다.")
+		if(msg == "WRT_OK") alert("성공적으로 등록되었습니다.")
+		if(msg == "MOD_OK") alert("성공적으로 수정되었습니다.")
+		if(msg == "overcapacity") alert("정원이 마감되었습니다.")
+		if(msg == "NO_PERIOD") alert("접수기간이 아닙니다.")
+		if(msg == "OVERLAP") alert("중복 신청은 할 수 없습니다.")
 	</script>
 
-<title>YOUNG문화체육센터</title>
-</head>
+	<!-- 본문 -->
+	<div class="container mt-5">
+		<h2>수강신청</h2>
+		<hr>
+		<form action="" method="get">
+			<div class="searchBox row p-3 d-flex" style="justify-content: space-around;">
+				<div class="col-lg-10 row">
+					<div class="col-md-4">
+						<div class="row">
+							<label for="sidebar-position2" class="col-4 align-self-center text-center">분류</label>
+							<div class="col-8">
+								<select class="form-select" aria-label=".form-select-sm example" name="cate" id="cate">
+									<option value="All" ${pr.sc.cate=='All' || pr.sc.cate=='' ? "selected" : ""}>전체</option>
+									<option value="Spo" ${pr.sc.cate=='Spo' ? "selected" : ""}>운동</option>
+									<option value="Cul" ${pr.sc.cate=='Cul' ? "selected" : ""}>문화</option>
+									<option value="Edu" ${pr.sc.cate=='Edu' ? "selected" : ""}>교육</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				<div class="col-md-4">
+						<div class="row">
+							<label for="sidebar-position2" class="col-4 align-self-center text-center">수강대상</label>
+							<div class="col-8">
+								<select class="form-select"	aria-label=".form-select example" name="target" id="target">
+									<option value="All" ${pr.sc.target=='All' || pr.sc.target=='' ? "selected" : ""}>전체</option>
+									<option value="Adu" ${pr.sc.target=='Adu' ? "selected" : ""}>성인</option>
+									<option value="Stu" ${pr.sc.target=='Stu' ? "selected" : ""}>청소년</option>
+									<option value="Chd" ${pr.sc.target=='Chd' ? "selected" : ""}>유아</option>
+									<option value="Old" ${pr.sc.target=='Old' ? "selected" : ""}>노인</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="row">
+							<label for="sidebar-position3" class="col-4 align-self-center text-center">접수상태</label>
+							<div class="col-8">
+								<select class="form-select"	aria-label=".form-select example" name="stat" id="stat">
+									<option value="All" ${pr.sc.stat=='All' || pr.sc.stat=='' ? "selected" : ""}>전체</option>
+									<option value="P" ${pr.sc.stat=='P' ? "selected" : ""}>접수가능</option>
+									<option value="O" ${pr.sc.stat=='O' ? "selected" : ""}>오픈예정</option>
+								</select>
+							</div>
+						</div>
+					</div>
+						<div role="search" class="col-md-12">
+							<input class="form-control" type="text" name="keyword" value="${param.keyword }" placeholder="검색어를 입력해주세요" aria-label="Search" id="keyword">
+						</div>
+					</div>
+				<div class="col-lg-2 align-items-center gap-2" style="display: -webkit-inline-box;">
+						<div class="col-lg-6">
+							<input type="submit" class="btn btn-primary" value="검색" style="width:100%; height:100%;">
+						</div>
+					<div class="col-lg-6" >
+						<button onclick="test()" class="btn btn-outline-primary" style="width:100%; height:100%; white-space: nowrap;">초기화</button>
+					</div>
+				</div>
+			
+				
+			</div>
+			<div class="row py-3 float-end gap-1">
+				<select class="form-select col-auto" name="orderby" aria-label=".form-select-sm example" style="width: auto;">
+					<option value="New" ${pr.sc.orderby=='New' || pr.sc.orderby=='' ? "selected" : ""}>강좌명순</option>
+					<option value="End" ${pr.sc.orderby=='End' ? "selected" : ""}>접수가능순</option>
+					<option value="Start" ${pr.sc.orderby=='Start' ? "selected" : ""}>수강시작일순</option>
+					<%-- <option value="Star" ${pr.sc.orderby=='Star' ? "selected" : ""}>강의평점순</option> --%>
+				</select>
+				<button class="col-auto btn btn-secondary">조회</button>
+			</div>
+		</form>
 
-<body>
+		<table class="table text-center">
+			<thead class="table-light align-middle">
+				<tr>
+					<th>강좌명</th>
+					<th>수강기간</th>
+					<th>수강시간</th>
+					<th>강사명</th>
+					<th>수강료</th>
+					<th>접수기간</th>
+					<th>상태</th>
+				</tr>
+			</thead>
+			<tbody class="table-group-divider align-middle">
+				<c:forEach var="courseDto" items="${list }">
+					<tr>
+						<td><a class="tdeco-none" href="<c:url value="/course/detail${pr.sc.queryString }&course_id=${courseDto.course_id }" />">${courseDto.course_nm }</a></td>
+						<td>${courseDto.course_sd() }<br>~${courseDto.course_ed() }</td>
+						<td>${courseDto.course_day }<br>${courseDto.course_time }</td>
+						<td>${courseDto.user_name }</td>
+						<td>${courseDto.course_cost }원</td>
+						<td>${courseDto.reg_sd() }<br>~${courseDto.reg_ed() }</td>
+						<td><button class="${courseDto.course_stat() == '접수가능' ? 'btn btn-primary' : 'btn btn-secondary' } ${courseDto.course_stat() == '정원마감' ? 'btn btn-danger' : '' }">${courseDto.course_stat() }</button> </td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		<nav aria-label="Page navigation example">
+			<c:if test="${totalCnt == null || totalCnt == 0}">
+				<div class="text-center mb-5">게시물이 없습니다.</div>
+			</c:if>
+			<c:if test="${totalCnt != null && totalCnt != 0}">
+				<ul class="pagination justify-content-center">
+					<c:if test="${pr.showPrev }">
+						<li class="page-item"><a class="page-link" href="<c:url value="/course/search${pr.sc.getQueryString(pr.beginPage-1) }" />"> &lt; </a></li>
+					</c:if>
+					<c:forEach var="i" begin="${pr.beginPage }" end="${pr.endPage }">
+						<a class="page-link" href="<c:url value="/course/search${pr.sc.getQueryString(i) }" />">${i }</a>
+					</c:forEach>
+					<c:if test="${pr.showNext }">
+						<li class="page-item"><a class="page-link" href="<c:url value="/course/search${pr.sc.getQueryString(pr.endPage+1) }" />"> &raquo; </a></li>
+					</c:if>
+				</ul>
+			</c:if>
+		</nav>
+		<c:if test="${sessionScope.grade == '강사' || sessionScope.grade == '관리자' }">
+			<div class="text-end">
+				<button id="writeBtn" class="btn btn-primary btn_write" onclick="location.href='<c:url value="/course/write" />' ">강좌등록</button>
+			</div>
+		</c:if>
+	</div>
 
-<!-- header inlcude -->
-<%@include file="/WEB-INF/views/header.jsp"%>
-
-
-  <!-- 캘린더 모달창 -->
-  <!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button>
-<div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header my-3" style="align-items: center;">
-        <h1 class="modal-title fs-3 ps-5 mt-3 fw-bold" id="exampleModalLabel">강좌 일정</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body mx-5">
-        <table class="table modal-table">
-          <thead class="table-light">
-            <tr>
-              <th scope="col-6">강좌명</th>
-              <th scope="col-3">수강기간</th>
-              <th scope="col-3">접수기간</th>
-            </tr>
-          </thead>
-          <tbody class="table-group-divider">
-            <tr>
-              <td><a href="">수영 기초반</a></td>
-              <td>2022/10/25 ~ 2022/11/25</td>
-              <td>2022/10/25 ~ 2022/11/25</td>
-            </tr>
-            <tr>
-              <td><a href="">수영 기초반</a></td>
-              <td>2022/10/25 ~ 2022/11/25</td>
-              <td>2022/10/25 ~ 2022/11/25</td>
-            </tr>
-            <tr>
-              <td><a href="">수영 기초반</a></td>
-              <td>2022/10/25 ~ 2022/11/25</td>
-              <td>2022/10/25 ~ 2022/11/25</td>
-            </tr>
-            <tr>
-              <td><a href="">수영 기초반</a></td>
-              <td>2022/10/25 ~ 2022/11/25</td>
-              <td>2022/10/25 ~ 2022/11/25</td>
-            </tr>
-            <tr>
-              <td><a href="">수영 기초반</a></td>
-              <td>2022/10/25 ~ 2022/11/25</td>
-              <td>2022/10/25 ~ 2022/11/25</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-    <!-- 본문 -->
-    <div class="container">
-      <div class="contents" id="container">
-
-        <div class="introduction">
-          <h3 class="py-4">개설 강좌</h3>
-
-          <form>
-          <div class="intro">
-            <div class="col-2"></div>
-            <div class="pro_box container">
-              <div class="row ms-5 pt-2">
-                <div class="col-3">
-                  <div class="row">
-                    <label for="sidebar-position2" class="col-4 col-form-label">분류</label>
-                    <div class="col-8">
-                      <select class="form-select form-select-sm col-6 mt-1" aria-label=".form-select-sm example">
-                        <option selected>전체</option>
-                        <option value="1">수영</option>
-                        <option value="2">베이킹</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-3">
-                  <div class="row">
-                    <label for="sidebar-position2" class="col-4 col-form-label">수강대상</label>
-                    <div class="col-8">
-                      <select class="form-select form-select-sm mt-1" aria-label=".form-select-sm example">
-                        <option selected>전체</option>
-                        <option value="1">성인</option>
-                        <option value="2">학생</option>
-                        <option value="3">영유아</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>  
-                <div class="col-3">
-                  <div class="row">
-                    <label for="sidebar-position3" class="col-4 col-form-label">접수상태</label>
-                    <div class="col-8">
-                      <select class="form-select form-select-sm mt-1" aria-label=".form-select-sm example">
-                        <option selected>전체</option>
-                        <option value="1">접수가능</option>
-                        <option value="2">오픈예정</option>
-                        <option value="3">접수마감</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-3">
-                  <button type="reset" class="btn btn-danger btn-sm mt-1">초기화</button>
-                </div>
-              </form>
-
-              </div>
-              <div role="search" class="row mx-5 py-2">
-                <div class="col-10">
-                  <input class="form-control form-control-sm me-2" type="search" placeholder="검색" aria-label="Search">
-                </div>
-                <div class="col-2">
-                  <button class="btn btn-primary btn-sm" type="submit">검색</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <select class="form-select form-select-sm my-3 float-end" aria-label=".form-select-sm example" style="width: 100px;">
-        <option selected>최신순</option>
-        <option value="1">강좌명순</option>
-        <option value="2">평점순</option>
-      </select>
-
-      <table class="table">
-        <thead class="table-light">
-          <tr>
-            <th scope="col">강좌명</th>
-            <th scope="col">요일</th>
-            <th scope="col">시간</th>
-            <th scope="col">강사명</th>
-            <th scope="col">수강료</th>
-            <th scope="col">상태</th>
-          </tr>
-        </thead>
-        <tbody class="table-group-divider">
-          <tr>
-            <td class="al"><a href="/ycc/course/detail">(산대특)_AI플랫폼 활용 이커머스 웹서비스 개발_육성</a></td>
-            <td>월, 화, 수, 목, 금</td>
-            <td>09:20 ~ 18:00</td>
-            <td>추호진</td>
-            <td>6,851,200 원</td>
-            <td><span class="badge text-bg-primary">접수가능</span></td>
-          </tr>
-          <tr>
-            <td class="al"><a href="#" onclick="alert('이미 마감된 강좌입니다.')">배드민턴 기초반</a></td>
-            </td>
-            <td>월, 수, 금</td>
-            <td>18:30 ~ 19:30</td>
-            <td>최선혜</td>
-            <td>66,000 원</td>
-            <td><span class="badge text-bg-secondary">접수마감</span></td>
-          </tr>
-          <tr>
-            <td class="al"><a href=''>수영 기초반</a></td>
-            <td>월, 수, 금</td>
-            <td>07:00 ~ 07:50</td>
-            <td>김지호</td>
-            <td>89,000 원</td>
-            <td><span class="badge text-bg-primary">접수가능</span></td>
-          </tr>
-          <tr>
-            <td class="al"><a href=''>수영 기초반</a></td>
-            <td>월, 수, 금</td>
-            <td>07:00 ~ 07:50</td>
-            <td>김지호</td>
-            <td>89,000 원</td>
-            <td><span class="badge text-bg-primary">접수가능</span></td>
-          </tr>
-          <tr>
-            <td class="al"><a href=''>수영 기초반</a></td>
-            <td>월, 수, 금</td>
-            <td>07:00 ~ 07:50</td>
-            <td>김지호</td>
-            <td>89,000 원</td>
-            <td><span class="badge text-bg-primary">접수가능</span></td>
-          </tr>
-          <tr>
-            <td class="al"><a href=''>수영 기초반</a></td>
-            <td>월, 수, 금</td>
-            <td>07:00 ~ 07:50</td>
-            <td>김지호</td>
-            <td>89,000 원</td>
-            <td><span class="badge text-bg-primary">접수가능</span></td>
-          </tr>
-          <tr>
-            <td class="al"><a href=''>수영 기초반</a></td>
-            <td>월, 수, 금</td>
-            <td>07:00 ~ 07:50</td>
-            <td>김지호</td>
-            <td>89,000 원</td>
-            <td><span class="badge text-bg-primary">접수가능</span></td>
-          </tr>
-          <tr>
-            <td class="al"><a href=''>수영 기초반</a></td>
-            <td>월, 수, 금</td>
-            <td>07:00 ~ 07:50</td>
-            <td>김지호</td>
-            <td>89,000 원</td>
-            <td><span class="badge text-bg-primary">접수가능</span></td>
-          </tr>
-          <tr>
-            <td class="al"><a href=''>수영 기초반</a></td>
-            <td>월, 수, 금</td>
-            <td>07:00 ~ 07:50</td>
-            <td>김지호</td>
-            <td>89,000 원</td>
-            <td><span class="badge text-bg-primary">접수가능</span></td>
-          </tr>
-          <tr>
-            <td class="al"><a href=''>수영 기초반</a></td>
-            <td>월, 수, 금</td>
-            <td>07:00 ~ 07:50</td>
-            <td>김지호</td>
-            <td>89,000 원</td>
-            <td><span class="badge text-bg-primary">접수가능</span></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <nav aria-label="Page navigation example" class="my-5">
-        <ul class="pagination justify-content-center">
-          <li class="page-item">
-            <a class="page-link" href="index.html" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li class="page-item active"><a class="page-link" href="">1</a></li>
-          <li class="page-item"><a class="page-link" href="">2</a></li>
-          <li class="page-item"><a class="page-link" href="">3</a></li>
-          <li class="page-item"><a class="page-link" href="">4</a></li>
-          <li class="page-item"><a class="page-link" href="index5.html">5</a></li>
-          <li class="page-item">
-            <a class="page-link" href="index5.html" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-
-
-    </div>
-
-  </div>
-
-
-<!-- footer inlcude -->
-<%@include file="/WEB-INF/views/footer.jsp"%>
+	<!-- footer inlcude -->
+	<%@include file="/WEB-INF/views/footer.jsp"%>
 </body>
 </html>

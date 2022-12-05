@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <!-- head & meta tag include -->
-    <%@include file="/WEB-INF/views/metahead.jsp"%>
-
+  <%@include file="/WEB-INF/views/metahead.jsp"%>
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <!--summernote-->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
@@ -24,34 +25,83 @@
 <title>Young문화센터 - 게시글 수정</title>
 </head>
 <body>
-  <!-- header inlcude -->
+ <!-- header inlcude -->
 <%@include file="/WEB-INF/views/header.jsp"%>
-  <div class="container mt-5">
-                <h1>공지사항</h1>
-                        <label for="title" class="form-label"></label> <input type="text" class="form-control"
-                            id="title" name="title" value="저 오늘 치과갑니다">
-                        <hr>
-                        <p>작성자 : 김지호 | <br id="d-none"> 게시일 : yyyy-mm-dd</p>
-                            <div>
-                                    <textarea class="summernote" name="editordata" style="margin-bottom: 30px;">내용내용내용내용</textarea> 
-	                                    <script>
-										    $('.summernote').summernote({
-										        height: 400,
-										        lang: "ko-KR"
-										    });
-										</script>
-                        <div class="mt-2 text-end">
-                            <a class="btn btn-outline-secondary">목록</a>
-                            <a class="btn btn-outline-success" onClick="javascript:history.back();">등록</a>
-                        </div>
-                            </div>
+  
+	<div class="container mt-5">
+	    <!-- 제목 -->
+		<c:if test="${boardDto.article_Board_type eq '공지사항'}">
+			<h2 class="writing-header mb-3">공지사항</h2>
+		</c:if>
+		<c:if test="${boardDto.article_Board_type eq '이벤트'}">
+			<h2 class="writing-header mb-3">이벤트/행사</h2>
+		</c:if>
+		<form id="form" class="frm" action="" method="post"> 
+			<div class="card mb-4">
+				<div class="card-body">
+					<!-- 게시글 정보 -->
+					<select class="form-select mb-2"  id="boardType" name="article_Board_type" style="width: 180px;">
+					  <option selected disabled="disabled">선택해주세요.</option>
+					  <option value="공지사항">공지사항</option>
+					  <option value="이벤트">이벤트/행사</option>
+					</select>
+	    			<input type="hidden" name="article_id"  value="${boardDto.article_id }"> 		<!--값 받아오는 곳 -->
+	    			<div class="form-floating mb-3">
+					  <input type="email" class="form-control" name="article_title" id="article_title" value="${boardDto.article_title }">
+					  <label for="floatingInput">제목</label>
+					</div>
+					<p class="writingInfo">작성자 : ${boardDto.user_id} |
+						게시일 : <fmt:formatDate value="${boardDto.article_date }" pattern="yyyy-MM-dd" type="date"/> 
+						| 조회수 : ${boardDto.article_viewcnt }
+					</p>
+					<!-- 내용 -->
+					<textarea class="summernote mb-3" id="article_contents" name="article_contents" >
+                	${boardDto.article_contents}</textarea>   					
+				</div>
+			 </div>                       
+	         <div class="mt-2 text-end">
+	         	<button type="button" class="btn btn-outline-secondary" id="noticeBtn" name="noticeBtn">목록</button>
+	            <button type="button" class="btn btn-outline-success" id="regBtn" name="regBtn">등록</button>
+	            <input type="hidden" name="boardDto" value="${boardDto}"> 
+	         </div>
+	    </form>
+    </div>
 
+<script type="text/javascript">
+	$('.summernote').summernote({
+	    height: 400,
+	    lang: "ko-KR"
+	});
 
+	$(document).ready(function(){
+		
+		 $("#noticeBtn").on("click", function() { 
+			let form = $("#form")
+			form.attr("action","<c:url value='/board/notice'/>")
+			form.attr("method", "get")
+			form.submit()
+		})	
+		//등록버튼 클릭시 
+	    $("#regBtn").on("click", function() { 
+		    // 게시판 유형 값이 없으면 alert창 띄우기 
+	     	if($("#boardType option:selected").val()=="선택해주세요."){
+		  		alert("게시판 유형을 선택해주세요.")
+		  		return
+		  	}
+	     	else if(!confirm("정말로 등록하시겠습니까?")) return;
+			
+			let form = $("#form")
+			form.attr("action","<c:url value='/board/edit1${searchItem.queryString}' />")
+			form.attr("method", "post")
+			form.submit()
+			
+		})
+		
+		
+	})
+</script>    
 
-    </div><!--container end-->
     <!-- footer inlcude -->
 <%@include file="/WEB-INF/views/footer.jsp"%>
-
- 
 </body>
 </html>

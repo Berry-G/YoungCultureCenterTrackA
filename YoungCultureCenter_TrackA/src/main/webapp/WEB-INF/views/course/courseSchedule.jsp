@@ -22,7 +22,7 @@
 <title>YOUNG문화체육센터</title>
 </head>
 <body>
-	<!-- header inlcude -->
+	<!-- header include -->
 	<%@include file="/WEB-INF/views/header.jsp"%>
 	
 	
@@ -33,7 +33,7 @@
 	</div>
 	 
 	 
-	<!-- footer inlcude -->
+	<!-- footer include -->
 	<%@include file="/WEB-INF/views/footer.jsp"%>
 </body>
 </html>

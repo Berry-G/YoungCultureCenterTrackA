@@ -6,7 +6,7 @@
 <head>
 	<!-- head & meta tag include -->
 	<%@ include file="/WEB-INF/views/metahead.jsp" %>
-	<title>로그인</title>
+	<title>Young문화센터 - 로그인</title>
   <style>
     @media(max-width: 767px) { #left_login { border-right: hidden !important; } }
     @media(min-width: 767px) { #d-none { display: none !important; } }
@@ -20,7 +20,7 @@
 
 	<!-- login 시작 -->
 	<div class="container mt-5">
-		<h2>로그인</h2>
+		<h1>로그인</h1>
 		<hr>
 		<div class="row">
 			<div class="col-md-6" id="left_login" style="border-right: solid 1px rgba(0, 0, 0, .25);">
@@ -50,7 +50,7 @@
 								<label class="form-check-label" for="saveId">아이디 저장</label>
 							</div>
 							<div class="form-check-inline">
-								<input class="form-check-input" type="checkbox" name="autoLogin" id="autoLogin">
+								<input class="form-check-input" type="checkbox" name="autoLogin" id="autoLogin" value="option2">
 								<label class="form-check-label" for="autoLogin">자동로그인</label>
 							</div>
 							<button class="btn btn-primary btn-sm float-end">로그인</button>
@@ -58,8 +58,8 @@
 					</fieldset>
 					<hr>
 					<div class="mx-auto" id="bottom-login">
-						<div><span>아이디/비밀번호를 잊으셨나요?</span><a href="/ycc/mypage/mypage5">아이디/비밀번호 찾기</a></div>
-						<div><span>회원가입을 안하셨나요?</span><a href="/ycc/member/signin1">회원가입</a></div>
+						<div><span>아이디/비밀번호를 잊으셨나요?</span><a href="/ycc/mypage/forget">아이디/비밀번호 찾기</a></div>
+						<div><span>회원가입을 안하셨나요?</span><a href="/ycc/signin/agree">회원가입</a></div>
 					</div>
 					<hr id="d-none">
 				</form>

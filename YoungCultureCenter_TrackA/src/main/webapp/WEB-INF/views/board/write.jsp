@@ -30,21 +30,23 @@
    					<!-- 게시판 유형 선택 시 value값이 DB에 저장  -->
 	   				<select class="form-select mb-2"  id="boardType" name="article_Board_type" style="width: 180px;">
 						  <option selected disabled="disabled">선택해주세요.</option>
-						  <option value="N">공지사항</option>
-						  <option value="E">이벤트/행사</option>
+						  <option value="공지사항">공지사항</option>
+						  <option value="이벤트">이벤트/행사</option>
 					</select>
    					<input type="text" class="form-control mb-3" id="title" name="article_title"
    					 placeholder="제목을 입력해주세요" value="${boardDto.article_title }">
-    				<textarea class="summernote mb-3" id="contents" name="article_contents"  >
+    				<textarea class="summernote mb-5" id="contents" name="article_contents"  >
     				${boardDto.article_contents}</textarea>
     				
 				<!-- summernote 업로드 -->
-   				<div class="input-group mb-3 mt-3">
-      				<input type="file" class="form-control" id="inputGroupFile02">
-      				<label class="input-group-text" for="inputGroupFile02">Upload</label>
-    			</div>
+<!--    				<div class="input-group mb-3 mt-3"> -->
+<!--       				<input type="file" class="form-control" id="inputGroupFile02"> -->
+<!--       				<label class="input-group-text" for="inputGroupFile02">Upload</label> -->
+<!--     			</div> -->
     			<!-- 게시글 등록, 취소 버튼 -->
-	    		<div style="text-align: center;">
+    			
+    			
+	    		<div class="m-5" style="text-align: center;">
 	      			<input class="btn btn-primary mx-3" id="regBtn" type="button" onclick="regCheck()" value="등록하기" >
 	      			<input class="btn btn-secondary" type="button" value="취소하기">
 	    		</div>
@@ -83,6 +85,7 @@
 		}
 				
   }
+  
   
   
   </script>

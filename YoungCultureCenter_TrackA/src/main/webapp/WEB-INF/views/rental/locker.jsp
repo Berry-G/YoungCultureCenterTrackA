@@ -10,7 +10,7 @@
 <title>사물함 신청</title>
 </head>
 <body>
-  <!-- header inlcude -->
+  <!-- header include -->
   <%@include file="/WEB-INF/views/header.jsp"%>
   <div class="container w-100 pt-5">
     <div class="col fs-3 fw-bold">사물함 신청
@@ -355,7 +355,7 @@
   };
   </script>	
   	
-		<!-- footer inlcude -->
+		<!-- footer include -->
 	<%@include file="/WEB-INF/views/footer.jsp"%>
 
 </body>

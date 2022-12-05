@@ -10,7 +10,12 @@
 <body>
 	<!-- header include -->
 	<%@ include file="/WEB-INF/views/header.jsp" %>
-
+	
+	<script type="text/javascript">
+		let msg = "${msg}"
+		if(msg == "REG_COMPLETE") alert("신청이 완료되었습니다.")
+	</script>
+	
 	<!-- body -->
 	<div class="container mt-5">
 		<h2>결제완료페이지</h2><hr>
@@ -23,15 +28,15 @@
 					<tbody>
 					<thead class="bg-light align-middle">
 						<th>강좌명</th>
-						<th width="20%" id="d-col">수강자명</th>
-						<th width="20%" id="d-col">요일</th>
+						<th width="20%" id="d-col">수강기간</th>
+						<th width="20%" id="d-col">수강요일/시간</th>
 						<th width="20%" id="w-28">결제금액(원)</th>
 					</thead>
-					<tr>
-						<td>초코칩 쿠키 만들기</td>
-						<td id="d-col">최선혜</td>
-						<td id="d-col">월, 수, 금</td>
-						<td>50000</td>
+					<tr class="align-middle">
+						<td>${courseDto.course_nm }</td>
+						<td id="d-col">${courseDto.course_sd() }<br/>~${courseDto.course_ed() }</td>
+						<td id="d-col">${courseDto.course_day }<br/>${courseDto.course_time }</td>
+						<td>${courseDto.course_cost }</td>
 					</tr>
 					</tbody>
 				</table>

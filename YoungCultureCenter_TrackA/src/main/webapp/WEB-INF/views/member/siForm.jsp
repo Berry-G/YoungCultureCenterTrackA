@@ -6,8 +6,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
-	<head>	
-
+<head>	
 	<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 		<!-- head & meta tag include -->
     <%@include file="/WEB-INF/views/metahead.jsp"%>
@@ -15,177 +14,178 @@
 
 </head>
 <body>
-
 	<!-- header inlcude -->
 	<%@include file="/WEB-INF/views/header.jsp"%>
 
 	<div class="container w-50">
-    <h2 class="p-5" style="text-align: center;">회원가입</h2>
-    <div class="container-lg pt-5">
-      <div class="position-relative m-4">
-        <div class="progress" style="height: 5px;">
-          <div class="progress-bar bg-dark" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0"
-            aria-valuemax="100">
-          </div>
-        </div>
-        <button type="button" class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-dark rounded-pill"
-          style="width: 3.5rem; height:3.5rem;">Step1</button>
-        <button type="button"
-          class="position-absolute top-0 start-50 translate-middle btn btn-sm btn-primary rounded-pill"
-          style="width: 3.5rem; height:3.5rem;">Step2</button>
-        <button type="button"
-          class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-secondary rounded-pill"
-          style="width: 3.5rem; height:3.5rem;">Step3</button>
-      </div>
-    </div>
+    	<h2 class="p-5" style="text-align: center;">회원가입</h2>
+    		<div class="container-lg pt-5">
+      			<div class="position-relative m-4">
+        			<div class="progress" style="height: 5px;">
+          				<div class="progress-bar bg-dark" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0"
+            					aria-valuemax="100">
+          				</div>
+        			</div>
+			        <button type="button" class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-dark rounded-pill"
+			          style="width: 3.5rem; height:3.5rem;">Step1</button>
+			        <button type="button"
+			          class="position-absolute top-0 start-50 translate-middle btn btn-sm btn-primary rounded-pill"
+			          style="width: 3.5rem; height:3.5rem;">Step2</button>
+			        <button type="button"
+			          class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-secondary rounded-pill"
+			          style="width: 3.5rem; height:3.5rem;">Step3</button>
+			   	</div>
+    		</div>
 
 
- <form action='<c:url value="/signin/form" />' name="signinform" method="post">
-  <!-- 회원정보 입력 table -->
-  <h2 class="mt-5">회원정보입력</h2>
-	<hr>
-  <table class="table">
-    <colgroup>
-      <col width="20%">
-      <col width="60%">
-    </colgroup>
-      
-    <thead>
-      <tr>
-        <th class="col" style="vertical-align: middle !important;">아이디</th>
-          <td class="col-auto px-3"> 
-          <div class="row">
-         	<input type="text" class="form-control onlyAlphabetAndNumber" id="user_id"  name="user_id"
-              placeholder="4~15자, 영문+숫자 입력" maxlength="20" style="width: 340px;">
-          	<input type="button" id="idCheckBtn" name="idCheckBtn" class="btn btn-outline-primary mx-1" value="중복확인" style="width: 100px;">
-          	<!-- 중복체크 검사결과  -->
-          	<span id="result"></span>  
-          	</div>
-          </td>
-      </tr>
-        
-      <tr>
-        <th class="col" style="vertical-align: middle !important;">이름</th>
-          <td>
-          <input type="text" class="form-control onlyHangul" id="user_name" name="user_name" placeholder="한글입력"
-            maxlength="10">
-           <span id="name_result"></span>  
-          </td>
-      </tr>
+ 	<form action='<c:url value="/signin/form" />' name="signinform" method="post">
+  	<!-- 회원정보 입력 table -->
+  	<h2 class="mt-5">회원정보입력</h2>
+		<hr>
+  			<table class="table">
+			    <colgroup>
+			      <col width="20%">
+			      <col width="60%">
+			    </colgroup>
+    			<thead>
+    			<!--아이디 -->
+      			<tr>
+        			<th class="col" style="vertical-align: middle !important;">아이디</th>
+          				<td class="col-auto px-3"> 
+          					<div class="row">
+					         	<input type="text" class="form-control onlyAlphabetAndNumber" id="user_id"  name="user_id"
+					              placeholder="4~15자, 영문+숫자 입력" maxlength="20" style="width: 340px;">
+					          	<input type="button" id="idCheckBtn" name="idCheckBtn" class="btn btn-outline-primary mx-1" value="중복확인" style="width: 100px;">
+					          	<!-- 중복체크 검사결과  -->
+					          	<span id="result"></span>  
+          					</div>
+				          </td>
+				</tr>
+				
+				<!-- 이름 -->
+      			<tr>
+        			<th class="col" style="vertical-align: middle !important;">이름</th>
+          				<td>
+				          	<input type="text" class="form-control onlyHangul" id="user_name" name="user_name" placeholder="한글입력"
+				            maxlength="10">
+			           		<span id="name_result"></span>  
+				         </td>
+				     </tr>
+				     
+		     	<!-- 비밀번호 -->
+		     	<tr>
+		        	<th class="col" style="vertical-align: middle !important;">비밀번호</th>
+		          		<td>
+				          	<input type="password" class="form-control" id="user_pw" name="user_pw" 
+				              placeholder="8~15자, 영문+숫자 입력" maxlength="20">
+				           	<span id="pw_result"></span> 
+		          		</td>
+		        </tr>
+		        
+        		<!-- 비밀번호확인 -->
+			    <tr>
+			        <th class="col" style="vertical-align: middle !important;">비밀번호확인</th>
+			          	<td> 
+			          		<input type="password" class="form-control"  id="passwordCheck" name="passwordCheck" maxlength="20">
+			          		<span id="pwCheck_result"></span> 
+			         	</td>
+			    </tr>
+        		<!-- 성별 -->
+			    <tr>
+			        <th class="col" style="vertical-align: middle !important;">성별</th>
+			          	<td>
+			            	<div class="form-check form-check-inline">
+			              		<input class="form-check-input" type="radio" name="user_gender" id="radioBtnM" value="M">
+			              		<label class="form-check-label" for="inlineRadio1">남자</label>
+			            	</div>
+			            	<div class="form-check form-check-inline">
+			              		<input class="form-check-input" type="radio" name="user_gender" id="radioBtnW" value="W">
+			              		<label class="form-check-label" for="inlineRadio2">여자</label>
+			            	</div>
+			            		<span id="gender_result"></span> 
+			          	</td>
+			    </tr>
+      			<!-- 생년월일 -->
+		       	<tr>
+		      		<th class="col" style="vertical-align: middle !important;">생년월일</th>
+				  		<td class="col-auto px-3" >
+				  			<div class="row" id="birth_select">
+							  	<select class="form-select col-3 mx-1" id="birthYear" name="birthYear"  onchange="javascript:lastday();" style="width: 130px; " ></select >
+								<select class="form-select col-3 mx-1" id="birthMonth" name="birthMonth"  onchange="javascript:lastday();" style="width: 100px;" ></select>
+								<select class="form-select col-3 mx-1" id="birthDay" name="birthDay" style="width: 100px;" ></select>
+				<!-- 			<input type="hidden" id="totalBirth" name="user_birth_date"> -->
+							</div>
+						</td>
+		      	</tr>
+        		<!-- 이메일 -->
+     		 	<tr>
+			        <th class="col" style="vertical-align: middle !important;">이메일</th>
+			           <td>
+			              <div class="row mx-0">
+			              	<form action="./siForm.jsp">
+			                	<input type="text" class="form-control " style="width: 180px;"  name="email" id="email" maxlength="40">
+			                	<p class="col-auto fs-6" id="m_email">@</p>
+				                <select class="form-select col-4 " style="width: 180px;" name="email" id="detailEmail" aria-label="Default select example">
+				                  <option selected></option>
+				                  <option value="naver.com">naver.com</option>
+				                  <option value="gmail.com">gmail.com</option>
+				                  <option value="hanmail.net">hanmail.net</option>
+				                </select>
+			                	<button type="button" id="Auth_num" name="Auth_num" class="btn btn-outline-primary mx-1" style="width: 130px;">
+			             		인증번호 받기</button>
+								<!-- 이메일 합치는 자바스크립트 결과 받는 input --> 
+								<!-- 지우면 email값 못 받아옴  -->
+				            	<input type="hidden" id="totalEmail" name="user_email">
+			            	</form>
+			               </div>
+			            	<span id="email_result"></span> 
+			          </td>
+				</tr>
 
-      <tr>
-        <th class="col" style="vertical-align: middle !important;">비밀번호</th>
-          <td>
-          <input type="password" class="form-control" id="user_pw" name="user_pw" 
-              placeholder="8~15자, 영문+숫자 입력" maxlength="20">
-           <span id="pw_result"></span> 
-          </td>
-      </tr>
-        
-      <tr>
-        <th class="col" style="vertical-align: middle !important;">비밀번호확인</th>
-          <td> 
-          <input type="password" class="form-control"  id="passwordCheck" name="passwordCheck" maxlength="20">
-          <span id="pwCheck_result"></span> 
-           </td>
-      </tr>
-        
-      <tr>
-        <th class="col" style="vertical-align: middle !important;">성별</th>
-          <td>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="user_gender" id="radioBtnM" value="M">
-              <label class="form-check-label" for="inlineRadio1">남자</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="user_gender" id="radioBtnW" value="W">
-              <label class="form-check-label" for="inlineRadio2">여자</label>
-            </div>
-            <span id="gender_result"></span> 
-          </td>
-      </tr>
-      
-      <tr>
-      	<th class="col" style="vertical-align: middle !important;">생년월일</th>
-		  <td class="col-auto px-3" >
-		  	<div class="row" id="birth_select">
-		  	<select class="form-select col-3 mx-1" id="birthYear" name="birthYear"  onchange="javascript:lastday();" style="width: 130px; " ></select >
-			<select class="form-select col-3 mx-1" id="birthMonth" name="birthMonth"  onchange="javascript:lastday();" style="width: 100px;" ></select>
-			<select class="form-select col-3 mx-1" id="birthDay" name="birthDay" style="width: 100px;" ></select>
-<!-- 			<input type="hidden" id="totalBirth" name="user_birth_date"> -->
-			</div>
-		</td>
-      </tr>
-        
-	
-        
-      <tr>
-        <th class="col" style="vertical-align: middle !important;">이메일</th>
-           <td>
-              <div class="row mx-0">
-              <form action="./siForm.jsp">
-                <input type="text" class="form-control " style="width: 180px;"  name="email" id="email" maxlength="40">
-                <p class="col-auto fs-6" id="m_email">@</p>
-                <select class="form-select col-4 " style="width: 180px;" name="email" id="detailEmail" aria-label="Default select example">
-                  <option selected></option>
-                  <option value="naver.com">naver.com</option>
-                  <option value="gmail.com">gmail.com</option>
-                  <option value="hanmail.net">hanmail.net</option>
-                </select>
-                <button type="button" id="Auth_num" name="Auth_num" class="btn btn-outline-primary mx-1" style="width: 130px;">
-             	인증번호 받기</button>
-				<!-- 이메일 합치는 자바스크립트 결과 받는 input --> 
-				<!-- 지우면 email값 못 받아옴  -->
-            	<input type="hidden" id="totalEmail" name="user_email">
-             </form>
-             </div>
-            <span id="email_result"></span> 
-          </td>
-      </tr>
-
-
-		<tr>
-        <th class="col" style="vertical-align: middle !important;">이메일인증</th>
-        <td>
-        <form action="./siForm.jsp">
-          <input type="text" class="form-control" id="emailCheck" name="emailCheck" data-rule-required="true" placeholder="인증번호6자리"
-            maxlength="10">
-          <span id="emailCheck_result"></span> 
-        </form>
-        </td>
-      </tr>
-        
-      <tr>
-        <th class="col" style="vertical-align: middle !important;">휴대폰</th>
-        <td>
-          <input type="tel" class="form-control onlyNumber" id="phoneNumber" name="user_phone_number" 
-            placeholder="-를 제외하고 숫자만 입력하세요." maxlength="11">
-          <div class="eheck_font" id="phone_check"></div>
-          <span id="pNum_result"></span> 
-        </td>
-      </tr>
+				<!-- 이메일인증 -->
+				<tr>
+        			<th class="col" style="vertical-align: middle !important;">이메일인증</th>
+        			  <td>
+        				<form action="./siForm.jsp">
+          					<input type="text" class="form-control" id="emailCheck" name="emailCheck" data-rule-required="true" placeholder="인증번호6자리"
+           					 maxlength="10">
+          					<span id="emailCheck_result"></span> 
+       					 </form>
+        			</td>
+      			</tr>
+        	<!-- 휴대폰 -->
+		    <tr>
+		        <th class="col" style="vertical-align: middle !important;">휴대폰</th>
+		        <td>
+		          <input type="tel" class="form-control onlyNumber" id="phoneNumber" name="user_phone_number" 
+		            placeholder="-를 제외하고 숫자만 입력하세요." maxlength="11">
+		          <div class="eheck_font" id="phone_check"></div>
+		          <span id="pNum_result"></span> 
+		        </td>
+		     </tr>
    
-      <tr>
-        <th class="col" style="vertical-align: middle !important;">주소</th>
-            <td>
-              <div class="row mx-0">
-                <input type="text" class="col-lg-2 form-control" style="width: 180px;" id="sample6_postcode" name="user_postcode" placeholder="우편번호" required readonly="readonly">
-                <input class="btn btn-outline-primary mx-1" onclick="sample6_execDaumPostcode()" type="button" style="width: 150px;" value="우편번호검색">
-                <input type="text" class="col-lg-2 form-control" id="sample6_address" name="user_rNameAddr" placeholder="도로명주소" required readonly="readonly">
-                <input type="text" class="col-lg-2 form-control" id="sample6_detailAddress" name="user_detailAddr" placeholder="상세주소를 입력해주세요.">
-                <input type="hidden" class="col-lg-2 form-control" id="sample6_extraAddress" placeholder="참고항목.">
-              </div>
-              <span id="add_result"></span> 
-            </td>
-      </tr>
-    </thead>
-  </table>
-  	<div class="row">
-    	<div class="col text-center pt-5">
-      		<input type="button" id="button" class="btn btn-primary" onclick="nullCheck()" value="회원가입" >
-      		<a href="/ycc/"  class="cancle btn btn-secondary" role="button">취소</a>
-    	</div>
-  	</div>
+		    <tr>
+		        <th class="col" style="vertical-align: middle !important;">주소</th>
+		        <td>
+		        	<div class="row mx-0">
+		                <input type="text" class="col-lg-2 form-control" style="width: 180px;" id="sample6_postcode" name="user_postcode" placeholder="우편번호" required readonly="readonly">
+		                <input class="btn btn-outline-primary mx-1" onclick="sample6_execDaumPostcode()" type="button" style="width: 150px;" value="우편번호검색">
+		                <input type="text" class="col-lg-2 form-control" id="sample6_address" name="user_rNameAddr" placeholder="도로명주소" required readonly="readonly">
+		                <input type="text" class="col-lg-2 form-control" id="sample6_detailAddress" name="user_detailAddr" placeholder="상세주소를 입력해주세요.">
+		                <input type="hidden" class="col-lg-2 form-control" id="sample6_extraAddress" placeholder="참고항목.">
+		            </div>
+		              	<span id="add_result"></span> 
+		       	</td>
+		   	</tr>
+		    </thead>
+  		</table>
+  		<!-- 회원가입 & 취소 버튼 -->
+  		<div class="row">
+    		<div class="col text-center pt-5">
+      			<input type="button" id="button" class="btn btn-primary" onclick="nullCheck()" value="회원가입" >
+      			<a href="/ycc/"  class="cancle btn btn-secondary" role="button">취소</a>
+    		</div>
+  		</div>
   	</form>
  </div>
 	

@@ -11,7 +11,7 @@
 <title>사물함 안내</title>
 </head>
 <body>
-	<!-- header inlcude -->
+	<!-- header include -->
 	<%@include file="/WEB-INF/views/header.jsp"%>
   <div class="container w-100 pt-lg-5">
     <div class="mb-7 text-center">
@@ -113,7 +113,7 @@
 </script>
 
 
- 		<!-- footer inlcude -->
+ 		<!-- footer include -->
 	<%@include file="/WEB-INF/views/footer.jsp"%>
 </body>
 

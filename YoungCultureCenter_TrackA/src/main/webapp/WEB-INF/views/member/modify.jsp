@@ -31,7 +31,7 @@
 				<td>
 					<div class="row">
 						<div class="col-lg-4">
-							<input type="text" class="form-control-plaintext" id="name"
+							<input type="text" class="form-control-plaintext" id="name" name="user_name"
 							placeholder="한글입력" maxlength="10" value="${memberDto.user_name }" readonly>
 						</div>
 					</div>

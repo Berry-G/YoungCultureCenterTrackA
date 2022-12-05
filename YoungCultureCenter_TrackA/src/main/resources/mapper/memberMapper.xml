@@ -10,13 +10,12 @@
   	select * from tb_user 
   </sql>
   
-  <!-- 로그인 체크 : tb_user 테이블에서 입력받은 id의 정보를 조회 -->
   <select id="loginSelect" parameterType="String" resultType="MemberDto">
   	<include refid="selectFromMember" />
   	where user_id = #{user_id}
   </select>
   
-	<!-- 회원가입 : tb_user 테이블에 회원 추가-->
+  <!-- 회원가입 : tb_user 테이블에 회원 추가-->
   <insert id="signinMember" parameterType="MemberDto" >
   	INSERT INTO tb_user
 	(user_id, user_name, user_pw, user_gender, user_birth_date, user_email, user_phone_number, 
@@ -26,16 +25,7 @@
 	#{user_phone_number} ,#{user_postcode}, #{user_rNameAddr}, #{user_detailAddr}, now(), '일반회원', '');
   </insert>
   
-  
-   <!-- 아이디체크 -->
-  <!-- 아이디가 있으면 count 1 , 없으면 0 체크해서 중복확인  -->
-  <select id="idCheck" parameterType="MemberDto" resultType="Integer">
-	select count(user_id)
-	from tb_user 
-	where user_id = #{user_id}
-  </select>
-  
-  <!-- 회원정보 수정 : tb_user 테이블에 회원 정보 업데이트 -->
+    <!-- 회원정보 수정 : tb_user 테이블에 회원 정보 업데이트 -->
   <update id="update" parameterType="MemberDto">
   	UPDATE tb_user
 	SET 
@@ -52,11 +42,16 @@
 	user_id=#{user_id};
   </delete>
   
-  <delete id="deleteAll">
-  	delete from tb_user 
-  </delete>
   
-	<!-- 아이디 찾기 -->
+   <!-- 아이디체크 -->
+  <!-- 아이디가 있으면 count 1 , 없으면 0 체크해서 중복확인  -->
+  <select id="idCheck" parameterType="MemberDto" resultType="Integer">
+	select count(user_id)
+	from tb_user 
+	where user_id = #{user_id}
+  </select>
+  
+  <!-- 아이디 찾기 -->
 	<select id="findId" parameterType="MemberDto" resultType="String">
 		select user_id from tb_user 
 		where user_email = #{user_email} and user_name = #{user_name}

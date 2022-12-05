@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.youngtvjobs.ycc.rental.rentalMapper">
+
+	  <!-- 대관 시간 선택에 보여질 시간을 불러오는 sql문 -->
+	  <select id="selectSchedule" resultType="RentalDto">
+	  	SELECT prtime_schedule from rental_time
+	  </select>
+	  
+	  <!-- selectBox에서 장소 고를때 장소를 불러오는 sql문 -->
+	  <select id="selectRentalPlace" resultType="RentalDto">
+	  	select * from classroom
+	  </select>
+	  	  
+	  <!-- 해당 장소, 시간, 날짜에 예약이 있는지 확인하는 sql문 -->
+	  <select id="tlscjfghks" parameterType="RentalDto" resultType="RentalDto">
+		  select prental_id, prental_de, prtime_schedule, user_id, c.croom_id, c.croom_name
+		  from prental_info INNER JOIN classroom c
+		  on prental_info.croom_id = c.croom_id
+		  where c.croom_id = #{croom_id} and prental_de = #{prental_de}::date
+	  </select>
+	  
+	  <!-- 예약하기 버튼 클릭 시 해당 정보를 기반으로 예약하는 sql문 -->
+	  <insert id="insertRentalinfo" parameterType="RentalDto">
+	  	INSERT INTO prental_info
+		prental_de, prtime_schedule, user_id, croom_id
+		VALUES(#{prental_de}::date, #{prtime_schedule}, #{user_id}, #{croom_id})
+	  </insert>
+  </mapper>

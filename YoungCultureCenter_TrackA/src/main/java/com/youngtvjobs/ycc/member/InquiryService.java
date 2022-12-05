@@ -13,7 +13,7 @@ public interface InquiryService {
 	
 	//쓰기, 읽기
 	int wirteInq(InquiryDto inquiryDto) throws Exception;
-	InquiryDto read(String id, Integer inq_id);
+	InquiryDto read(String id, Integer inq_id) throws Exception;
 	
 	
 

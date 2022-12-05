@@ -39,7 +39,7 @@ public class InquiryServiceImpl implements InquiryService{
 	}
 	//문의글 읽기
 	@Override
-	public InquiryDto read(String id, Integer inq_id) {
+	public InquiryDto read(String id, Integer inq_id) throws Exception{
 
 		return inquiryDao.select(id, inq_id);
 	}

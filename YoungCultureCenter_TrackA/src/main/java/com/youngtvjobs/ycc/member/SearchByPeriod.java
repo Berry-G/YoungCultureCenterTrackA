@@ -32,15 +32,10 @@ public class SearchByPeriod {
 	}
 
 	public SearchByPeriod(Integer page, Integer pageSize, String settedInterval) {
-//		super();
 		this.page = page;
 		this.pageSize = pageSize;
 		this.settedInterval = settedInterval;
 	}
-
-//	public SearchByPeriod(Integer page, Integer pageSize) {
-//		this(page,pageSize,"","");
-//	}
 
 	public SearchByPeriod(Integer page, Integer pageSize, String startDate, String endDate) {
 		super();

@@ -3,17 +3,19 @@ package com.youngtvjobs.ycc.board;
 import java.util.Date;
 import java.util.Objects;
 
+import org.springframework.web.util.UriComponentsBuilder;
+
 public class BoardDto {
-	
-//	article_id   serial primary key,
-//    article_date    timestamp without time zone NOT NULL,
-//    article_Board_type    character(1) NOT NULL,
-//    user_id    varchar(16) NOT NULL,
-//    article_title    varchar NOT null,
-//    article_contents    text NOT NULL,
-//    article_viewcnt int not NULL
-	
-	
+
+	//inq_board
+	private String inq_cate;
+	private Integer inq_id;
+	private String inq_title;
+	private String inq_content;
+	private Date inq_date;
+	private boolean inq_YN;
+
+	//article
 	private Integer article_id ;			// 번호PK
 	private Date  article_date;				// 게시글 등록 날짜
 	private String  article_Board_type;		// 게시글 유형
@@ -21,20 +23,21 @@ public class BoardDto {
 	private String  article_title;			// 제목
 	private String article_contents;		// 내용
 	private int  article_viewcnt;			// 조회수 
-	private int preId;
-	private int nextId;
-	private String preTitle;
-	private String nextTitle;
+	private int preId;						// 이전글 no
+	private int nextId;						// 다음글 no
+	private String preTitle;				// 이전글 Title
+	private String nextTitle;				// 다음글 Title
+	private int count;
 	
 	
 	public BoardDto() {
 		// TODO Auto-generated constructor stub
 	}
-
-
+ 
+	//article Constructor
 	public BoardDto(Integer article_id, Date article_date, String article_Board_type, String user_id,
 			String article_title, String article_contents, int article_viewcnt, int preId, int nextId, String preTitle,
-			String nextTitle) {
+			String nextTitle, int count) {
 		super();
 		this.article_id = article_id;
 		this.article_date = article_date;
@@ -47,9 +50,72 @@ public class BoardDto {
 		this.nextId = nextId;
 		this.preTitle = preTitle;
 		this.nextTitle = nextTitle;
+		this.count = count;
 	}
 
+	//inq_board Constructor
+	public BoardDto(String inq_cate, Integer inq_id, String inq_title, String inq_content, Date inq_date,
+			boolean inq_YN) {
+		super();
+		this.inq_cate = inq_cate;
+		this.inq_id = inq_id;
+		this.inq_title = inq_title;
+		this.inq_content = inq_content;
+		this.inq_date = inq_date;
+		this.inq_YN = inq_YN;
+	}
+	
+	//inq_board : getter, setter
+	public String getInq_cate() {
+		return inq_cate;
+	}
 
+	public void setInq_cate(String inq_cate) {
+		this.inq_cate = inq_cate;
+	}
+
+	public Integer getInq_id() {
+		return inq_id;
+	}
+
+	public void setInq_id(Integer inq_id) {
+		this.inq_id = inq_id;
+	}
+
+	public String getInq_title() {
+		return inq_title;
+	}
+
+	public void setInq_title(String inq_title) {
+		this.inq_title = inq_title;
+	}
+
+	public String getInq_content() {
+		return inq_content;
+	}
+
+	public void setInq_content(String inq_content) {
+		this.inq_content = inq_content;
+	}
+
+	public Date getInq_date() {
+		return inq_date;
+	}
+
+	public void setInq_date(Date inq_date) {
+		this.inq_date = inq_date;
+	}
+
+	public boolean isInq_YN() {
+		return inq_YN;
+	}
+
+	public void setInq_YN(boolean inq_YN) {
+		this.inq_YN = inq_YN;
+	}
+
+	
+	//article : getter,setter
 	public Integer getArticle_id() {
 		return article_id;
 	}
@@ -158,33 +224,14 @@ public class BoardDto {
 	public void setNextTitle(String nextTitle) {
 		this.nextTitle = nextTitle;
 	}
-
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(article_Board_type, article_contents, article_date, article_id, article_title,
-				article_viewcnt, nextId, nextTitle, preId, preTitle, user_id);
-	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		BoardDto other = (BoardDto) obj;
-		return Objects.equals(article_Board_type, other.article_Board_type)
-				&& Objects.equals(article_contents, other.article_contents)
-				&& Objects.equals(article_date, other.article_date) && Objects.equals(article_id, other.article_id)
-				&& Objects.equals(article_title, other.article_title) && article_viewcnt == other.article_viewcnt
-				&& nextId == other.nextId && Objects.equals(nextTitle, other.nextTitle) && preId == other.preId
-				&& Objects.equals(preTitle, other.preTitle) && Objects.equals(user_id, other.user_id);
-	}
-
-
-
 	
-}
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+
+}	

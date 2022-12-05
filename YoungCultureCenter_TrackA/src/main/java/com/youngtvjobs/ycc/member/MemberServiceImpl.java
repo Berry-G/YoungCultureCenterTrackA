@@ -1,10 +1,9 @@
 package com.youngtvjobs.ycc.member;
 
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.sql.Date;
 
-import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -22,15 +21,22 @@ public class MemberServiceImpl implements MemberService{
 	MemberDao memberDao;
 	@Autowired
 	JavaMailSender mailSender;
-	
+
 
 	@Override	//회원 가입
-	public void signinMember(MemberDto memberDto) throws Exception {
-		memberDao.signinMember(memberDto);
+	public void signinMember(MemberDto dto) throws Exception {
+		String year = dto.getBirthYear();
+		String month = dto.getBirthMonth();
+		String day = dto.getBirthDay();
+		
+		Date birth = Date.valueOf(year +"-"+ month +"-"+ day);
+		dto.setUser_birth_date(birth);
+		
+		memberDao.signinMember(dto);
 	}
 	@Override	//아이디체크 
-	public int idCheck(MemberDto memberDto) throws Exception {
-		return memberDao.idCheck(memberDto);
+	public int idCheck(MemberDto dto) throws Exception {
+		return memberDao.idCheck(dto);
 	}
 
 	@Override	//회원 탈퇴
@@ -117,8 +123,6 @@ public class MemberServiceImpl implements MemberService{
 		sendMail.send();
 	}
 
-
+	
 	
 }
-
-	

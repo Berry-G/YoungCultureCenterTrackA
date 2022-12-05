@@ -40,6 +40,7 @@ public class BoardDaoImpl implements BoardDao{
 		
 		return session.delete(namespace+"delete", article_id);
 	}
+	
 	//공지사항 : 게시글 리스트
 	@Override
 	public List<BoardDto> nSelectPage(SearchItem sc) throws Exception {
@@ -85,6 +86,7 @@ public class BoardDaoImpl implements BoardDao{
 	public int PlusViewCnt(Integer article_id) throws Exception {
 		return session.update(namespace + "PlusViewCnt" , article_id);
 	}
+	
 	
 	
 }

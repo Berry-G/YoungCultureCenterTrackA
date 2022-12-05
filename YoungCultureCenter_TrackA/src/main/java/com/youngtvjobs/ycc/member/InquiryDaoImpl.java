@@ -65,7 +65,7 @@ public class InquiryDaoImpl implements InquiryDao{
 	}
 
 	@Override
-	public InquiryDto select(String id, Integer inq_id) {
+	public InquiryDto select(String id, Integer inq_id) throws Exception{
 		Map map = new HashMap();
 		map.put("id", id);
 		map.put("inq_id", inq_id);

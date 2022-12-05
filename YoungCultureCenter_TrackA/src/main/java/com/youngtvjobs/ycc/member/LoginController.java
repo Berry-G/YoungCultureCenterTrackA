@@ -17,7 +17,9 @@ public class LoginController {
 
 	@Autowired
 	MemberDao memberDao;
-	MemberService memberService;
+	
+	@Autowired(required=false)
+	MemberDto user;
 
 	@GetMapping("/login")
 	public String login() {
@@ -28,39 +30,26 @@ public class LoginController {
 	public String login(String id, String pw, String toURL, boolean save_id, boolean autoLogin,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-//		if(!loginCheck(id, pw)) {
-//		String msg= URLEncoder.encode("ID 또는 PW가 일치하지 않습니다.", "utf-8");
-//		return "redirect:/login?msg=" +msg;
-//		}
-		
-		//세션 확인
-		HttpSession session = request.getSession();
-		if(session.getAttribute("autoLogin")!=null) {
-		
-		}
-
-		// 로그인 체크 (id와 비밀번호 비교확인)
-		MemberDto user = memberDao.loginSelect(id);
-		System.out.println(id);
-		System.out.println(pw);
-
-		// db에서 id검색이 되지 않아 user 객체가 생성되지 않거나, pw가 일치하지 않으면 로그인 실패
-		if (user == null || !(user.getUser_pw().equals(pw))) {
+		//id, 비밀번호 일치하지 않을 시 메서드 종료
+		if (!loginCheck(id, pw))
+		{
 			String msg = URLEncoder.encode("ID 또는 PW가 일치하지 않습니다.", "utf-8");
 			return "redirect:/login?msg=" + msg;
 		}
-
-		// 로그인 성공시 id 저장 (다른 곳에서 받아올 때 세션에 저장된 "id"값을 받아올 수 있음
-		session.setAttribute("id", id);
-
-
-		System.out.println("getAttribute=" +session.getAttribute("id"));
-		System.out.println("getId=" +session.getId());
 		
-		//이메일 인증 했는지 확인 --> 현재 null값으로 뜸
-//		if(memberService.emailAuthFail(id) != 1) {
-//			return "/member/emailAuthFail";
-//		}
+		//user 객체에 id로 조회해서 나온 DB 튜플을 저장
+		user = memberDao.loginSelect(id);
+		
+		//세션 객체 생성
+		HttpSession session = request.getSession();
+		//세션에 필요한 데이터 저장
+		session.setAttribute("id", id);
+		session.setAttribute("name", user.getUser_name());
+		session.setAttribute("grade", user.getUser_grade());
+		//세선 속 데이터 체크 로깅
+		System.out.println("아이디 : " + session.getAttribute("id"));
+		System.out.println("이름 : " + session.getAttribute("name"));
+		System.out.println("회원등급 : " + session.getAttribute("grade"));
 
 		// 아이디 저장 체크박스
 		// True: 아이디가 저장된 쿠키 생성 후 response객체에 쿠키저장
@@ -77,29 +66,27 @@ public class LoginController {
 		// 세션(SESSIONID)을 쿠키에 담아서 30일간 저장
 		if (autoLogin) {
 			Cookie cookie = new Cookie("autoLogin", session.getId());
-
 			cookie.setMaxAge(60 * 60 * 24 * 30);
-
 			response.addCookie(cookie);
-
+		}
+		
+		//자동로그인 부분
+		if(session.getAttribute("autoLogin")!=null) {
 		}
 
+		
 		toURL = toURL == null || toURL.equals("") ? "/" : toURL;
 		return "redirect:" + toURL;
-		
-		
 	}
 
-//	private boolean loginCheck(String id, String pw) throws Exception {
-//		MemberDto user = memberDao.loginSelect(id);
-//		System.out.println(user.getUser_pw());
-//		System.out.println(pw);
-//		
-//		//db에서 id검색이 되지 않아 user 객체가 생성되지 않으면  로그인 실패 
-//		if(user == null) {return false;}
-//		
-//		return user.getUser_pw().equals(pw);
-//	}
+	private boolean loginCheck(String id, String pw) throws Exception {
+		user = memberDao.loginSelect(id);
+		
+		//db에서 id검색이 되지 않아 user 객체가 생성되지 않으면  로그인 실패 
+		if(user == null) {return false;}
+		
+		return user.getUser_pw().equals(pw);
+	}
 
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {

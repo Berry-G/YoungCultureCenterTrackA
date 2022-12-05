@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class BoardServiceImpl implements BoardService{
 
@@ -41,10 +42,10 @@ public class BoardServiceImpl implements BoardService{
 	}
 	
 	//공지사항 : 게시글 리스트
-		@Override
-		public List<BoardDto> nSelectPage(SearchItem sc) throws Exception {
-			return boardDao.nSelectPage(sc);
-		}
+	@Override
+	public List<BoardDto> nSelectPage(SearchItem sc) throws Exception {
+		return boardDao.nSelectPage(sc);
+	}
 
 	//공지사항 : 검색 결과 개수 
 	@Override
@@ -73,10 +74,11 @@ public class BoardServiceImpl implements BoardService{
 	}
 	//상세보기 
 	@Override
-	public BoardDto postSelect(Integer article_id) throws Exception {	
-		BoardDto boardDto = boardDao.postSelect(article_id);
+	public BoardDto postSelect(Integer article_id) throws Exception {
 		//조회수 증가 로직 추가 
-		boardDao.PlusViewCnt(article_id);
+		boardDao.PlusViewCnt(article_id);		
+		BoardDto boardDto = boardDao.postSelect(article_id);
+		
 		return boardDto;
 	}
 	//상세보기 : 이전글, 다음글 
@@ -84,12 +86,6 @@ public class BoardServiceImpl implements BoardService{
 	public BoardDto movePage(Integer article_id) throws Exception {
 		return boardDao.movePage(article_id);
 	}
-	
 
-	
-
-	
-	
-	
 	
 }

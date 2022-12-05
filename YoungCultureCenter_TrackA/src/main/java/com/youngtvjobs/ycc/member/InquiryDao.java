@@ -17,7 +17,7 @@ public interface InquiryDao {
 	
 	int insert(InquiryDto inquiryDto) throws Exception;
 	
-	InquiryDto select(String id, Integer inq_id);
+	InquiryDto select(String id, Integer inq_id) throws Exception;
 	
 
 

@@ -39,7 +39,7 @@
     
    function refreshTimer() {
        var xhr = initAjax();
-//    xhr.open("POST", "/jsp_std/kor/util/window_reload2.jsp", false);
+	     xhr.open("POST", "#", false);
        xhr.send();
        fncClearTime();
    }

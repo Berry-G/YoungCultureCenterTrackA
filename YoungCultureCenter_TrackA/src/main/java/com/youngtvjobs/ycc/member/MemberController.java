@@ -53,16 +53,19 @@ public class MemberController {
 
 	// 회원가입
 	@GetMapping("/signin/form")
-	public String siform() throws Exception {
-		System.out.println("get signin");
+	public String siform()  {
 		return "member/siForm";
 	}
 
 	@PostMapping("/signin/form")
-	public String siform(MemberDto dto, Model m) throws Exception {
-		//System.out.println(dto.toString());
-		memberService.signinMember(dto);
-		m.addAttribute(dto);
+	public String siform(MemberDto dto, Model m) {
+
+		try {
+			memberService.signinMember(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return "member/siComple";
 
 	}
@@ -70,12 +73,15 @@ public class MemberController {
 	// 아이디중복체크
 	@PostMapping("/signin/idcheck")
 	@ResponseBody
-	public int idcheck(MemberDto dto, Model m) throws Exception {
+	public int idcheck(MemberDto dto, Model m)  {
 
-		// System.out.println(dto.toString());
-		// 중복확인 체크 버튼을 누루지않고 회원가입버튼을 할 경우
-		int result = memberService.idCheck(dto);
-		System.out.println(result);
+		int result = 0;
+		try {
+			result = memberService.idCheck(dto);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return result;
 	}
 

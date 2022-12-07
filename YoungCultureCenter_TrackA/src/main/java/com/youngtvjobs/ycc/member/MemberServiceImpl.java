@@ -53,9 +53,14 @@ public class MemberServiceImpl implements MemberService{
 	
 	//아이디 찾기
 	@Override
-	public String findId(HttpServletResponse response, String user_email, String user_name) throws Exception {
+	public String findId(HttpServletResponse response, String user_email, String user_name) {
 
-		String user_id = memberDao.findId(user_email, user_name);
+		String user_id = null;
+		try {
+			user_id = memberDao.findId(user_email, user_name);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		if (user_id == null) {
 			return null;
@@ -66,9 +71,14 @@ public class MemberServiceImpl implements MemberService{
 	
 	//패스워드 찾기
 	@Override
-	public String findPw(HttpServletResponse response, String user_id, String user_name) throws Exception {
+	public String findPw(HttpServletResponse response, String user_id, String user_name) {
 		
-		String user_email = memberDao.findPw(user_id, user_name);
+		String user_email = null;
+		try {
+			user_email = memberDao.findPw(user_id, user_name);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		if (user_email == null) {
 			return null;
@@ -79,7 +89,7 @@ public class MemberServiceImpl implements MemberService{
 	
 	//이메일인증: mail_key값 생성하여 메일 발송세팅
 	@Override 
-	public String insertMember(String user_email) throws Exception {
+	public String insertMember(String user_email){
 		
 			//랜덤 문자열을 생성해서 mail_key 컬럼에 넣어주기
 			String mail_key = new TempKey().getKey(7, false);	//랜덤키 길이 설정
@@ -90,23 +100,36 @@ public class MemberServiceImpl implements MemberService{
 					"<br>아래 인증번호를 인증번호 입력창에 입력해주세요." +
 					"<p><b>인증번호: "+ mail_key +"</b></p>";
 			
-			this.sendEmail(user_email, mail_title, mail_text);
+			try {
+				this.sendEmail(user_email, mail_title, mail_text);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			
 			
 			return mail_key;
 		}
 	
 	//패스워드 찾을때 이메일 발송 세팅
-	public String pwSendEmail(String user_email) throws Exception {
+	public String pwSendEmail(String user_email) {
 		
 		//랜덤 문자열을 생성해서 pw 컬럼에 넣어주기
-		String pw = memberDao.findPword(user_email);
+		String pw = null;
+		try {
+			pw = memberDao.findPword(user_email);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		String email_title = "[Young문화체육센터 비밀번호 입니다.]";
 		String email_text = "<h1>Young문화체육센터 비밀번호 찾기</h1>" +
 				"<p><b>비밀 번호 : "+ pw +"</b></p>";
 		
-		this.sendEmail(user_email, email_title, email_text);
+		try {
+			this.sendEmail(user_email, email_title, email_text);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		return user_email;
 		

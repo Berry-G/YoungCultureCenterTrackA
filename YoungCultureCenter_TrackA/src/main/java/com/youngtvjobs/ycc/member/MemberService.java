@@ -13,10 +13,10 @@ public interface MemberService {
 	int ModifyMemberInfo(MemberDto dto) throws Exception;
 	
 	//id,pw 찾기
-	String findId(HttpServletResponse response, String user_email, String user_name) throws Exception;
-	String findPw(HttpServletResponse response, String user_id, String user_name) throws Exception;
+	String findId(HttpServletResponse response, String user_email, String user_name);
+	String findPw(HttpServletResponse response, String user_id, String user_name);
 		
 	//이메일 인증
-	String insertMember(String user_email) throws Exception;
-	String pwSendEmail(String user_id) throws Exception;
+	String insertMember(String user_email);
+	String pwSendEmail(String user_id);
 }

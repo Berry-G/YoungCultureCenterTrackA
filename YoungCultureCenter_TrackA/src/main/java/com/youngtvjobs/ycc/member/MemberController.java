@@ -129,31 +129,33 @@ public class MemberController {
 	}
 
 	//마이페이지 2: 회원 정보 수정
-	@GetMapping("/mypage/modify")
-	public String modify(HttpServletRequest request, HttpSession session, Model m) throws Exception {
-		// 비 로그인 시 접근 불가
-		if (!YccMethod.loginSessionCheck(request))
-			return "redirect:/login?toURL=" + request.getRequestURL();
+		@GetMapping("/mypage/modify")
+		public String modify(HttpServletRequest request, HttpSession session, Model m)  {
+			// 비 로그인 시 접근 불가
+			if (!YccMethod.loginSessionCheck(request))
+				return "redirect:/login?toURL=" + request.getRequestURL();
 
-		MemberDto memberDto = memberDao.loginSelect((String)session.getAttribute("id"));
-		
-		m.addAttribute("memberDto", memberDto);
-		
-		//이메일 아이디/도메인 분리하여 모델에 저장 (회원정보수정 이메일란에 출력)
-		String emailId= memberDto.getUser_email().split("@")[0];
-		String emailDomain=  memberDto.getUser_email().split("@")[1];
-		
-		m.addAttribute("emailId", emailId);
-		m.addAttribute("emailDomain", emailDomain);
-		
-		// 생년월일 String으로 형변환 & 포맷 지정하여 모델에 저장 (회원정보수정 생년월일란에 출력)		
-		String birth_date = YccMethod.date_toString(memberDto.getUser_birth_date());
-		
-		m.addAttribute("birth_date", birth_date);
+			try {
+				MemberDto memberDto = memberDao.loginSelect((String)session.getAttribute("id"));
+				m.addAttribute("memberDto", memberDto);
+				
+				//이메일 아이디/도메인 분리하여 모델에 저장 (회원정보수정 이메일란에 출력)
+				String emailId= memberDto.getUser_email().split("@")[0];
+				String emailDomain=  memberDto.getUser_email().split("@")[1];
+				
+				m.addAttribute("emailId", emailId);
+				m.addAttribute("emailDomain", emailDomain);
+				
+				// 생년월일 String으로 형변환 & 포맷 지정하여 모델에 저장 (회원정보수정 생년월일란에 출력)		
+				String birth_date = YccMethod.date_toString(memberDto.getUser_birth_date());
+				
+				m.addAttribute("birth_date", birth_date);
 
-		return "member/modify";
-	}
-	
+				return "member/modify";
+			} catch (Exception e) {e.printStackTrace();}
+			return "redirect:/";
+		}
+		
 	@PostMapping("/mypage/modify")
 	public String modify(MemberDto memberDto){
 		try {

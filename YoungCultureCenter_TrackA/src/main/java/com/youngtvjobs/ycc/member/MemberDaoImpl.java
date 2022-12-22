@@ -24,16 +24,19 @@ public class MemberDaoImpl implements MemberDao
 		// 로그인 셀렉트 
 		return session.selectOne(namespace + "loginSelect", id);
 	}
-	
-	
-	//회원가입_아이디중복체크 
-		@Override
-		public int idCheck(MemberDto dto) throws Exception {
-			
-			return session.selectOne(namespace + "idCheck", dto);
-		}
+	//권한
+	@Override
+	public int insertAuth(String user_id) throws Exception {
 
-		
+		return session.insert(namespace + "insertAuth" , user_id) ;
+	}
+
+	//회원가입_아이디중복체크 
+	@Override
+	public int idCheck(String user_id) throws Exception {
+		return session.selectOne(namespace + "idCheck", user_id);
+	}
+	
 	//회원가입_INSERT
 	@Override
 	public void signinMember(MemberDto dto) throws Exception {
@@ -86,6 +89,14 @@ public class MemberDaoImpl implements MemberDao
 		
 		return session.selectOne(namespace + "findPword", user_email);
 	}
+
+	//시큐리티 
+	@Override
+	public MemberDto read(String user_id) throws Exception {
+		
+		return session.selectOne(namespace + "read" ,user_id);
+	}
+
 
 
 

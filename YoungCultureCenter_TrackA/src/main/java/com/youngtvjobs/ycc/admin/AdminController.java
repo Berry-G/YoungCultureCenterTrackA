@@ -1,15 +1,16 @@
 package com.youngtvjobs.ycc.admin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.youngtvjobs.ycc.common.YccMethod;
 
 @Controller
 public class AdminController
@@ -17,26 +18,35 @@ public class AdminController
 	
 	@Autowired
 	AdminService adminService;
+	
+
 	//관리자페이지 메인메뉴
-	@RequestMapping("/admin")
-	public String adminmain(HttpServletRequest request) throws Exception
+	@GetMapping("/admin")
+	public String adminmain(HttpServletRequest request, Authentication auth ) throws Exception
 	{
-		// 관리자 권한이 없을 때 동작
-		if (!YccMethod.permissionCheck("관리자", request))
-		{
+		
+		List<String> roleNames = new ArrayList<>();
+		auth.getAuthorities().forEach(authority -> {roleNames.add(authority.getAuthority());});
+
+		if(!roleNames.contains("ROLE_ADMIN")) {
+
 			return "redirect:/error/403";
 		}
+
 		return "admin/adminmain";
 	}
 	//관리자페이지 : 공지사항 관리
 	@GetMapping("/admin/popup")
-	public String popupSetting(HttpServletRequest request) throws Exception
-	{
-		// 관리자 권한이 없을 때 동작
-		if (!YccMethod.permissionCheck("관리자", request))
-		{
+	public String popupSetting(HttpServletRequest request,  Authentication auth) throws Exception
+	{	
+		List<String> roleNames = new ArrayList<>();
+		auth.getAuthorities().forEach(authority -> {roleNames.add(authority.getAuthority());});
+
+		if(!roleNames.contains("ROLE_ADMIN")) {
+
 			return "redirect:/error/403";
 		}
+
 		return "admin/popup";
 	}
 	
@@ -59,7 +69,7 @@ public class AdminController
 	
 	//이용약관 관리
 	@GetMapping("/admin/agreement")
-	public String agreement(HttpServletRequest request, Model m) throws Exception
+	public String agreement(HttpServletRequest request, Model m , Authentication auth) throws Exception
 	{
 		
 		AdminDto adminDto = adminService.select();
@@ -71,9 +81,13 @@ public class AdminController
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+
+		List<String> roleNames = new ArrayList<>();
+		auth.getAuthorities().forEach(authority -> {roleNames.add(authority.getAuthority());});
+		
 		// 관리자 권한이 없을 때 동작
-		if (!YccMethod.permissionCheck("관리자", request))
-		{
+		if(!roleNames.contains("ROLE_ADMIN")) {
+
 			return "redirect:/error/403";
 		}
 		return "admin/agreement";

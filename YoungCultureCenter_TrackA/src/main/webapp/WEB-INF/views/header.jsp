@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-<c:set var="loginvis" value="${sessionScope.id==null ? 'visually-hidden' : ''}" />
-<c:set var="logoutvis" value="${sessionScope.id==null ? '' : 'visually-hidden'}" />
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%-- <c:set var="loginvis" value="${sessionScope.id==null ? 'visually-hidden' : ''}" /> --%>
+<%-- <c:set var="logoutvis" value="${sessionScope.id==null ? '' : 'visually-hidden'}" /> --%>
 
 <header>
     <!-- Header 시작 -->
@@ -65,27 +65,33 @@
                 </form>
 
                 <!-- 로그인 세션이 없을 떄 출력되는 부분 -->
+               <sec:authentication property="principal" var="pinfo"/>
+               <!-- 익명의 사용자의 경우, 로그인 하지 않은 경우 해당 -->
+                <sec:authorize access="isAnonymous()">
                 <div class="nav p-2 ${logoutvis} d-flex" style="justify-content: center; flex-wrap: nowrap;">
                     <a class="btn btn-primary mx-2 text-nowrap" href="/ycc/login">로그인</a>
                     <a class="btn btn-outline-primary text-nowrap" href="/ycc/signin/agree">회원가입</a>
                 </div>
+                </sec:authorize>
 
                 <!-- 로그인 세션이 있을 시 드롭다운 버튼 보여주기 / 회원가입, 로그인버튼 hidden -->
-                <div class="navbar-nav ${loginvis} d-flex" style="justify-content: center; flex-wrap: nowrap;">
+                <!-- 시큐리티 : 사용자 인증되었을때 보여주기  -->
+               <sec:authorize access="isAuthenticated()">
+                <div class="navbar-nav d-flex" style="justify-content: center; flex-wrap: nowrap;">
                 	<script type="text/javascript" charset="utf-8" src="/ycc/resources/js/timeoutchk.js"></script>
                 	<button class="btn btn-outline-success btn-sm me-2 hover-timer" style="white-space: nowrap;" onclick="javascript:refreshTimer()"><span id="timer"></span><p class="mb-0"></p></button>
                 	<div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        ${sessionScope.name} 님!</button>
+                        ${pinfo.member.user_name} 님!</button>
                     <ul class="dropdown-menu dropdown-menu-lg-end">
                         <li><button class="dropdown-item" type="button"
                                 onclick="location.href='/ycc/mypage/pwcheck'">마이페이지</button></li>
                         <li><button class="dropdown-item" type="button" onclick="location.href='/ycc/mypage/mycourse'">나의 수강목록</button></li>
                         <li><button class="dropdown-item" type="button" onclick="location.href='/ycc/mypage/inquiry'">나의 문의내역</button></li>
-
+			
                         <!-- 관리자 일떄 접근 가능한 관리자 페이지 버튼 -->
-                        <c:if test="${sessionScope.grade=='관리자'}">
+                        <c:if test="${pinfo.member.user_grade=='관리자'}">
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -95,11 +101,18 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><button class="dropdown-item dropdown-item-danger" type="button"
-                                onclick="location.href='/ycc/logout'">로그아웃</button></li>
+                        <li>
+                        <sec:authorize access="isAuthenticated()">
+                        	<form action="/ycc/logout"  method="post">
+								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+                        		<button class="dropdown-item dropdown-item-danger" type="submit">로그아웃</button>
+                            </form>
+                        </sec:authorize>
+                        </li>
                     </ul>
                 </div>
                 </div>
+               </sec:authorize>
                 
             </div>
             <!-- 반응형 햄버거버튼 종료 -->

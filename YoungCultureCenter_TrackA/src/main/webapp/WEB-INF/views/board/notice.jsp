@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +19,7 @@
   </h2>
   <!-- 게시판 테이블 -->
 		
-				
+	 <sec:authorize access="permitAll()">
 		<table class="table table-group-divider table table-striped table table-hover mt-5" >
 			<colgroup>
 				<col width="50%">
@@ -54,7 +53,7 @@
 
 		<!-- 작성하기 버튼  -->
 		<!-- 관리자만 보이도록 구현하기 -->
-		<c:if test = "${sessionScope.grade eq '관리자'}">
+		<c:if test = "${principal.member.user_grade=='관리자'}">
 		<div class="row">
 			<div class="col">
 				<a id="writeBtn" class="btn btn-primary " style="float:right" onclick="location.href='<c:url value="/board/write" />' "role="button">작성하기</a>    	
@@ -116,6 +115,7 @@
 	 		</form>
 	 	</div>
  	<!-- 검색 끝 -->
+	</sec:authorize>
 	</div>
   <!-- footer inlcude -->
 <%@include file="/WEB-INF/views/footer.jsp"%>

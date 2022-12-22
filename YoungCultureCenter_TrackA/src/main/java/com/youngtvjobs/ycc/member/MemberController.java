@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,57 +34,76 @@ public class MemberController {
 	InquiryDao inquiryDao;		
 	
 	JavaMailSender mailSender;
-
+	
+	BCryptPasswordEncoder passwordEncoder;
 
 	@Autowired
 	public MemberController(MemberDao memberDao, MemberService memberService, InquiryService inquiryService,
-			InquiryDao inquiryDao, JavaMailSender mailSender) {
-		//super();
+			InquiryDao inquiryDao, JavaMailSender mailSender, BCryptPasswordEncoder passwordEncoder) {
+		super();
 		this.memberDao = memberDao;
 		this.memberService = memberService;
 		this.inquiryService = inquiryService;
 		this.inquiryDao = inquiryDao;
 		this.mailSender = mailSender;
+		this.passwordEncoder = passwordEncoder;
 	}
-	
+
 	// 회원약관동의
+	@PreAuthorize("permitAll")
 	@GetMapping("/signin/agree")
 	public String siagree() {
 		return "member/siAgree";
 	}
 
 	// 회원가입
+	@PreAuthorize("permitAll")
 	@GetMapping("/signin/form")
 	public String siform()  {
 		return "member/siForm";
 	}
-
-	@PostMapping("/signin/form")
-	public String siform(MemberDto dto, Model m) {
-
+	
+	// 아이디중복체크
+	@PreAuthorize("permitAll")
+	@PostMapping("/signin/idcheck")
+	@ResponseBody
+	public int idcheck( String user_id, Model m)  {
+		System.out.println(user_id);
+		int result = 0;
+		
 		try {
+			result = memberService.idCheck(user_id);
+			System.out.println(result);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	// 회원가입 
+	@PreAuthorize("permitAll")
+	@PostMapping("/signin/form")
+	public String siform(MemberDto dto, String user_id ,Model m) {
+		
+		System.out.println(dto.getUser_pw());
+		
+		try {
+			//비밀번호 암호화 
+			String inputPass = dto.getUser_pw();
+			String pwd = passwordEncoder.encode(inputPass);
+			dto.setUser_pw(pwd);
 			memberService.signinMember(dto);
+			// 권한 insert 
+			memberService.insertAuth(user_id);
+			
+			System.out.println(dto.getAuthList());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		return "member/siComple";
 
-	}
-
-	// 아이디중복체크
-	@PostMapping("/signin/idcheck")
-	@ResponseBody
-	public int idcheck(MemberDto dto, Model m)  {
-
-		int result = 0;
-		try {
-			result = memberService.idCheck(dto);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return result;
 	}
 
 	
@@ -102,6 +123,7 @@ public class MemberController {
 	}
 	
 	//마이페이지1 : 본인인증
+	@PreAuthorize("permitAll")
 	@GetMapping("/mypage/pwcheck")
 	public String pwCheck(HttpSession session, HttpServletRequest request, String inputPassword) throws Exception	{
 	    //비 로그인 시 접근 불가

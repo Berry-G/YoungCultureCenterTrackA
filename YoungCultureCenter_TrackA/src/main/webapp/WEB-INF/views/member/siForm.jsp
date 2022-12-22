@@ -2,8 +2,6 @@
 <%@page import="com.youngtvjobs.ycc.member.MemberDao"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>	
@@ -37,7 +35,7 @@
 			   	</div>
     		</div>
 
-
+	
  	<form action='<c:url value="/signin/form" />' name="signinform" method="post">
   	<!-- 회원정보 입력 table -->
   	<h2 class="mt-5">회원정보입력</h2>
@@ -179,9 +177,11 @@
 		   	</tr>
 		    </thead>
   		</table>
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">	
   		<!-- 회원가입 & 취소 버튼 -->
   		<div class="row">
     		<div class="col text-center pt-5">
+    			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
       			<input type="button" id="button" class="btn btn-primary" onclick="nullCheck()" value="회원가입" >
       			<a href="/ycc/"  class="cancle btn btn-secondary" role="button">취소</a>
     		</div>
@@ -230,16 +230,20 @@
 	
 	//아이디중복확인
 	//아이디중복확인 버튼 클릭시 
-   	$("#idCheckBtn").click(function(){
+	
+
+	$("#idCheckBtn").click(function(){
+		var csrfHeaderName = "${_csrf.headerName}";
+		var csrfTokenValue= "${_csrf.token}";
        //user_id 입력값이 빈칸이 아니라면 
         if($("#user_id").val()!='') {
-      
-        //아이디를 서버로 전송 > DB 유효성 검사 > 결과 받기
-        $.ajax({
+  	 $.ajax({
+		  beforeSend: function(xhr){
+		  xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);},
           type: 'post',
           url: '/ycc/signin/idcheck',
           data: {'user_id' : $('#user_id').val()}, 
-          dataType: 'text',
+          dataType: 'JSON',
           success: function(result) {
         	//아이디가 없으면 result 0 , 없으면 1 체크해서 중복확인
             if(result==0) {
@@ -255,8 +259,8 @@
           }
           
         })
- 
-	      } else {
+	    } 
+        	else {
 	        $("#result").text('아이디를 입력하세요.').css('color','red');
 	        $("#user_id").focus();
 	      }
@@ -357,27 +361,7 @@
 			}
 		}
 			
-		
-// 		$("#birthYear").blur(function(){
-// 		  birth();
-// 		})
-// 		$("#birthMonth").blur(function(){
-// 		  birth();
-// 		})
-// 		$("#birthDay").blur(function(){
-// 		  birth();
-// 		})
 
-		
-// 		function birth() {
-// 		  const year = $("#birthYear").val();
-// 		  const month = $("#birthMonth").val();
-// 		  const day = $("#birthDay").val();
-// 		  if(year != "" && month != "" && year != "")  {
-// 		    $("#totalBirth").val(year+month+day);
-// 		    new date              
-// 		  }
-// 		}
 	
 		//이메일 합쳐서 가져오기 
 		$("#email").blur(function(){

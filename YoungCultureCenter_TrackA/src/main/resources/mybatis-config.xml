@@ -18,5 +18,6 @@
 		<typeAlias alias="ReviewDto" type="com.youngtvjobs.ycc.course.ReviewDto" />
 		<typeAlias alias="AttendDto" type="com.youngtvjobs.ycc.course.AttendDto" />
 		<typeAlias alias="AdminDto" type="com.youngtvjobs.ycc.admin.AdminDto" />
+		<typeAlias alias="AuthDto" type="com.youngtvjobs.ycc.member.AuthDto"/>
 	</typeAliases>
 </configuration>

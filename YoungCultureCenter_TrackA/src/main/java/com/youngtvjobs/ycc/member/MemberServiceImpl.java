@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.youngtvjobs.ycc.member.mail.MailHandler;
@@ -15,12 +16,11 @@ import com.youngtvjobs.ycc.member.mail.TempKey;
 @Service
 public class MemberServiceImpl implements MemberService{
 
-
-
 	@Autowired
 	MemberDao memberDao;
 	@Autowired
 	JavaMailSender mailSender;
+
 
 
 	@Override	//회원 가입
@@ -32,11 +32,18 @@ public class MemberServiceImpl implements MemberService{
 		Date birth = Date.valueOf(year +"-"+ month +"-"+ day);
 		dto.setUser_birth_date(birth);
 		
+		
 		memberDao.signinMember(dto);
+		System.out.println(dto);
 	}
+	@Override	//권한 insert
+	public int insertAuth(String user_id) throws Exception {
+		return memberDao.insertAuth(user_id);
+	}
+	
 	@Override	//아이디체크 
-	public int idCheck(MemberDto dto) throws Exception {
-		return memberDao.idCheck(dto);
+	public int idCheck(String user_id) throws Exception {
+		return memberDao.idCheck(user_id);
 	}
 
 	@Override	//회원 탈퇴
@@ -129,6 +136,8 @@ public class MemberServiceImpl implements MemberService{
 			this.sendEmail(user_email, email_title, email_text);
 		} catch (Exception e) {
 			e.printStackTrace();
+			
+			
 		}
 		
 		return user_email;
@@ -145,7 +154,14 @@ public class MemberServiceImpl implements MemberService{
 		sendMail.setTo(user_email);
 		sendMail.send();
 	}
+	//권한
+	@Override
+	public MemberDto read(String user_id) throws Exception {
+		
+		return memberDao.read(user_id);
+	}
 
+	
 	
 	
 }

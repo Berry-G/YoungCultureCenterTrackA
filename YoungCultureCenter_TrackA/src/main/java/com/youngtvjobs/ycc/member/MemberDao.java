@@ -8,10 +8,13 @@ public interface MemberDao
 	MemberDto loginSelect(String id) throws Exception ;
 	
 	//회원가입 insert 
-		void signinMember(MemberDto dto) throws Exception;
+	void signinMember(MemberDto dto) throws Exception;
+	
+	//권한 insert
+	int insertAuth(String user_id) throws Exception;
 
 	//회원가입 아이디중복체크
-	int idCheck(MemberDto dto) throws Exception;
+	int idCheck(String user_id) throws Exception;
 	
 	int delete(String id) throws Exception;
 	int deleteAll() throws Exception;
@@ -26,4 +29,7 @@ public interface MemberDao
 	String findPw(String user_id, String user_name) throws Exception;
 	//패스워드 이메일로 발송
 	String findPword(String user_email) throws Exception;
+	
+	//시큐리티 
+	MemberDto read(String user_id) throws Exception;
 }

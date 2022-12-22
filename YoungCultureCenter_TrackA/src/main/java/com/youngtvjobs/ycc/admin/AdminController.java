@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.youngtvjobs.ycc.common.YccMethod;
+
 @Controller
 public class AdminController
 {
@@ -24,7 +26,6 @@ public class AdminController
 	@GetMapping("/admin")
 	public String adminmain(HttpServletRequest request, Authentication auth ) throws Exception
 	{
-		
 		List<String> roleNames = new ArrayList<>();
 		auth.getAuthorities().forEach(authority -> {roleNames.add(authority.getAuthority());});
 
@@ -32,9 +33,9 @@ public class AdminController
 
 			return "redirect:/error/403";
 		}
-
 		return "admin/adminmain";
 	}
+	
 	//관리자페이지 : 공지사항 관리
 	@GetMapping("/admin/popup")
 	public String popupSetting(HttpServletRequest request,  Authentication auth) throws Exception
@@ -46,8 +47,7 @@ public class AdminController
 
 			return "redirect:/error/403";
 		}
-
-		return "admin/popup";
+		return "admin/profile";
 	}
 	
 	//공지사항 관리 : 저장 버튼 눌렀을 때 동작

@@ -8,12 +8,12 @@
 		http://www.springframework.org/schema/beans/spring-beans.xsd">
 			
 <!-- 		CustomAccessDeniedHandler Class를 bean으로 등록 			 -->
-<bean id="customAccessDenied" class="com.youngtvjobs.ycc.member.CustomAccessDeniedHandler"></bean>
+<bean id="customAccessDenied" class="com.youngtvjobs.ycc.member.security.CustomAccessDeniedHandler"></bean>
 <!-- 		CustomLoginSuccessHandler Class를 bean으로 등록 			 -->
-<bean id="customLoginSuccess" class="com.youngtvjobs.ycc.member.CustomLoginSuccessHandler"></bean>
+<bean id="customLoginSuccess" class="com.youngtvjobs.ycc.member.security.CustomLoginSuccessHandler"></bean>
 <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
-<bean id="customUserDetailsService" class="com.youngtvjobs.ycc.member.CustomUserDetailsService"></bean>
-<bean id="CustomUserLoginFailHandler" class="com.youngtvjobs.ycc.member.CustomLoginFailHandler"></bean>
+<bean id="customUserDetailsService" class="com.youngtvjobs.ycc.member.security.CustomUserDetailsService"></bean>
+<bean id="CustomUserLoginFailHandler" class="com.youngtvjobs.ycc.member.security.CustomLoginFailHandler"></bean>
 
 	<security:http>
 			<!-- intercept-url: 특정 url 패턴은 권한이 있어야 허용 설정  -->

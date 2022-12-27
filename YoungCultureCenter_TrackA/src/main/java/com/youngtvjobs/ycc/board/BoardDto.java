@@ -1,9 +1,6 @@
 package com.youngtvjobs.ycc.board;
 
 import java.util.Date;
-import java.util.Objects;
-
-import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

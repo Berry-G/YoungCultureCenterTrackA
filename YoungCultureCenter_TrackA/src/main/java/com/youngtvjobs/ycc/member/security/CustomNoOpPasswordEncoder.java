@@ -1,4 +1,4 @@
-package com.youngtvjobs.ycc.member;
+package com.youngtvjobs.ycc.member.security;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 

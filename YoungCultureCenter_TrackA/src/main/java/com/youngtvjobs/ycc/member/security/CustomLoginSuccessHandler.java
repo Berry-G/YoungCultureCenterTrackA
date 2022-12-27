@@ -1,4 +1,4 @@
-package com.youngtvjobs.ycc.member;
+package com.youngtvjobs.ycc.member.security;
 
 import java.io.IOException;
 

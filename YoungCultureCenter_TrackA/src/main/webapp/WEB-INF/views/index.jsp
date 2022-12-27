@@ -271,21 +271,14 @@
 				</div>
 				<hr class="my-2">
 				<ul class="ms-0 text-truncate ps-0 boardlist">
-					<li><a href="/ycc/board/post">
-						저 오늘 치과갑니다
-					</a></li>
-					<li><a href="/office/gfac/board/gfac_notice/482/view.do">
-						2022 강남페스티벌 별마당패션쇼 운영업체 선정 공고
-					</a></li>
-					<li><a href="/office/gfac/board/gfac_notice/480/view.do">
-						2022년 강남예술단 찾아가는 공연 『톡톡! 음악배달부』 7월 선정결과 안내
-					</a></li>
-					<li><a href="/office/gfac/board/gfac_notice/479/view.do">
-						렌티큘러와 홀로그램으로 본 세상 - 기술입은 문화교육 프로그램 참가 어린이/청소년 모집(기간연장 ~7/20까지)
-					</a></li>
-					<li><a href="/office/gfac/board/gfac_notice/479/view.do">
-						서울 강남도 DMZ로...강남문화재단 문화체험 프로그램
-					</a></li>
+					<c:forEach var="boardDto" items="${nList }"  begin="0" end="4" step="1">
+							<li class="title"  >
+								<a style="text-decoration: none; color: black;"
+									 href="<c:url value="/board/post?page=1&pageSize=10&option=&keyword=&article_id=${boardDto.article_id  }"/>">
+									${boardDto.article_title }
+				      			</a>
+							</li>
+					</c:forEach>
 				</ul>
 			</div>
 			</div>
@@ -301,21 +294,14 @@
 					</div>
 					<hr class="my-2">
 					<ul class="ms-0 text-truncate ps-0 boardlist">
-						<li><a href="/ycc/board/post">
-							저 오늘 치과갑니다
-						</a></li>
-						<li><a href="/office/gfac/board/gfac_notice/482/view.do">
-							2022 강남페스티벌 별마당패션쇼 운영업체 선정 공고
-						</a></li>
-						<li><a href="/office/gfac/board/gfac_notice/480/view.do">
-							2022년 강남예술단 찾아가는 공연 『톡톡! 음악배달부』 7월 선정결과 안내
-						</a></li>
-						<li><a href="/office/gfac/board/gfac_notice/479/view.do">
-							렌티큘러와 홀로그램으로 본 세상 - 기술입은 문화교육 프로그램 참가 어린이/청소년 모집(기간연장 ~7/20까지)
-						</a></li>
-						<li><a href="/office/gfac/board/gfac_notice/479/view.do">
-							서울 강남도 DMZ로...강남문화재단 문화체험 프로그램
-						</a></li>
+						<c:forEach var="boardDto" items="${eList }"  begin="0" end="4" step="1">
+							<li class="title"  >
+								<a style="text-decoration: none; color: black;"
+									 href="<c:url value="/board/post?page=1&pageSize=10&option=&keyword=&article_id=${boardDto.article_id  }"/>">
+									${boardDto.article_title }
+				      			</a>
+							</li>
+					</c:forEach>
 					</ul>
 				</div>
 			</div>

@@ -1,4 +1,4 @@
-package com.youngtvjobs.ycc.member;
+package com.youngtvjobs.ycc.member.security;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+
+import com.youngtvjobs.ycc.member.MemberDto;
 
 import lombok.Getter;
 

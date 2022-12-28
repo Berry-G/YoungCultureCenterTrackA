@@ -50,13 +50,7 @@
 			and true <include refid="searchCondition" />) as count
 			from article
 	</sql>
-	<!-- 동아리 -->
-	<sql id="selectFromClub">
-		SELECT *, ( 
-		select count(*) from club
-		where true <include refid="searchConditionClub" />) as count
-		FROM club
-	</sql>
+	
 	<!-- 강좌 -->
 	<sql id="selectFromCourse">
 		SELECT *, ( 
@@ -70,10 +64,7 @@
 	<sql id="searchCondition">
 		AND article_title LIKE concat('%',#{keyword},'%')
 	</sql>
-	<!-- 동아리 -->
-	<sql id="searchConditionClub">
-		AND club_title LIKE concat('%',#{keyword},'%')
-	</sql>
+	
 	<!-- 강좌 -->
 	<sql id="searchConditionCourse">
 		AND course_nm LIKE concat('%',#{keyword},'%')
@@ -101,21 +92,7 @@
 			</otherwise>
 		</choose>
 	</sql>
-	<!-- 동아리 -->
-	<sql id="arrayConditionClub">
-		<choose>
-			<when test='array=="N"'>
-				club_title desc, club_id desc
-			</when>
-			<otherwise>
-				case when club_title like #{keyword} then 0
-				when club_title like concat('%', #{keyword}) then 1
-				when club_title like concat('%', #{keyword}, '%') then 2
-				when club_title like concat(#{keyword}, '%') then 3
-				else 4 end
-			</otherwise>
-		</choose>
-	</sql>
+	
 	<!-- 강좌 -->
 	<sql id="arrayConditionCourse">
 		<choose>
@@ -135,12 +112,6 @@
 	<!-- 파라미터 type을 받아서 검색결과 카운트 -->
 	<select id="searchResultCnt" parameterType="Map" resultType="int">
 		<choose>
-			<when test='type=="동아리"'>
-				select count(*)
-				from club
-				where true
-				<include refid="searchConditionClub" />
-			</when>
 			<when test='type=="강좌"'>
 				select count(*)
 				from tb_course
@@ -166,10 +137,7 @@
 				<!-- article 카운트 -->
 				(select count(*) from article where true
 				<include refid="searchCondition" />) +
-				<!-- 동아리 카운트 -->
-				(select count(*) from club where true
-				<include refid="searchConditionClub" />)
-				)
+
 	</select>
 	
 	<!-- 각 테이블별 검색결과 -->
@@ -193,17 +161,6 @@
 		<include refid="searchCondition" />
 		order by
 		<include refid="arrayCondition" />
-		limit #{pageSize} offset #{offset}
-	</select>
-
-	<!-- 동아리 -->
-	<select id="selectClubPage" parameterType="SearchItem"
-		resultType="ClubDto">
-		<include refid="selectFromClub" />
-		where true
-		<include refid="searchConditionClub" />
-		order by
-		<include refid="arrayConditionClub" />
 		limit #{pageSize} offset #{offset}
 	</select>
 

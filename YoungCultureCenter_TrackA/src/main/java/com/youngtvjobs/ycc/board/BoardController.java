@@ -102,9 +102,9 @@ public class BoardController
 	public String write(BoardDto boardDto, Model model ,HttpServletRequest request) throws Exception {
 		
 			// 관리자 권한이 없을 때 동작
-			if (!YccMethod.permissionCheck("관리자", request)) {
-				return "redirect:/error/403";  
-				}
+//			if (!YccMethod.permissionCheck("관리자", request)) {
+//				return "redirect:/error/403";  
+//				}
 				
 			return "board/write";
 	}
@@ -119,19 +119,19 @@ public class BoardController
 			boardDto.setUser_id(user_id);
 			
 			try {
-				if(YccMethod.permissionCheck("관리자", request)) {
-					boardService.writeInsert(boardDto);
-				}
-				
+//				if(YccMethod.permissionCheck("관리자", request)) {
+//					boardService.writeInsert(boardDto);
+//				}
+//				
 				//boardDto에서 받은 board-type이 "공지사항"이면 공지사항게시판에 insert
 				if(boardDto.getArticle_Board_type().equals("공지사항") ) {
 					//insert 후 공지사항 게시판으로 보여줌
-					return "redirect:/board/notice";					
+					return "board/notice";					
 				}
 				//boardDto에서 받은 board-type이 "이벤트"이면 이벤트/행사 게시판에 insert
 				else if(boardDto.getArticle_Board_type().equals("이벤트") ) {
 					//insert 후 이벤트 게시판으로 보여줌 
-					return "redirect:/board/event";
+					return "board/event";
 				}
 				
 			} catch (Exception e) {
@@ -178,10 +178,10 @@ public class BoardController
 	public String getArticleEdit(Integer article_id, Model m, HttpServletRequest request) throws Exception {
 		//boardMapper.xml에 select값을 가져오는 로직
 		// 관리자 권한이 없을 때 동작
-		if (!YccMethod.permissionCheck("관리자", request))
-		{
-			return "redirect:/error/403";
-		}
+//		if (!YccMethod.permissionCheck("관리자", request))
+//		{
+//			return "redirect:/error/403";
+//		}
 		try {
 			BoardDto boardDto = boardService.getArticleEdit(article_id);
 			m.addAttribute("boardDto", boardDto);

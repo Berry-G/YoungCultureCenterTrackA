@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.youngtvjobs.ycc.board.BoardDto;
-import com.youngtvjobs.ycc.club.ClubDto;
+
 import com.youngtvjobs.ycc.course.CourseDto;
 
 @Controller
@@ -48,8 +48,7 @@ public class SearchController {
 			List<BoardDto> eList = searchService.getEventPage(sc);
 			m.addAttribute("eventList", eList);
 
-			List<ClubDto> clubList = searchService.getClubPage(sc);
-			m.addAttribute("clubList", clubList);
+
 			
 			List<CourseDto> courseList = searchService.getCoursePage(sc);
 			m.addAttribute("courseList", courseList);
@@ -107,9 +106,7 @@ public class SearchController {
 			// article:이벤트
 			List<BoardDto> eList = searchService.getEventPage(sc);
 			m.addAttribute("eventList", eList);
-			// 동아리
-			List<ClubDto> clubList = searchService.getClubPage(sc);
-			m.addAttribute("clubList", clubList);
+
 			// 강좌
 			List<CourseDto> courseList = searchService.getCoursePage(sc);
 			m.addAttribute("courseList", courseList);

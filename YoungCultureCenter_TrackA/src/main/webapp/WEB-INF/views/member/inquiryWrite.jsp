@@ -124,6 +124,7 @@
            <div class="d-flex justify-content-end">
           	 <button type="button" class="btn btn-primary mt-3" id="writeBtn">등록</button>
            </div>
+           <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
       </div>
 	</form>
 

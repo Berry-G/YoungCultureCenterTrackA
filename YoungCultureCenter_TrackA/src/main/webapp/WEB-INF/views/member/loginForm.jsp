@@ -14,6 +14,7 @@
     #msg { font-size: 16px; color: red; }
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+    <meta name="google-signin-client_id" content="879383765948-nosm8poi9168kc4nj2snn6at14otnp1c.apps.googleusercontent.com">
 </head>
 <body>
 	<!-- header include -->
@@ -68,7 +69,11 @@
 				<div class="w-75 mx-auto">
 					<h3>SNS계정으로 로그인</h3>
 					<div class="d-grid gap-3">
-						<a href="${google_url}" class="btn btn-danger btn-lg">구글계정으로 로그인</a>
+<!-- 						<div id="googleLoginBtn" class="g-signin2" data-onsuccess="onSignin">구글로그인</div> -->
+						<div class="google">
+							<button type="button" onclick="location.href='/ycc/login/google'"> <i class="fa fa-google" aria-hidden="true"></i>
+								구글 로그인</button>
+						</div>
 						<a href="/login/naver" class="btn btn-success btn-lg">네이버계정으로 로그인</a>
 						<a href="/login/kakao" class="btn btn-warning btn-lg">카카오계정으로 로그인</a>
 					</div>
@@ -77,10 +82,23 @@
 		</div>
 		<hr>
 	</div>
-
+	<script>
+		const onClickGoogleLogin = (e) => {
+	    	//구글 인증 서버로 인증코드 발급 요청
+	 		window.location.replace("https://accounts.google.com/o/oauth2/v2/auth?
+	        client_id=879383765948-nosm8poi9168kc4nj2snn6at14otnp1c.apps.googleusercontent.com
+	        &redirect_uri=http://localhost:8080/ycc/login/oauth2callback
+	        &response_type=code
+	        &scope=email%20profile%20openid
+	        &access_type=offline")
+	 	}
+		
+		const googleLoginBtn = document.getElementById("googleLoginBtn");
+		googleLoginBtn.addEventListener("click", onClickGoogleLogin);
+	</script>
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
 	<!-- footer include -->
 	<%@ include file="/WEB-INF/views/footer.jsp"%>
-
-	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	
 </body>
 </html>

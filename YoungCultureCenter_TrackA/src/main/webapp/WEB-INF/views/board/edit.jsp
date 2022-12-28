@@ -64,6 +64,7 @@
 	            <button type="button" class="btn btn-outline-success" id="regBtn" name="regBtn">등록</button>
 	            <input type="hidden" name="boardDto" value="${boardDto}"> 
 	         </div>
+	         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 	    </form>
     </div>
 

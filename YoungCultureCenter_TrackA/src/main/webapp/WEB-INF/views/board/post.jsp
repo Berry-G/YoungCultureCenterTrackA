@@ -33,7 +33,7 @@
 					</h2>
 				</c:if>
 				
-				<form id="form" class="frm" action="" method="post">
+				<form id="form" class="frm" action="ycc/board/post" method="post">
 					<div class="card mb-4">
 	    				<div class="card-body">
     						<!-- 게시글 정보 -->
@@ -55,17 +55,21 @@
 						</div>
 						<!-- 본인이 쓴 게시글에만 수정, 삭제 가능 -->
 						<!-- 세션 아이디와 boardDto에 저장되 아이디가 같으면 수정, 삭제 버튼 활성화 -->
-						<c:if test="${sessionScope.id eq boardDto.user_id}">
-						<div class="col-auto px-1">
-			  				<button type="button" class="btn btn-outline-success" id="modifyBtn"><i class="bi bi-pen"></i>수정</button>
-						</div>
-						<div class="col-auto px-1">
-			  				<button type="button" class="btn btn-outline-danger" id="deleteBtn"><i class="bi bi-trash3"></i>삭제</button>
-			      		</div>
-			      		</c:if>
+						<sec:authentication property="principal" var="pinfo"/>
+						<sec:authorize access="isAuthenticated()">
+							<c:if test="${pinfo.member.user_id eq boardDto.user_id}">
+								<div class="col-auto px-1">
+					  				<button type="button" class="btn btn-outline-success" id="modifyBtn"><i class="bi bi-pen"></i>수정</button>
+								</div>
+								<div class="col-auto px-1">
+					  				<button type="button" class="btn btn-outline-danger" id="deleteBtn"><i class="bi bi-trash3"></i>삭제</button>
+					      		</div>
+				      		</c:if>
+			      		</sec:authorize>
+      			         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 			       </div>
 		       </form>
-		  
+		  	
 			       <!-- 이전글, 다음글  -->
 			       <div class="prevNext">
 						<table class="table table-bordered table-hover" style="border-radius:5px;">

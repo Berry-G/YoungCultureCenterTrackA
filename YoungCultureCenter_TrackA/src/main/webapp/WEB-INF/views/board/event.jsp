@@ -47,6 +47,19 @@
 			</c:forEach>
 		 </table>
 		 
+		 			 <!-- 작성하기 버튼  -->
+		<!-- 관리자만 보이도록 구현하기 -->
+		 <sec:authentication property="principal" var="pinfo"/>
+		 <sec:authorize access="isAuthenticated()">
+			<c:if test ="${pinfo.member.user_grade eq '관리자'}">
+				<div class="row">
+					<div class="col">
+						<a id="writeBtn" class="btn btn-primary " style="float:right" onclick="location.href='<c:url value="/board/write" />' "role="button">작성하기</a>    	
+		 			</div>
+				</div>
+			</c:if>
+		</sec:authorize>
+		
 	
 
 
@@ -80,16 +93,7 @@
 		</div>
 		<!-- 페이징 끝 -->
 		
-			 <!-- 작성하기 버튼  -->
-		<!-- 관리자만 보이도록 구현하기 -->
-		<c:if test = "${sessionScope.grade eq '관리자'}">
-		<div class="row">
-			<div class="col">
-				<a id="writeBtn" class="btn btn-primary " style="float:right" onclick="location.href='<c:url value="/board/write" />' "role="button">작성하기</a>    	
-		 	</div>
-		</div>
-		</c:if>
-		
+
 	
 		<!-- 검색 -->
 		<div class="container text-center">

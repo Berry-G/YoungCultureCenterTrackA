@@ -10,9 +10,6 @@ public interface BoardDao {
 	void update(BoardDto boardDto) throws Exception;
 	BoardDto articleEdit(Integer article_id) throws Exception;
 	
-
-	//글쓰기
-//	void writeInsert(BoardDto boardDto)throws Exception ;
 	
 	//공지사항 : 게시글 리스트
 	List<BoardDto> nSelectPage(SearchItem sc) throws Exception;

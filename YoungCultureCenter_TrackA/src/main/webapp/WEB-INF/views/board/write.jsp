@@ -12,8 +12,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
   
   <%
-  	String noticeURI = request.getParameter("board");
-  	String eventURI = request.getParameter("board");
+//   	String noticeURI = request.getParameter("board");
+//   	String eventURI = request.getParameter("board");
   %>
 <title>글쓰기</title>
 </head>
@@ -49,6 +49,7 @@
 	      			<input class="btn btn-primary mx-3" id="regBtn" type="button" onclick="regCheck()" value="등록하기" >
 	      			<input class="btn btn-secondary" type="button" value="취소하기">
 	    		</div>
+	    		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
   			</div><!--container end-->
   		</form>
 

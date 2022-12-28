@@ -15,7 +15,7 @@
   <!-- body -->
   <div class="container mt-5 text-center">
     <h2 class="text-start">본인인증페이지</h2><hr>
-    <form class="row g-3 text-center" action="pwcheck" method="post">
+    <form class="row g-3 text-center" action="ycc/mypage/pwcheck" method="post">
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-12">
@@ -40,7 +40,7 @@
   	</form>
 	${alert}
 	</div>
-
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
   <!-- footer include -->
 	<%@ include file="/WEB-INF/views/footer.jsp" %>
 	

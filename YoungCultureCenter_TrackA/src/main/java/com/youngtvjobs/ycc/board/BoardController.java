@@ -1,5 +1,6 @@
 package com.youngtvjobs.ycc.board;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -77,7 +78,7 @@ public class BoardController
 	//게시글 상세 보기 
 	@GetMapping("/post")
 	public String postSelect(SearchItem sc,
-			@RequestParam ("article_id") Integer article_id, Model m) {
+		Integer article_id, Model m) {
 	
 		try {
 			BoardDto boardDto = boardService.postSelect(article_id);
@@ -101,11 +102,6 @@ public class BoardController
 	@GetMapping("/write")
 	public String write(BoardDto boardDto, Model model ,HttpServletRequest request) throws Exception {
 		
-			// 관리자 권한이 없을 때 동작
-//			if (!YccMethod.permissionCheck("관리자", request)) {
-//				return "redirect:/error/403";  
-//				}
-				
 			return "board/write";
 	}
 	
@@ -113,25 +109,22 @@ public class BoardController
 	//게시글 작성 
 	@PostMapping("/write")
 	public String writePage(BoardDto boardDto, RedirectAttributes rttr, HttpServletRequest request,
-			Model model, HttpSession session) throws Exception {		
-			
-			String user_id = (String) session.getAttribute("id");
-			boardDto.setUser_id(user_id);
-			
-			try {
-//				if(YccMethod.permissionCheck("관리자", request)) {
-//					boardService.writeInsert(boardDto);
-//				}
-//				
+			Model model, HttpSession session, Principal principal) throws Exception {		
+
+			boardDto.setUser_id(principal.getName());
+	
+			try {		
+				boardService.writeInsert(boardDto);
+
 				//boardDto에서 받은 board-type이 "공지사항"이면 공지사항게시판에 insert
 				if(boardDto.getArticle_Board_type().equals("공지사항") ) {
 					//insert 후 공지사항 게시판으로 보여줌
-					return "board/notice";					
+					return "redirect:/board/notice";					
 				}
 				//boardDto에서 받은 board-type이 "이벤트"이면 이벤트/행사 게시판에 insert
 				else if(boardDto.getArticle_Board_type().equals("이벤트") ) {
 					//insert 후 이벤트 게시판으로 보여줌 
-					return "board/event";
+					return "redirect:/board/event";
 				}
 				
 			} catch (Exception e) {
@@ -147,7 +140,7 @@ public class BoardController
 	      
 	      try {
 	         BoardDto tmpboard=boardService.getArticleEdit(article_id);
-	         if(YccMethod.permissionCheck("관리자", request)) {
+	         System.out.println( tmpboard);
 	            if(boardService.remove(article_id)== 1) {
 	               //boardDto에서 받은 board-type이 "N"이면 공지사항게시판에 insert
 	               if(tmpboard.getArticle_Board_type().equals("공지사항") ) {
@@ -160,11 +153,7 @@ public class BoardController
 	                  return "redirect:/board/event";
 	               }
 	            }
-	         }
-	         else {
-	            System.out.println("관리자 아닌 사람이 접근");
-	            return "redirect:/error/403";
-	         }
+	         
 	         
 	      } catch (Exception e) {
 	         e.printStackTrace();
@@ -177,11 +166,7 @@ public class BoardController
 	@GetMapping("/edit")
 	public String getArticleEdit(Integer article_id, Model m, HttpServletRequest request) throws Exception {
 		//boardMapper.xml에 select값을 가져오는 로직
-		// 관리자 권한이 없을 때 동작
-//		if (!YccMethod.permissionCheck("관리자", request))
-//		{
-//			return "redirect:/error/403";
-//		}
+
 		try {
 			BoardDto boardDto = boardService.getArticleEdit(article_id);
 			m.addAttribute("boardDto", boardDto);
@@ -194,10 +179,9 @@ public class BoardController
 	//게시글 수정(등록)
 	@PostMapping("/edit1")
 	public String modify(BoardDto boardDto, Integer page, Integer pageSize, 
-						RedirectAttributes rattr, Model m, HttpSession session) {
+						RedirectAttributes rattr, Model m,Principal principal ,HttpSession session) {
 		
-		String user_id = (String) session.getAttribute("id");
-		boardDto.setUser_id(user_id);
+		boardDto.setUser_id(principal.getName());
 		//등록버튼 누를 시 수정됨
 		try {
 			boardService.modify(boardDto);

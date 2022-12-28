@@ -36,7 +36,7 @@
   
       <!-- include header -->
 	<%@include file="/WEB-INF/views/header.jsp"%>
-
+ <sec:authorize access="isAuthenticated()">
     <div class="container mt-3">
     <h2><a class="text-decoration-none" style="color:black;" href="<c:url value='/mypage/inquiry'/>">나의 문의 내역</a></h2>
   </div>
@@ -134,7 +134,7 @@
 				</ul>
 			</c:if>
 		</nav>
-  
+  	</sec:authorize>
 	<!-- footer inlcude -->
 <%@include file="/WEB-INF/views/footer.jsp"%>	  
 

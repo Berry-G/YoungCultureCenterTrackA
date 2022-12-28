@@ -159,6 +159,7 @@
 			</tr>
 			</tbody>
 		</table>
+		 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		<!-- 버튼 -->
 		<div class="row gap-1 justify-content-between">
 			<div class="col-sm-auto">

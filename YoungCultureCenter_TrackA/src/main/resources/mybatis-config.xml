@@ -13,7 +13,6 @@
 		<typeAlias alias="PageResolver" type="com.youngtvjobs.ycc.course.PageResolver" />
 		<typeAlias alias="SearchItem" type="com.youngtvjobs.ycc.search.SearchItem" />
 		<typeAlias alias="BoardDto" type="com.youngtvjobs.ycc.board.BoardDto" />
-		<typeAlias alias="ClubDto" type="com.youngtvjobs.ycc.club.ClubDto" />
 		<typeAlias alias="RentalDto" type="com.youngtvjobs.ycc.rental.RentalDto" />
 		<typeAlias alias="ReviewDto" type="com.youngtvjobs.ycc.course.ReviewDto" />
 		<typeAlias alias="AttendDto" type="com.youngtvjobs.ycc.course.AttendDto" />

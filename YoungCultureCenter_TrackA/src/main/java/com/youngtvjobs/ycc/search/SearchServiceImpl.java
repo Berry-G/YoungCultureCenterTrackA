@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.youngtvjobs.ycc.board.BoardDto;
-import com.youngtvjobs.ycc.club.ClubDto;
 import com.youngtvjobs.ycc.course.CourseDto;
 
 @Service
@@ -24,10 +23,6 @@ public class SearchServiceImpl implements SearchService{
 	@Override
 	public List<BoardDto> getEventPage(SearchItem sc) throws Exception {
 		return searchDao.selectEventPage(sc);
-	}
-	@Override
-	public List<ClubDto> getClubPage(SearchItem sc) throws Exception {
-		return searchDao.selectClubPage(sc);
 	}
 	@Override
 	public List<CourseDto> getCoursePage(SearchItem sc) throws Exception {

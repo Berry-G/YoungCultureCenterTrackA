@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,10 +20,12 @@
 		<table class="table table-group-divider text-center">
 			<tbody>
 			<colgroup><col width="15%" class="bg-light" id="w-28"></colgroup>
+			<!-- CustomUser를 통해 principal 객체에 MemberDto의 데이터를 담은 것 -->
+			<sec:authentication property="principal" var="p"/>
 			<!-- 아이디 -->
 			<tr>
 				<th class="col">아이디</th>
-				<td><input type="text" class="form-control-plaintext" id="id" maxlength="20" name="user_id" value="${memberDto.user_id }" readonly>
+				<td><input type="text" class="form-control-plaintext" id="id" maxlength="20" name="user_id" value="${p.member.user_id }" readonly>
 				</td>
 			</tr>
 			<!-- 이름 -->
@@ -32,7 +35,7 @@
 					<div class="row">
 						<div class="col-lg-4">
 							<input type="text" class="form-control-plaintext" id="name" name="user_name"
-							placeholder="한글입력" maxlength="10" value="${memberDto.user_name }" readonly>
+							placeholder="한글입력" maxlength="10" value="${p.member.user_name }" readonly>
 						</div>
 					</div>
 				</td>
@@ -45,6 +48,7 @@
 						<div class="col-lg-5">
 							<input type="password" class="form-control" id="pw" name="user_pw"
 							placeholder="8~15자, 영문+숫자 입력" maxlength="20" required>
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 						</div>
 					</div>
 				</td>
@@ -66,12 +70,12 @@
 				<th class="text-start">
 					<div class="form-check form-check-inline">
 						<input class="form-check-input" type="radio" id="inlineRadio1"
-						value="option1" ${memberDto.user_gender.equals('M') ? "checked"  : "" } disabled>
+						value="option1" ${p.member.user_gender.equals('M') ? "checked"  : "" } disabled>
 						<label class="form-check-label" for="inlineRadio1">남</label>
 					</div>
 					<div class="form-check form-check-inline">
 						<input class="form-check-input" type="radio" id="inlineRadio2"
-						value="option2" ${memberDto.user_gender.equals('F') ? "checked"  : "" } disabled>
+						value="option2" ${p.member.user_gender.equals('F') ? "checked"  : "" } disabled>
 						<label class="form-check-label" for="inlineRadio2">여</label>
 					</div>
 				</th>
@@ -117,7 +121,7 @@
 				<td>
 					<div class="row">
 						<div class="col-lg-5">
-							<input type="tel" class="form-control onlyNumber" id="phoneNumber" value ="${memberDto.user_phone_number}"
+							<input type="tel" class="form-control onlyNumber" id="phoneNumber" value ="${p.member.user_phone_number}"
 							 name ="user_phone_number" placeholder="-를 제외하고 숫자만 입력하세요." maxlength="11">
 						</div>
 					</div>
@@ -132,7 +136,7 @@
 							<div class="row g-1">
 								<div class="col-sm-4">
 									<input type="text" class="form-control" id="sample6_postcode" placeholder="우편번호" 
-									 name="user_postcode" value="${memberDto.user_postcode}" required readonly>
+									 name="user_postcode" value="${p.member.user_postcode}" required readonly>
 								</div>
 								<div class="col-sm-4 text-start d-grid d-md-block">
 									<input class="btn btn-primary" onclick="sample6_execDaumPostcode()" type="button" value="우편번호검색">
@@ -143,11 +147,11 @@
 							<div class="row g-1">
 								<div class="col-md-6">
 									<input type="text" class="form-control" id="sample6_address" placeholder="도로명주소" 
-									name="user_rNameAddr" value="${memberDto.user_rNameAddr }" required readonly>
+									name="user_rNameAddr" value="${p.member.user_rNameAddr }" required readonly>
 								</div>
 								<div class="col-md-6">
 									<input type="text" class="form-control" id="sample6_detailAddress" placeholder="상세주소를 입력해주세요."
-									name="user_detailAddr" value="${memberDto.user_detailAddr }">
+									name="user_detailAddr" value="${p.member.user_detailAddr }">
 								</div>
 								<div class="col-md-12">
 									<input type="hidden" class="form-control" id="sample6_extraAddress" placeholder="참고항목.">
@@ -159,7 +163,6 @@
 			</tr>
 			</tbody>
 		</table>
-		 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		<!-- 버튼 -->
 		<div class="row gap-1 justify-content-between">
 			<div class="col-sm-auto">

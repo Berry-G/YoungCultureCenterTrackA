@@ -34,6 +34,8 @@ import com.youngtvjobs.ycc.member.security.CustomUserDetailsService;
 @Controller
 public class MemberController {
 	
+	MemberDto memberDto;
+	
 	MemberDao memberDao;
 	MemberService memberService;
 
@@ -56,6 +58,7 @@ public class MemberController {
 		this.inquiryDao = inquiryDao;
 		this.mailSender = mailSender;
 		this.passwordEncoder = passwordEncoder;
+
 	}
 
 	// 회원약관동의
@@ -137,10 +140,9 @@ public class MemberController {
 	@PostMapping("/mypage/pwcheck")
 	public String pwCheck(String inputPassword, HttpSession session, Model m, String user_id, Authentication auth ) throws Exception	{
 		
+
 		CustomUser user = (CustomUser) auth.getPrincipal();
 		String user_pw = user.getMember().getUser_pw();
-//		System.out.println(user_pw);
-//		System.out.println(passwordEncoder.matches(inputPassword, user_pw));
 		//DB의 pw와 입력된 pw가 같으면 modify로 리다이렉트, 그렇지 않으면 pwCheck로 돌아감
 		if (passwordEncoder.matches(inputPassword, user_pw)){
 
@@ -154,20 +156,18 @@ public class MemberController {
 
 	//마이페이지 2: 회원 정보 수정
 	@GetMapping("/mypage/modify")
-	public String modify(HttpServletRequest request, HttpSession session, Model m, MemberDto memberDto, Authentication auth, Principal principal)  {
+	public String modify(HttpServletRequest request, HttpSession session, Model m, Authentication auth)  {
 
 
 		try {
 			
 			CustomUser user = (CustomUser) auth.getPrincipal();
-			memberDto.setUser_id(user.getMember().getUser_id()); 
-			/*
-			 * memberDto.setUser_id(principal.getName());
-			 * System.out.println(principal.getName());
-			 */
-		    m.addAttribute("memberDto", memberDto);
 			
-		    System.out.println(memberDto);
+			String user_id = user.getMember().getUser_id();
+
+		    m.addAttribute("user_id", user_id);
+			
+		    System.out.println(user);
 		    
 			//이메일 아이디/도메인 분리하여 모델에 저장 (회원정보수정 이메일란에 출력)
 			String emailId= user.getMember().getUser_email().split("@")[0];
@@ -177,7 +177,7 @@ public class MemberController {
 			m.addAttribute("emailDomain", emailDomain);
 			
 			// 생년월일 String으로 형변환 & 포맷 지정하여 모델에 저장 (회원정보수정 생년월일란에 출력)		
-			String birth_date = YccMethod.date_toString(memberDto.getUser_birth_date());
+			String birth_date = YccMethod.date_toString(user.getMember().getUser_birth_date());
 			
 			m.addAttribute("birth_date", birth_date);
 

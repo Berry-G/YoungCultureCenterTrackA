@@ -91,7 +91,7 @@ public class MemberController {
 	}
 	// 회원가입 
 	@PostMapping("/signin/form")
-	public String siform(MemberDto dto, String user_id ,Model m) {
+	public String siform(MemberDto dto, String user_id) {
 		
 		System.out.println(dto.getUser_pw());
 		
@@ -182,9 +182,12 @@ public class MemberController {
 	}
 		
 	@PostMapping("/mypage/modify")
-	public String modify(MemberDto memberDto){
+	public String modify(MemberDto dto){
 		try {
-			memberService.ModifyMemberInfo(memberDto);
+			String inputPass = dto.getUser_pw();
+			String pwd = passwordEncoder.encode(inputPass);
+			dto.setUser_pw(pwd);
+			memberService.ModifyMemberInfo(dto);
 		} catch (Exception e) {e.printStackTrace();}
 
 		return "redirect:/";

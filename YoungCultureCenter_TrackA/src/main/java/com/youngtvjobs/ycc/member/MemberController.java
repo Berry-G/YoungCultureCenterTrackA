@@ -137,7 +137,6 @@ public class MemberController {
 	@PostMapping("/mypage/pwcheck")
 	public String pwCheck(String inputPassword, HttpSession session, Model m, String user_id, Authentication auth ) throws Exception	{
 		
-		MemberDto memberDto = memberDao.read("user_id");
 		CustomUser user = (CustomUser) auth.getPrincipal();
 		String user_pw = user.getMember().getUser_pw();
 //		System.out.println(user_pw);

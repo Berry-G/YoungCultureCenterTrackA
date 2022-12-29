@@ -1,5 +1,6 @@
 package com.youngtvjobs.ycc.member;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -8,8 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +27,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.youngtvjobs.ycc.common.YccMethod;
+import com.youngtvjobs.ycc.member.security.CustomUser;
+import com.youngtvjobs.ycc.member.security.CustomUserDetailsService;
 
 //회원관리 컨트롤러
 @Controller
@@ -35,7 +42,9 @@ public class MemberController {
 	
 	JavaMailSender mailSender;
 	
+	@Qualifier("BCryptPasswordEncoder")
 	BCryptPasswordEncoder passwordEncoder;
+	
 
 	@Autowired
 	public MemberController(MemberDao memberDao, MemberService memberService, InquiryService inquiryService,
@@ -50,21 +59,18 @@ public class MemberController {
 	}
 
 	// 회원약관동의
-	@PreAuthorize("permitAll")
 	@GetMapping("/signin/agree")
 	public String siagree() {
 		return "member/siAgree";
 	}
 
 	// 회원가입
-	@PreAuthorize("permitAll")
 	@GetMapping("/signin/form")
 	public String siform()  {
 		return "member/siForm";
 	}
 	
 	// 아이디중복체크
-	@PreAuthorize("permitAll")
 	@PostMapping("/signin/idcheck")
 	@ResponseBody
 	public int idcheck( String user_id, Model m)  {
@@ -81,7 +87,6 @@ public class MemberController {
 		return result;
 	}
 	// 회원가입 
-	@PreAuthorize("permitAll")
 	@PostMapping("/signin/form")
 	public String siform(MemberDto dto, String user_id ,Model m) {
 		
@@ -123,24 +128,22 @@ public class MemberController {
 	}
 	
 	//마이페이지1 : 본인인증
-	@PreAuthorize("permitAll")
 	@GetMapping("/mypage/pwcheck")
 	public String pwCheck(HttpSession session, HttpServletRequest request, String inputPassword) throws Exception	{
-	    //비 로그인 시 접근 불가
-		if(!YccMethod.loginSessionCheck(request)) 
-	    	return "redirect:/login?toURL="+request.getRequestURL();
 
 		return "member/pwCheck";
 	}
 
 	@PostMapping("/mypage/pwcheck")
-	public String pwCheck(String inputPassword, HttpSession session, Model m) throws Exception	{
+	public String pwCheck(String inputPassword, HttpSession session, Model m, String user_id, Authentication auth ) throws Exception	{
 		
-		MemberDto memberDto = memberDao.loginSelect((String)session.getAttribute("id"));
-		
+		MemberDto memberDto = memberDao.read("user_id");
+		CustomUser user = (CustomUser) auth.getPrincipal();
+		String user_pw = user.getMember().getUser_pw();
+//		System.out.println(user_pw);
+//		System.out.println(passwordEncoder.matches(inputPassword, user_pw));
 		//DB의 pw와 입력된 pw가 같으면 modify로 리다이렉트, 그렇지 않으면 pwCheck로 돌아감
-		if (memberDto.getUser_pw().equals(inputPassword))
-		{
+		if (passwordEncoder.matches(inputPassword, user_pw)){
 
 			return "redirect:/mypage/modify";
 		}
@@ -151,32 +154,38 @@ public class MemberController {
 	}
 
 	//마이페이지 2: 회원 정보 수정
-		@GetMapping("/mypage/modify")
-		public String modify(HttpServletRequest request, HttpSession session, Model m)  {
-			// 비 로그인 시 접근 불가
-			if (!YccMethod.loginSessionCheck(request))
-				return "redirect:/login?toURL=" + request.getRequestURL();
+	@GetMapping("/mypage/modify")
+	public String modify(HttpServletRequest request, HttpSession session, Model m, MemberDto memberDto, Authentication auth, Principal principal)  {
 
-			try {
-				MemberDto memberDto = memberDao.loginSelect((String)session.getAttribute("id"));
-				m.addAttribute("memberDto", memberDto);
-				
-				//이메일 아이디/도메인 분리하여 모델에 저장 (회원정보수정 이메일란에 출력)
-				String emailId= memberDto.getUser_email().split("@")[0];
-				String emailDomain=  memberDto.getUser_email().split("@")[1];
-				
-				m.addAttribute("emailId", emailId);
-				m.addAttribute("emailDomain", emailDomain);
-				
-				// 생년월일 String으로 형변환 & 포맷 지정하여 모델에 저장 (회원정보수정 생년월일란에 출력)		
-				String birth_date = YccMethod.date_toString(memberDto.getUser_birth_date());
-				
-				m.addAttribute("birth_date", birth_date);
 
-				return "member/modify";
-			} catch (Exception e) {e.printStackTrace();}
-			return "redirect:/";
-		}
+		try {
+			
+			CustomUser user = (CustomUser) auth.getPrincipal();
+			memberDto.setUser_id(user.getMember().getUser_id()); 
+			/*
+			 * memberDto.setUser_id(principal.getName());
+			 * System.out.println(principal.getName());
+			 */
+		    m.addAttribute("memberDto", memberDto);
+			
+		    System.out.println(memberDto);
+		    
+			//이메일 아이디/도메인 분리하여 모델에 저장 (회원정보수정 이메일란에 출력)
+			String emailId= user.getMember().getUser_email().split("@")[0];
+			String emailDomain= user.getMember().getUser_email().split("@")[1];
+			
+			m.addAttribute("emailId", emailId);
+			m.addAttribute("emailDomain", emailDomain);
+			
+			// 생년월일 String으로 형변환 & 포맷 지정하여 모델에 저장 (회원정보수정 생년월일란에 출력)		
+			String birth_date = YccMethod.date_toString(memberDto.getUser_birth_date());
+			
+			m.addAttribute("birth_date", birth_date);
+
+			return "member/modify";
+		} catch (Exception e) {e.printStackTrace();}
+		return "redirect:/";
+	}
 		
 	@PostMapping("/mypage/modify")
 	public String modify(MemberDto memberDto){
@@ -192,9 +201,6 @@ public class MemberController {
 	//마이페이지3 : 회원탈퇴 완료
 	@RequestMapping("/mypage/withdraw")
 	public String withdraw(HttpSession session, HttpServletRequest request) throws Exception {
-		//비 정상적 접근 차단
-		if (!YccMethod.loginSessionCheck(request))
-			return "redirect:/login?toURL=" + request.getRequestURL();
 		
 		//tb_user테이블에서 session에 저장된 id와 같은 user_id를 가진 회원을 삭제시킨후 세션을 종료시킴
 		memberService.withdraw((String) session.getAttribute("id"));
@@ -204,8 +210,7 @@ public class MemberController {
 	//마이페이지4 : 내 수강목록
 	@RequestMapping("/mypage/mycourse")
 	public String myCourse(HttpServletRequest request)	{
-		if(!YccMethod.loginSessionCheck(request)) 
-			return "redirect:/login?toURL="+request.getRequestURL();
+
 		return "member/mypage4";
 	}
 	//마이페이지5 : id/pw 찾기
@@ -236,9 +241,6 @@ public class MemberController {
 			SearchByPeriod sp,
 			String settedInterval,HttpSession session, Model m,
 			HttpServletRequest request, String startDate, String endDate) {
-		//로그인 여부 확인
-		if (!YccMethod.loginSessionCheck(request))
-			return "redirect:/login?toURL=" + request.getRequestURL();
 		
 		
 		try {

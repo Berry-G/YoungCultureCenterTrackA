@@ -1,3 +1,5 @@
+pwCheck.jsp
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -15,7 +17,7 @@
   <!-- body -->
   <div class="container mt-5 text-center">
     <h2 class="text-start">본인인증페이지</h2><hr>
-    <form class="row g-3 text-center" action="ycc/mypage/pwcheck" method="post">
+    <form class="row g-3 text-center" action="pwcheck" method="post">
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-12">
@@ -31,6 +33,7 @@
           <div class="col-md-4">
           	<label for="inputPassword" class="visually-hidden">Password</label>
           	<input type="password" class="form-control" id="inputPassword" name="inputPassword" placeholder="Password">
+          	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
           </div>
           <div class="col-md-4 text-start d-grid d-md-block">
           	<button type="submit" class="btn btn-primary mb-3">확인</button>
@@ -40,7 +43,7 @@
   	</form>
 	${alert}
 	</div>
-	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+
   <!-- footer include -->
 	<%@ include file="/WEB-INF/views/footer.jsp" %>
 	

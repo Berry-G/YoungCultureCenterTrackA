@@ -132,13 +132,13 @@ public class MemberController {
 	
 	//마이페이지1 : 본인인증
 	@GetMapping("/mypage/pwcheck")
-	public String pwCheck(HttpSession session, HttpServletRequest request, String inputPassword) throws Exception	{
+	public String pwCheck(HttpSession session) throws Exception	{
 
 		return "member/pwCheck";
 	}
 
 	@PostMapping("/mypage/pwcheck")
-	public String pwCheck(String inputPassword, HttpSession session, Model m, String user_id, Authentication auth ) throws Exception	{
+	public String pwCheck(String inputPassword, Model m, String user_id, Authentication auth ) throws Exception	{
 		
 
 		CustomUser user = (CustomUser) auth.getPrincipal();
@@ -156,13 +156,12 @@ public class MemberController {
 
 	//마이페이지 2: 회원 정보 수정
 	@GetMapping("/mypage/modify")
-	public String modify(HttpServletRequest request, HttpSession session, Model m, Authentication auth)  {
+	public String modify(Model m, Authentication auth)  {
 
 
 		try {
 			
 			CustomUser user = (CustomUser) auth.getPrincipal();
-
 		    
 			//이메일 아이디/도메인 분리하여 모델에 저장 (회원정보수정 이메일란에 출력)
 			String emailId= user.getMember().getUser_email().split("@")[0];
@@ -197,7 +196,7 @@ public class MemberController {
 
 	//마이페이지3 : 회원탈퇴 완료
 	@RequestMapping("/mypage/withdraw")
-	public String withdraw(HttpSession session, HttpServletRequest request) throws Exception {
+	public String withdraw(HttpSession session) throws Exception {
 		
 		//tb_user테이블에서 session에 저장된 id와 같은 user_id를 가진 회원을 삭제시킨후 세션을 종료시킴
 		memberService.withdraw((String) session.getAttribute("id"));
@@ -206,7 +205,7 @@ public class MemberController {
 	}
 	//마이페이지4 : 내 수강목록
 	@RequestMapping("/mypage/mycourse")
-	public String myCourse(HttpServletRequest request)	{
+	public String myCourse()	{
 
 		return "member/mypage4";
 	}
@@ -236,16 +235,16 @@ public class MemberController {
 	@GetMapping("/mypage/inquiry")
 	public String inquiryHistory(
 			SearchByPeriod sp,
-			String settedInterval,HttpSession session, Model m,
-			HttpServletRequest request, String startDate, String endDate) {
-		
-		
+			String settedInterval, Model m, Authentication auth,
+			String startDate, String endDate) {
+
 		try {
 			int totalCnt;
 			InqPageResolver pr;
 			
 			//서비스 메소드에 파라미터로 넣어줄 id,디폴트 settedInterval(1개월) 불러오기
-			String id = (String) session.getAttribute("id");
+			System.out.println(auth.getName());
+			String id = auth.getName();
 			
 			if(settedInterval == null) {
 				settedInterval = sp.getSettedInterval();
@@ -311,9 +310,9 @@ public class MemberController {
 	
 	// 1:1 문의글: 작성한 글 등록하기
 	@PostMapping("/mypage/inquiry/write")
-	public String inquiryWrite(InquiryDto inquiryDto, RedirectAttributes rattr, Model m, HttpSession session) {
+	public String inquiryWrite(InquiryDto inquiryDto, Authentication auth, RedirectAttributes rattr, Model m, HttpSession session) {
 		//글 작성자와 현재 날짜 설정
-		String id = (String) session.getAttribute("id");
+		String id = auth.getName();
 		inquiryDto.setUser_id(id);
 		inquiryDto.setInq_date(new Date());
 		
@@ -339,13 +338,13 @@ public class MemberController {
 
 	// 1:1 문의글 읽기 페이지
 	@GetMapping("/mypage/inquiry/read")
-	public String inquiryRead(Integer inq_id, 
+	public String inquiryRead(Integer inq_id, Authentication auth,
 			@RequestParam(defaultValue="1") Integer page, 
 			@RequestParam(defaultValue="6") Integer pageSize,Model m, HttpSession session
 			) {
 		try {
 			//id 와 inq_id로 문의글 내용 불러오기
-			String id = (String) session.getAttribute("id");
+			String id = auth.getName();
 			InquiryDto inquiryDto = inquiryService.read(id,inq_id);
 			
 			m.addAttribute(inquiryDto);

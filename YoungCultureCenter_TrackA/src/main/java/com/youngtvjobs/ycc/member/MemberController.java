@@ -162,12 +162,7 @@ public class MemberController {
 		try {
 			
 			CustomUser user = (CustomUser) auth.getPrincipal();
-			
-			String user_id = user.getMember().getUser_id();
 
-		    m.addAttribute("user_id", user_id);
-			
-		    System.out.println(user);
 		    
 			//이메일 아이디/도메인 분리하여 모델에 저장 (회원정보수정 이메일란에 출력)
 			String emailId= user.getMember().getUser_email().split("@")[0];

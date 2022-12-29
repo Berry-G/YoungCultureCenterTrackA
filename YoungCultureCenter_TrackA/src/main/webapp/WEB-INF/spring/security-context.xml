@@ -17,9 +17,16 @@
 
 	<security:http>
 			<!-- intercept-url: 특정 url 패턴은 권한이 있어야 허용 설정  -->
-		<security:intercept-url pattern="/sample/all" access="permitAll"/>
-		<security:intercept-url pattern="/sample/member" access="hasRole('ROLE_MEMBER')"/>
-		<security:intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/" access="permitAll"/>
+		<security:intercept-url pattern="/mypage/pwcheck" access="isAuthenticated()"/>
+		<security:intercept-url pattern="/mypage/forget" access="permitAll"/>
+		<security:intercept-url pattern="/mypage/inquiry/**" access="hasRole('ROLE_MEMBER')"/>
+		<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/board/notice" access="permitAll" />
+		<security:intercept-url pattern="/board/event" access="permitAll" />
+		<security:intercept-url pattern="/board/write" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/board/remove" access="isAuthenticated()" />
+		<security:intercept-url pattern="/board/edit" access="isAuthenticated()" />
 			<!-- 접근 후 에러페이지  -->
 		<security:access-denied-handler ref="customAccessDenied"/>
 			<!-- 로그인페이지 -->

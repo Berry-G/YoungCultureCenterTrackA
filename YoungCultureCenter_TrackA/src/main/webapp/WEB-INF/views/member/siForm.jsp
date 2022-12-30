@@ -196,11 +196,15 @@
 	
 	//이메일 인증 : 입력받은 이메일 값을 MemberController.java의 /registerEmail로 넘겨줌
 	$("#Auth_num").click(function() {
+		var csrfHeaderName = "${_csrf.headerName}";
+		var csrfTokenValue= "${_csrf.token}";
 		let a = $('#email').val()+'@'+$('#detailEmail').val()
 		alert("인증번호 받기: " + a + "로 메일을 보냈습니다.")/* 
 			alert(request.getParameter("email")) */
 			//이메일 전송
 	        $.ajax({
+	          beforeSend: function(xhr){
+	          xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);},
 	          type: 'post',
 	          url: '/ycc/signin/registerEmail',
 	          headers : { "content-type" : "application/json" },

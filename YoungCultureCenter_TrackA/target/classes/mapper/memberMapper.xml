@@ -61,17 +61,18 @@
 		where user_email = #{user_email} and user_name = #{user_name}
 	</select>
 	
-	<!-- 패스워드 찾기 -->
+	<!-- 패스워드 찾기(id와 name 찾아 이메일 반환) -->
 	<select id="findPw" parameterType="MemberDto" resultType="String">
 		select user_email from tb_user 
 		where user_id = #{user_id} and user_name = #{user_name}
 	</select>
 	
-	<!-- 패스워드 찾기(이메일 발송) -->
-	<select id="findPword" parameterType="String" resultType="String">
-		select user_pw from tb_user 
-		where user_email = #{user_email} 
-	</select>
+	<!-- 임시 비밀번호 업데이트 -->
+	<update id="uploadPw" parameterType="MemberDto">
+		UPDATE tb_user
+		SET user_pw = #{user_pw}
+		WHERE user_id = #{user_id} 
+	</update>
 	
 	<resultMap type="MemberDto" id="memberMap">
 		<id property="user_id" column="user_id"/>

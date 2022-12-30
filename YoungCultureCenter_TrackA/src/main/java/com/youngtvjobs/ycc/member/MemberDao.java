@@ -27,8 +27,9 @@ public interface MemberDao
 	
 	//패스워드 찾기
 	String findPw(String user_id, String user_name) throws Exception;
-	//패스워드 이메일로 발송
-	String findPword(String user_email) throws Exception;
+	//임시 비밀번호 이메일로 발송
+	String uploadPw(String user_email) throws Exception;
+
 	
 	//시큐리티 
 	MemberDto read(String user_id) throws Exception;

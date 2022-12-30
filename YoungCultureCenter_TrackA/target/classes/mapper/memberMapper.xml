@@ -3,78 +3,106 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  <mapper namespace="com.youngtvjobs.ycc.member.memberMapper">
+	<mapper namespace="com.youngtvjobs.ycc.member.memberMapper" >
   
   
-  <sql id="selectFromMember">
-  	select * from tb_user 
-  </sql>
-  
-  <!-- 로그인 체크 : tb_user 테이블에서 입력받은 id의 정보를 조회 -->
-  <select id="loginSelect" parameterType="String" resultType="MemberDto">
-  	<include refid="selectFromMember" />
-  	where user_id = #{user_id}
-  </select>
-  
-	<!-- 회원가입 : tb_user 테이블에 회원 추가-->
-  <insert id="signinMember" parameterType="MemberDto" >
-  	INSERT INTO tb_user
-	(user_id, user_name, user_pw, user_gender, user_birth_date, user_email, user_phone_number, 
-	user_postcode, user_rnameaddr, user_detailaddr, user_regdate, user_grade, user_social_type)
-	VALUES
-	(#{user_id} ,#{user_name}, #{user_pw}, #{user_gender} , #{user_birth_date} , #{user_email} , 
-	#{user_phone_number} ,#{user_postcode}, #{user_rNameAddr}, #{user_detailAddr}, now(), '일반회원', '');
-  </insert>
-  
-  
-   <!-- 아이디체크 -->
-  <!-- 아이디가 있으면 count 1 , 없으면 0 체크해서 중복확인  -->
-  <select id="idCheck" parameterType="MemberDto" resultType="Integer">
-	select count(user_id)
-	from tb_user 
-	where user_id = #{user_id}
-  </select>
-  
-  <!-- 회원정보 수정 : tb_user 테이블에 회원 정보 업데이트 -->
-  <update id="update" parameterType="MemberDto">
-  	UPDATE tb_user
-	SET 
-	user_pw=#{user_pw}, user_phone_number=#{user_phone_number},
-	user_postcode=#{user_postcode}, user_rnameaddr=#{user_rNameAddr}, user_detailaddr=#{user_detailAddr}
-	WHERE user_id=#{user_id};
-
-  </update>
-  
-  <!-- 회원탈퇴 : tb_user 테이블에서 회원정보 삭제 -->
-  <delete id="delete" parameterType="String">
-  	DELETE FROM tb_user
-	WHERE
-	user_id=#{user_id};
-  </delete>
-  
-  <delete id="deleteAll">
-  	delete from tb_user 
-  </delete>
-  
-  	<!-- 이메일 인증 시 필요한 쿼리문 -->
- 	<!-- (signin2.jsp)회원가입 시 이메일 인증을 위한 랜덤번호 저장 -->
-	<update id="updateMailKey" parameterType="MemberDto">
-		UPDATE tb_user
-		SET mail_key=#{mail_key}
-		WHERE user_email=#{user_email} and user_id=#{user_id}
-	</update>
+	<sql id="selectFromMember">
+		select * from tb_user 
+	</sql>
 	
-	<!-- 메일 인증시, mail_auth컬럼 값을 1로 바꿔 로그인을 허용해줌 -->
-	<update id="updateMailAuth" parameterType="MemberDto">
-		UPDATE tb_user
-		SET mail_auth = 1
-		WHERE user_email=#{user_email} and user_id=#{user_id}
-	</update>
-	
-	<!-- 이메일 인증을 안했으면 0 반환, 로그인 시 인증했나 안 했나 체크하기 위함 -->
-	<select id="emailAuthFail" parameterType="String" resultType="int">
-		select count(*) from tb_user
-		where user_id = #{user_id} and mail_auth=1
+	<select id="loginSelect" parameterType="String" resultType="MemberDto">
+		<include refid="selectFromMember" />
+		where user_id = #{user_id}
 	</select>
-  
-  </mapper>
+	
+	<!-- 회원가입 : tb_user 테이블에 회원 추가-->
+	 <insert id="signinMember" parameterType="MemberDto" >
+	 	INSERT INTO tb_user
+		(user_id, user_name, user_pw, user_gender, user_birth_date, user_email, user_phone_number, 
+		user_postcode, user_rnameaddr, user_detailaddr, user_regdate, user_grade, user_social_type)
+		VALUES
+		(#{user_id} ,#{user_name}, #{user_pw}, #{user_gender} , #{user_birth_date} , #{user_email} , 
+		#{user_phone_number} ,#{user_postcode}, #{user_rNameAddr}, #{user_detailAddr}, now(), '일반회원', '' )
+	 </insert>
+	
+	 <insert id="insertAuth" parameterType="String">
+	 	INSERT INTO user_auth
+		(user_id, auth)
+		VALUES(#{user_id}, 'ROLE_MEMBER')
+	 </insert>
+	 
+	   <!-- 회원정보 수정 : tb_user 테이블에 회원 정보 업데이트 -->
+	 <update id="update" parameterType="MemberDto">
+	 	UPDATE tb_user
+		SET 
+		user_pw=#{user_pw}, user_phone_number=#{user_phone_number},
+		user_postcode=#{user_postcode}, user_rnameaddr=#{user_rNameAddr}, user_detailaddr=#{user_detailAddr}
+		WHERE user_id=#{user_id}
+	 </update>
+	 
+	 <!-- 회원탈퇴 : tb_user 테이블에서 회원정보 삭제 -->
+	 <delete id="delete" parameterType="String">
+	 	DELETE FROM tb_user
+		WHERE
+		user_id=#{user_id};
+	 </delete>
+	 
+	<!-- 아이디체크 -->
+	<!-- 아이디가 있으면 count 1 , 없으면 0 체크해서 중복확인  -->
+	 <select id="idCheck" parameterType="String" resultType="Integer">
+		select count(user_id)
+		from tb_user 
+		where user_id = #{user_id}
+	 </select>
+	 
+	<!-- 아이디 찾기 -->
+	<select id="findId" parameterType="MemberDto" resultType="String">
+		select user_id from tb_user 
+		where user_email = #{user_email} and user_name = #{user_name}
+	</select>
+	
+	<!-- 패스워드 찾기 -->
+	<select id="findPw" parameterType="MemberDto" resultType="String">
+		select user_email from tb_user 
+		where user_id = #{user_id} and user_name = #{user_name}
+	</select>
+	
+	<!-- 패스워드 찾기(이메일 발송) -->
+	<select id="findPword" parameterType="String" resultType="String">
+		select user_pw from tb_user 
+		where user_email = #{user_email} 
+	</select>
+	
+	<resultMap type="MemberDto" id="memberMap">
+		<id property="user_id" column="user_id"/>
+		<result property="user_id" column="user_id"/>
+		<result property="user_name" column="user_name"/>
+		<result property="user_pw" column="user_pw"/>
+		<result property="user_gender" column="user_gender"/>
+		<result property="user_birth_date" column="user_birth_date"/>
+		<result property="user_email" column="user_email"/>
+		<result property="user_phone_number" column="user_phone_number"/>
+		<result property="user_postcode" column="user_postcode"/>
+		<result property="user_rNameAddr" column="user_rnameaddr"/>
+		<result property="user_detailAddr" column="user_detailaddr"/>
+		<result property="user_regdate" column="user_regdate"/>
+		<result property="user_grade" column="user_grade"/>
+		<result property="user_social_type" column="user_social_type"/>
+		<collection property="authList" resultMap="authMap"></collection>
+	</resultMap>
+	 	
+	<resultMap type="AuthDto" id="authMap">
+		<result property="user_id" column="user_id"/>
+		<result property="auth" column="auth"/>
+	</resultMap>
+	 	
+	<select id="read" parameterType="String"  resultMap="memberMap">
+		SELECT 
+			tb_user.user_id , user_name, user_pw, user_gender, user_birth_date, user_email, user_phone_number,
+			user_postcode, user_rnameaddr, user_detailaddr, user_regdate, user_grade, user_social_type, auth
+		FROM tb_user tb_user, user_auth user_auth 
+		where tb_user.user_id = user_auth.user_id 
+		and tb_user.user_id = #{user_id}
+	</select>  
+	  
+	</mapper>

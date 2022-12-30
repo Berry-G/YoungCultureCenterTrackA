@@ -21,7 +21,10 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired
 	JavaMailSender mailSender;
 
-
+	MemberService memberService;
+	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 
 	@Override	//회원 가입
 	public void signinMember(MemberDto dto) throws Exception {
@@ -120,26 +123,30 @@ public class MemberServiceImpl implements MemberService{
 	//패스워드 찾을때 이메일 발송 세팅
 	public String pwSendEmail(String user_email) {
 		
-		//랜덤 문자열을 생성해서 pw 컬럼에 넣어주기
-		String pw = null;
-		try {
-			pw = memberDao.findPword(user_email);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+		//1. 난수 생성, 이메일 발송 세팅
+		String temp_pw = new TempKey().getKey(15, false);
 		
 		String email_title = "[Young문화체육센터 비밀번호 입니다.]";
 		String email_text = "<h1>Young문화체육센터 비밀번호 찾기</h1>" +
-				"<p><b>비밀 번호 : "+ pw +"</b></p>";
+				"<p><b>비밀 번호 : "+ temp_pw +"</b></p>";
 		
 		try {
 			this.sendEmail(user_email, email_title, email_text);
 		} catch (Exception e) {
 			e.printStackTrace();
-			
-			
 		}
 		
+		//2. 발생시킨 난수를 암호화시켜 DB 업로드
+		try {
+			MemberDto dto = new MemberDto();
+			String pwd = passwordEncoder.encode(temp_pw);
+			dto.setUser_pw(pwd);
+			memberDao.uploadPw(pwd);
+		} catch (Exception e) {e.printStackTrace();}
+
+		
+
 		return user_email;
 		
 	}
@@ -154,6 +161,7 @@ public class MemberServiceImpl implements MemberService{
 		sendMail.setTo(user_email);
 		sendMail.send();
 	}
+	
 	//권한
 	@Override
 	public MemberDto read(String user_id) throws Exception {

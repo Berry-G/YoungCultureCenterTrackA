@@ -201,10 +201,14 @@
 <script>
 	//아이디 찾기(모달창에 정보 띄우기)
 	$("#findId").click(function() {
+		var csrfHeaderName = "${_csrf.headerName}";
+		var csrfTokenValue= "${_csrf.token}";
 		let a = $('#user_email').val()+'@'+$('#detail_email').val()
 		let b = $('#user_name').val()
 		//아이디 찾기 이메일 데이터 넘기기 Todo 성명, 생년월일, 이메일, 성별 모두 넘기기 
        	$.ajax({
+     	  beforeSend: function(xhr){
+    	  xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);},
           type: 'post',
           url: '/ycc/mypage/findId',
           headers : {"content-type" : "application/json"},
@@ -231,11 +235,15 @@
 <script>
 //패스워드 찾기(모달창에 정보 띄우기)
 	$("#findPw").click(function() {
+		var csrfHeaderName = "${_csrf.headerName}";
+		var csrfTokenValue= "${_csrf.token}";
 		let a = document.getElementById("user_id").value;
 		let b = document.getElementById("user_name_pw").value;
 		//alert("모달창 진입") 
 		//아이디 찾기 이메일 데이터 넘기기  
 	    $.ajax({
+	      beforeSend: function(xhr){
+	      xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);},
 	      type: 'POST',
 	      url: '/ycc/mypage/findPw',
 	      headers : { "content-type" : "application/json" },
@@ -244,6 +252,8 @@
 	      success: function(user_email) {
 	    	  //alert(b)
 	    	  $.ajax({
+	    		  beforeSend: function(xhr){
+		    	  xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);},
 		          type: 'post',
 		          url: '/ycc/signin/pwEmail',
 		          headers : { "content-type" : "application/json" },

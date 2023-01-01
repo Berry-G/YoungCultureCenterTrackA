@@ -141,8 +141,9 @@ public class MemberServiceImpl implements MemberService{
 		try {
 			MemberDto dto = new MemberDto();
 			String pwd = passwordEncoder.encode(temp_pw);
+			dto.setUser_email(user_email);
 			dto.setUser_pw(pwd);
-			memberDao.uploadPw(pwd);
+			memberDao.uploadPw(dto);
 		} catch (Exception e) {e.printStackTrace();}
 
 		

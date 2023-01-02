@@ -148,7 +148,25 @@ public class CourseDto {
 				&& review_cnt == other.review_cnt && Objects.equals(user_id, other.user_id)
 				&& Objects.equals(user_name, other.user_name);
 	}
-
+	// 수강 상태 (수강예정, 수강중, 수강완료)
+	public String reg_stat() {
+		final Date today = new Date(); // 현재 날짜
+		String stat = null;
+			// 오늘날짜가 강좌시작일 이전일 때 "수강예정"
+			if (today.before(course_start_date)) {
+				stat="수강예정";
+			}
+			// 오늘날짜가 강좌시작일 이후이고, 강좌종료일 이전일 때 "수강중"
+			else if (course_start_date.before(today)&& today.before(course_end_date)) {
+				stat = "수강중";
+			}
+			else if (course_end_date.before(today)) {
+				stat = "수강완료";
+			}
+		
+		return stat;
+	}
+	
 	// 상태(오픈예정, 접수가능, 정원마감, 접수마감)
 	public String course_stat() {
         final Date todayDate = new Date(); // 현재 날짜

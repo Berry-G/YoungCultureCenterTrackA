@@ -1,12 +1,15 @@
 package com.youngtvjobs.ycc.member;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Repository;
+
+import com.youngtvjobs.ycc.course.CourseDto;
 
 @Repository
 public class MemberDaoImpl implements MemberDao
@@ -95,6 +98,11 @@ public class MemberDaoImpl implements MemberDao
 	public MemberDto read(String user_id) throws Exception {
 		
 		return session.selectOne(namespace + "read" ,user_id);
+	}
+	@Override
+	public List<CourseDto> selectMyCourse(String user_id) throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectList(namespace+"selectMyCourse", user_id);
 	}
 
 

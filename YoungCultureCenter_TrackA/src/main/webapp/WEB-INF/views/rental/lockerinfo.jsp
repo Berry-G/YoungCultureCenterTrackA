@@ -6,7 +6,6 @@
 	<head>	
     <!-- head & meta tag include -->
     <%@include file="/WEB-INF/views/metahead.jsp"%>
-	<link href="/ycc/resources/css/lockerinfo.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
 <title>사물함 안내</title>
 </head>
@@ -88,16 +87,50 @@
       </tr>
   </table>
 
-  <div class="row">
-    <div class="d-grid gap-2 col-md-3 mx-auto pt-5">
-      <a href="/ycc/rental/locker/reservation" class="btn btn-primary" role="button">신청하기</a>
-    </div>  
-  
-  </div> 
+	<form id="form1">
+	  <div class="row">
+	    <div class="d-grid gap-2 col-md-3 mx-auto pt-5">
+		  	<button class="btn btn-primary" onclick="gotolocker()">신청하기</button>
+	    </div>  
+	  </div> 
+	</form>
 </div> 
 
 <script>
-  // 클래스 변경
+	function gotolocker() {
+		let form = $("#form1")
+		
+		let today = new Date()
+		let year = today.getFullYear() // 년도
+		let month = today.getMonth() + 1  // 월
+		let date = today.getDate()  // 날짜
+		
+		let nowdate = year + '-' + month + '-' + date
+		
+		let startDe = new Date(nowdate)
+  	let end_Date = dateFormat(new Date(startDe.setDate(startDe.getDate()+7)))
+		
+		console.log(nowdate)
+		form.attr("action", "<c:url value='/rental/locker'/>")
+		form.attr("method", "GET")
+		form.append($('<input/>', {type: 'hidden', name: 'locker_location_id', value:'1' }))
+		form.append($('<input/>', {type: 'hidden', name: 'locker_start_date', value: nowdate }))
+		form.append($('<input/>', {type: 'hidden', name: 'locker_end_date', value: end_Date }))
+		
+		form.submit()
+	}
+	
+	function dateFormat(date) {
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+
+        month = month >= 10 ? month : '0' + month;
+        day = day >= 10 ? day : '0' + day;
+
+        return date.getFullYear() + '-' + month + '-' + day;
+    }
+
+  /* // 클래스 변경
   function changeClassName() {
     document.getElementById("change").classList.replace("col-4", "col-8");
   }
@@ -109,7 +142,7 @@
   window.onresize = function (event) {
     var innerWidth = window.innerWidth;
     innerWidth <= "1280" ? changeClassName() : changeClassName2();
-  };
+  }; */
 </script>
 
 

@@ -97,5 +97,51 @@ public class CourseDaoImpl implements CourseDao{
 		// TODO Auto-generated method stub
 		return session.update(namespace + "update", courseDto);
 	}
-
+	@Override
+	public List<CourseDto> selectCroomId() throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectList(namespace + "selectCroomId");
+	}
+	@Override
+	public List<CourseDto> selectCourseType() throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectList(namespace + "selectCourseType");
+	}
+	@Override
+	public int courseImageInsert(CourseImageDto courseImageDto) throws Exception {
+		// TODO Auto-generated method stub
+		return session.insert(namespace + "imageInsert", courseImageDto);
+	}
+	@Override
+	public List<CourseImageDto> getCourseImageList(int course_id) throws Exception {
+		// TODO Auto-generated method stub
+		return session.selectList(namespace + "selectCourseImage", course_id);
+	}
+	@Override
+	public int courseImageDelete(int course_id) throws Exception {
+		// TODO Auto-generated method stub
+		return session.delete(namespace + "deleteImageAll", course_id);
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

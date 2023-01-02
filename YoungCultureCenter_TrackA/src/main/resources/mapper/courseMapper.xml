@@ -7,9 +7,9 @@
 	
 	<!-- 강좌 select sql문(FROM tb_course JOIN tb_user JOIN course_type) -->
 	<sql id="selectFromCourse">
-		SELECT tb_course.course_id, course_nm, course_image, course_reg_start_date, course_reg_end_date
-					, course_start_date, course_end_date, course_day, course_time, course_target
-					, course_cost, course_info, tb_course.user_id, tb_course.croom_id, user_name, tb_course.course_cate_cd
+		SELECT tb_course.course_id, course_nm, course_reg_start_date, course_reg_end_date, course_start_date
+					, course_end_date, course_day, course_time, course_target, course_cost, course_info
+					, tb_course.user_id, tb_course.croom_id, user_name, tb_course.course_cate_cd
 					, current_date - course_reg_end_date::Date, course_rating, course_applicants, croom_mpop
 		FROM tb_course
 		JOIN tb_user
@@ -104,6 +104,26 @@
 		</choose>
 	</sql>
 	
+	<select id="selectCourseImage" parameterType="int" resultType="CourseImageDto">
+		SELECT * 
+		FROM course_image 
+		WHERE course_id = #{course_id}
+	</select>
+	
+	<!-- 강좌 타입 불러오기 -->
+	<select id="selectCourseType" resultType="CourseDto">
+		SELECT course_cate_cd, course_cate_name
+		FROM course_type
+		ORDER BY course_cate_cd
+	</select>
+	
+	<!-- 강의실 불러오기 -->
+	<select id="selectCroomId" resultType="CourseDto">
+		SELECT croom_id, croom_name 
+		FROM classroom 
+		ORDER BY croom_id 
+	</select>
+	
 	<!-- 수강신청 테이블 -->
 	<select id="selectAttendTable" parameterType="map" resultType="AttendDto">
 		SELECT attend_code, course_id, b.user_id, attend_datetime, b.user_name 
@@ -133,15 +153,15 @@
 	
 	<!-- 강좌 상세 보여주기 -->
 	<select id="selectCourseDetail" parameterType="int" resultType="CourseDto">
-		SELECT course_id, course_nm, course_image, course_reg_start_date, course_reg_end_date, course_start_date
+		SELECT tb_course.course_id, course_nm, course_reg_start_date, course_reg_end_date, course_start_date
 		, course_end_date, course_day, course_time, course_target, course_cost, course_info, course_cate_cd, tb_course.user_id
 		, course_applicants, croom_name, user_name, croom_mpop, course_rating, review_cnt, classroom.croom_id
 		FROM tb_course
 		JOIN tb_user
 		ON tb_course.user_id = tb_user.user_id 
 		JOIN classroom
-		ON classroom.croom_id = tb_course.croom_id  
-		WHERE course_id = #{course_id}
+		ON classroom.croom_id = tb_course.croom_id
+		WHERE tb_course.course_id = #{course_id}
 	</select>
 	
 	<!-- 검색된 강좌리스트의 수 -->
@@ -168,24 +188,11 @@
 	<!-- 등록된 강좌 수정 -->
 	<update id="update" parameterType="CourseDto">
 		UPDATE tb_course
-		SET course_nm=#{course_nm}, course_image=#{course_image}, course_reg_start_date=#{course_reg_start_date}::date, course_reg_end_date=#{course_reg_end_date}::date
+		SET course_nm=#{course_nm}, course_reg_start_date=#{course_reg_start_date}::date, course_reg_end_date=#{course_reg_end_date}::date
 		, course_start_date=#{course_start_date}::date, course_end_date=#{course_end_date}::date, course_day=#{course_day}, course_time=#{course_time}, course_target=#{course_target}
 		, course_cost=#{course_cost}, course_info=#{course_info}, croom_id=#{croom_id}, course_cate_cd=#{course_cate_cd}
 		WHERE course_id=#{course_id}
 	</update>
-	
-	<!-- 등록된 강좌 삭제 -->
-	<delete id="delete" parameterType="int">
-		DELETE FROM tb_course
-		WHERE course_id = #{course_id}
-	</delete>
-	
-	<!-- 수강신청 -->
-	<insert id="attendInsert" parameterType="AttendDto">
-		INSERT INTO attend
-		(course_id, user_id, attend_datetime)
-		VALUES(#{course_id}, #{user_id}, now())
-	</insert>
 	
 	<!-- 수강신청/취소 시 신청인원 업데이트 -->
 	<update id="updateApplicantCnt" parameterType="map">
@@ -201,13 +208,42 @@
 		WHERE course_id = #{course_id}
 	</update>
 	
+	<!-- 이미지 등록 -->
+	<insert id="imageInsert" parameterType="CourseImageDto">
+		INSERT INTO course_image (uuid, fileName, uploadPath, course_id)
+		VALUES(#{uuid}, #{fileName}, #{uploadPath}, #{course_id})
+	</insert>
+	
+	<!-- 수강신청 -->
+	<insert id="attendInsert" parameterType="AttendDto">
+		INSERT INTO attend
+		(course_id, user_id, attend_datetime)
+		VALUES(#{course_id}, #{user_id}, now())
+	</insert>
+	
 	<!-- 강좌생성 -->
 	<insert id="insert" parameterType="CourseDto">
-		INSERT INTO tb_course (course_nm, course_image, course_reg_start_date, course_reg_end_date, course_start_date, course_end_date
+		<!-- order 속성값 AFTER로 인해서 본 쿼리문(INSERT)이 실행이 된 뒤에 <selectkey> 태그 내의 쿼리문이 실행이 되며 tb_course테이블의 'course_id'값 중 가장 큰 값을 CourseDto에 있는 course_id 변수에 반환시킨다 -->
+		<selectKey resultType="int" keyProperty="course_id" order="AFTER">
+			SELECT MAX(course_id) FROM tb_course
+		</selectKey>
+		INSERT INTO tb_course (course_nm, course_reg_start_date, course_reg_end_date, course_start_date, course_end_date
 		, course_day, course_time, course_target, course_cost, course_info, user_id, croom_id, course_cate_cd)
-		VALUES(#{course_nm}, #{course_image}, #{course_reg_start_date}::date, #{course_reg_end_date}::date, #{course_start_date}::date, #{course_end_date}::date
+		VALUES(#{course_nm}, #{course_reg_start_date}::date, #{course_reg_end_date}::date, #{course_start_date}::date, #{course_end_date}::date
 		, #{course_day}, #{course_time}, #{course_target}, #{course_cost}, #{course_info}, #{user_id}, #{croom_id}, #{course_cate_cd})
 	</insert>
+	
+	<!-- 지정 강좌 이미지 전체 삭제 -->
+	<delete id="deleteImageAll" parameterType="int">
+		DELETE FROM course_image 
+		WHERE course_id = #{course_id}
+	</delete>
+	
+	<!-- 등록된 강좌 삭제 -->
+	<delete id="delete" parameterType="int">
+		DELETE FROM tb_course
+		WHERE course_id = #{course_id}
+	</delete>
 	
 	<!-- 테스트용 -->
 	<delete id="deleteAll">

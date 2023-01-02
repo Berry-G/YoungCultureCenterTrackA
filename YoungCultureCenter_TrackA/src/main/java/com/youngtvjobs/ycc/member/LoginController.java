@@ -34,13 +34,13 @@ public class LoginController {
 	@GetMapping("/login")
 	public String login(HttpServletRequest request) {
 		
-		// 이전 페이지에 대한 uri 받아옴 
-		// Referer 헤더값을 세션의 prevPage로 저장 
-		String uri = request.getHeader("Referer");
-		// 이전 페이지가 null이 아니라면 session에 uri의 값을 저장한다
-		if(uri != null) {
-			request.getSession().setAttribute("prevPage", uri);
-		}
+//		// 이전 페이지에 대한 uri 받아옴 
+//		// Referer 헤더값을 세션의 prevPage로 저장 
+//		String uri = request.getHeader("Referer");
+//		// 이전 페이지가 null이 아니라면 session에 uri의 값을 저장한다
+//		if(uri != null) {
+//			request.getSession().setAttribute("prevPage", uri);
+//		}
 		return "member/loginForm";
 	}
 	
@@ -96,8 +96,7 @@ public class LoginController {
 //		}
 
 
-		toURL = toURL == null || toURL.equals("") ? "/" : toURL;
-		return "redirect:" + toURL;
+		return "redirect:/";
 	}
 
 

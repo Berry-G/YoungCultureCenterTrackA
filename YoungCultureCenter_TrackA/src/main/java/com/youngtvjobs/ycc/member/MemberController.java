@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -190,13 +191,15 @@ public class MemberController {
 
 	}
 
-	// 마이페이지3 : 회원탈퇴 완료
+	// 마이페이지3 : 회원탈퇴
 	@RequestMapping("/mypage/withdraw")
 	public String withdraw(Authentication auth) throws Exception {
 		String user_id = auth.getName();
 
-		// tb_user테이블에서 Authentication에 저장된 id와 같은 user_id를 가진 회원을 삭제시킨후 세션을 종료시킴
+		// tb_user테이블에서 Authentication에 저장된 id와 같은 user_id를 가진 회원을 삭제시킨후 
+		// 인증정보를 담고있는 SecurityContextHolder 객체를 삭제
 		memberService.withdraw(user_id);
+		SecurityContextHolder.clearContext();
 
 		return "member/withdraw";
 	}

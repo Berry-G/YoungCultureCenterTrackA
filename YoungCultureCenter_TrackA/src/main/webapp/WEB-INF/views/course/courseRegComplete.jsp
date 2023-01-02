@@ -43,7 +43,7 @@
 			</div>
 			<div class="text-center d-grid d-sm-block gap-1">
 				<a href="/ycc/course/search" class="btn btn-primary" type="button">다른강좌보기</a> 
-				<a href="/ycc/mypage/mypage4" class="btn btn-primary" type="button">수강내역조회</a>
+				<a href="/ycc/mypage/mycourse" class="btn btn-primary" type="button">수강내역조회</a>
 			</div>
 		</div>
 	</div>

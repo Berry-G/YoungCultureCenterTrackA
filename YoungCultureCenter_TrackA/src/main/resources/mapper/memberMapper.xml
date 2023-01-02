@@ -105,5 +105,21 @@
 		where tb_user.user_id = user_auth.user_id 
 		and tb_user.user_id = #{user_id}
 	</select>  
+	
+	<!-- 나의 수강 목록  -->
+	<!-- <resultMap type="MemberDto" id="myCourseMap">
+		<result property="course_nm" column="course_nm"/>
+		<result property="user_id" column="user_id"/>
+		<result property="course_start_date" column="course_start_date"/>
+		<result property="course_end_date" column="course_end_date"/>
+		<result property="course_cost" column="course_cost"/>
+    </resultMap> -->
 	  
+	<select id="selectMyCourse" resultType="CourseDto">
+		select tc.course_id, tc.course_nm , tu.user_name , tc.course_start_date, tc.course_end_date, tc.course_cost 
+		from tb_course tc join attend a 
+		on tc.course_id = a.course_id 
+		join tb_user tu on tc.user_id = tu.user_id 
+		where a.user_id = #{user_id}
+	</select>
 	</mapper>

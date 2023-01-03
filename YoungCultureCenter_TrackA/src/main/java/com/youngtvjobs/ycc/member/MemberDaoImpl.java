@@ -88,8 +88,8 @@ public class MemberDaoImpl implements MemberDao
 	}
 	
 	//임시 비밀번호 DB 업로드
-	public String uploadPw(MemberDto dto) throws Exception {
-		return session.selectOne(namespace + "uploadPw", dto);
+	public void uploadPw(MemberDto dto) throws Exception {
+		session.selectOne(namespace + "uploadPw", dto);
 	}
 
 

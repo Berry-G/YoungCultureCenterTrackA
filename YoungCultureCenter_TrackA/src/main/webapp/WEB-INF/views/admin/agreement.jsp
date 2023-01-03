@@ -28,6 +28,7 @@
 	<%@include file="/WEB-INF/views/header.jsp"%>
 
 	<form id="form" action="" method="post">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		<div class="container text-center mt-5" id="original">
 			<h1 class="text-start">이용약관 관리</h1>
 			<hr>

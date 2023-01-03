@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.youngtvjobs.ycc.admin.AdminDto;
+import com.youngtvjobs.ycc.admin.AdminService;
 import com.youngtvjobs.ycc.common.YccMethod;
 import com.youngtvjobs.ycc.course.CourseDto;
 import com.youngtvjobs.ycc.member.security.CustomUser;
@@ -29,8 +31,6 @@ import com.youngtvjobs.ycc.member.security.CustomUser;
 //회원관리 컨트롤러
 @Controller
 public class MemberController {
-
-	MemberDto memberDto;
 
 	MemberDao memberDao;
 	MemberService memberService;
@@ -40,27 +40,42 @@ public class MemberController {
 
 	JavaMailSender mailSender;
 
+	AdminService adminService;
+
 	@Qualifier("BCryptPasswordEncoder")
 	BCryptPasswordEncoder passwordEncoder;
 
 	@Autowired
 	public MemberController(MemberDao memberDao, MemberService memberService, InquiryService inquiryService,
-			InquiryDao inquiryDao, JavaMailSender mailSender, BCryptPasswordEncoder passwordEncoder) {
+			InquiryDao inquiryDao, JavaMailSender mailSender, AdminService adminService,
+			BCryptPasswordEncoder passwordEncoder) {
 		super();
 		this.memberDao = memberDao;
 		this.memberService = memberService;
 		this.inquiryService = inquiryService;
 		this.inquiryDao = inquiryDao;
 		this.mailSender = mailSender;
+		this.adminService = adminService;
 		this.passwordEncoder = passwordEncoder;
-
 	}
 
 	// 회원약관동의
 	@GetMapping("/signin/agree")
-	public String siagree() {
+	public String siagree(Model m) throws Exception{
+
+		AdminDto adminDto = adminService.select();
+		System.out.println(adminDto);
+
+		try {
+			m.addAttribute("adminDto",adminDto);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+
 		return "member/siAgree";
 	}
+
+
 
 	// 회원가입
 	@GetMapping("/signin/form")

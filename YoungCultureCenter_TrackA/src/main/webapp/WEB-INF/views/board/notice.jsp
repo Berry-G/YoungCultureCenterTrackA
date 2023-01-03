@@ -17,9 +17,8 @@
   <h2 class="noticeTitle">
   	<a id="noticeList" >공지사항</a>
   </h2>
-  <!-- 게시판 테이블 -->
-		
 
+		<!-- 공지사항 게시판 리스트 -->
 		<table class="table table-group-divider table table-striped table table-hover mt-5" >
 			<colgroup>
 				<col width="50%">
@@ -36,7 +35,6 @@
 				</tr>
 			</thead>
 	
-		 <sec:authentication property="principal" var="pinfo"/>
 			<c:forEach var="boardDto" items="${nList }">
 				<tr>
 					<td class="title"  >
@@ -51,10 +49,9 @@
 			</c:forEach>
 		 </table>
 
-		<!-- 작성하기 버튼  -->
-		<!-- 관리자만 보이도록 구현하기 -->
+		<!-- 작성하기 버튼 : 관리자만 보이도록 구현하기  -->
+		<sec:authorize access="isAuthenticated()">
 		 <sec:authentication property="principal" var="pinfo"/>
-		 <sec:authorize access="isAuthenticated()">
 			<c:if test ="${pinfo.member.user_grade eq '관리자'}">
 			<div class="row">
 				<div class="col">
@@ -63,7 +60,8 @@
 			</div>
 			</c:if>
 		</sec:authorize>
-		<!-- 페이징 시작 -->
+		
+		<!-- 페이지 네이션 시작 -->
 		<div class="paging-container">
 			<ul class="pagination pt-3" style="justify-content: center;">
 				<c:if test="${totalCnt == null || totalCnt == 0}">
@@ -91,7 +89,7 @@
 				</c:if>
 			</ul>
 		</div>
-		<!-- 페이징 끝 -->
+		<!-- 페이지 네이션 끝 -->
 	
 		<!-- 검색 -->
 		<div class="container text-center">
@@ -130,7 +128,6 @@
 	})
 
 </script>
- 
  
  
 </body>

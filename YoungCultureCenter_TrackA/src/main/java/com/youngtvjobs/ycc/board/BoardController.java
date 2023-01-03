@@ -93,11 +93,11 @@ public class BoardController
 		return "board/post";
 	}
 	
-	//게시글 작성 접속 
+	//게시글 작성하기 페이지 접속 
 	@GetMapping("/write")
 	public String write() throws Exception {
 		
-			return "board/write";
+		return "board/write";
 	}
 	
 

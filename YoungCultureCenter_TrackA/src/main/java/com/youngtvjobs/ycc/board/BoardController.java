@@ -39,21 +39,17 @@ public class BoardController
 			int totalCnt = boardService.nSearchResultCnt(sc);
 			model.addAttribute("totalCnt", totalCnt);
 			//총 게시글 개수 
-			//System.out.println(totalCnt);
 			PageResolver pageResolver = new PageResolver(totalCnt, sc);
 			
+			//게시판 리스트 불러옴
 			List<BoardDto> nList = boardService.nSearchSelectPage(sc);
 			model.addAttribute("nList", nList);
 			model.addAttribute("pr", pageResolver);
-			
-		}catch (Exception e) {
-			
-			
-			e.printStackTrace();
-		}
+			} catch (Exception e) {e.printStackTrace();}
 		
 		return "board/notice";
 	}
+	
 	//이벤트 게시판 
 	@GetMapping("/event")
 	public String eventBoard(Model model, SearchItem sc) {

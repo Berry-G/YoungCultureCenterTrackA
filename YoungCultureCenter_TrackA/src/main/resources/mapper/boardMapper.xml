@@ -124,16 +124,17 @@
 <!--  	title클릭시 이동하기 때문에 article_id, article_title 속성을 지정해준 뒤  -->
 <!--  	primary key인 article_id로 title을 구해줌 : article_id만 parameter로 필요하기 때문에 Type 을 int로 설정   -->
 	<select id="movePage" parameterType="int" resultType="BoardDto">
-		select * from ( 
-		select article_id, article_title,
-		lead(article_id, 1, 9999) over(order by article_id) as nextId,
-		lead(article_title, 1, '다음글') over(order by article_id) as nextTitle,
-		lag(article_id, 1, 9999) over(order by article_id) as preId,
-		lag(article_title, 1, '이전글') over(order by article_id) as preTitle
-		from article 
+		select * 
+		from ( 
+			select article_id, article_title,
+			lead(article_id, 1, 9999) over(order by article_id) as nextId,
+			lead(article_title, 1, '다음글') over(order by article_id) as nextTitle,
+			lag(article_id, 1, 9999) over(order by article_id) as preId,
+			lag(article_title, 1, '이전글') over(order by article_id) as preTitle
+			from article 
 		) as f
 		where article_id = #{article_id}
-		order by article_id  desc;
+		order by article_id  desc
 	</select>
 	
 	

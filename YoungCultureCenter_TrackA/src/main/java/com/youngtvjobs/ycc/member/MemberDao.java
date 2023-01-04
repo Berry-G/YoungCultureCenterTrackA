@@ -33,7 +33,7 @@ public interface MemberDao {
 	String findPw(String user_id, String user_name) throws Exception;
 
 	// 임시 비밀번호 이메일로 발송
-	String uploadPw(MemberDto dto) throws Exception;
+	void uploadPw(MemberDto dto) throws Exception;
 
 	// 시큐리티
 	MemberDto read(String user_id) throws Exception;

@@ -31,7 +31,7 @@
 		VALUES(#{user_id}, 'ROLE_MEMBER')
 	 </insert>
 	 
-	   <!-- 회원정보 수정 : tb_user 테이블에 회원 정보 업데이트 -->
+	 <!-- 회원정보 수정 : tb_user 테이블에 회원 정보 업데이트 -->
 	 <update id="update" parameterType="MemberDto">
 	 	UPDATE tb_user
 		SET 
@@ -43,8 +43,7 @@
 	 <!-- 회원탈퇴 : tb_user 테이블에서 회원정보 삭제 -->
 	 <delete id="delete" parameterType="String">
 	 	DELETE FROM tb_user
-		WHERE
-		user_id=#{user_id};
+		WHERE user_id=#{user_id}
 	 </delete>
 	 
 	<!-- 아이디체크 -->

@@ -48,19 +48,20 @@ public class MemberDaoImpl implements MemberDao
 		
 	}
 
+	//회원 정보 수정
 	@Override
-	public int update(MemberDto memberDto) throws Exception
-	{
-		// 회원 정보 수정
+	public int update(MemberDto memberDto) throws Exception {
+		
 		return session.update(namespace+"update", memberDto);
 	}
 
-
+	//회원 탈퇴
 	@Override
 	public int delete(String id) throws Exception {
-		//회원 탈퇴
+		
 		return session.delete(namespace+"delete", id);
 	}
+	
 	@Override
 	public int deleteAll() throws Exception
 	{
@@ -99,9 +100,10 @@ public class MemberDaoImpl implements MemberDao
 		
 		return session.selectOne(namespace + "read" ,user_id);
 	}
+	
 	@Override
 	public List<CourseDto> selectMyCourse(String user_id) throws Exception {
-		// TODO Auto-generated method stub
+
 		return session.selectList(namespace+"selectMyCourse", user_id);
 	}
 

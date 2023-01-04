@@ -143,13 +143,13 @@ public class MemberController {
 
 	// 마이페이지1 : 본인인증
 	@GetMapping("/mypage/pwcheck")
-	public String pwCheck(HttpSession session) throws Exception {
+	public String pwCheck() throws Exception {
 
 		return "member/pwCheck";
 	}
 
 	@PostMapping("/mypage/pwcheck")
-	public String pwCheck(String inputPassword, Model m, String user_id, Authentication auth) throws Exception {
+	public String pwCheck(String inputPassword, Model m, Authentication auth) throws Exception {
 
 		CustomUser user = (CustomUser) auth.getPrincipal();
 		String user_pw = user.getMember().getUser_pw();

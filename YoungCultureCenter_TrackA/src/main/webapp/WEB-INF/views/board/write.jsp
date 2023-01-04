@@ -22,7 +22,7 @@
   	<!-- header inlcude -->
 	<%@include file="/WEB-INF/views/header.jsp"%>
   		<!--container start-->
-  		<form action='<c:url value="/board/write" />' name="writeForm" method="post">
+  		<form action='<c:url value="/board/edit1" />' name="writeForm" method="post">
   			<div class="container mt-5">
     			<h3 class="posttitle pt-3">글쓰기</h3>
    				<hr>

@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,8 +54,8 @@
 						</div>
 						<!-- 본인이 쓴 게시글에만 수정, 삭제 가능 -->
 						<!-- 세션 아이디와 boardDto에 저장되 아이디가 같으면 수정, 삭제 버튼 활성화 -->
-						<sec:authentication property="principal" var="pinfo"/>
 						<sec:authorize access="isAuthenticated()">
+						<sec:authentication property="principal" var="pinfo"/>
 							<c:if test="${pinfo.member.user_id eq boardDto.user_id}">
 								<div class="col-auto px-1">
 					  				<button type="button" class="btn btn-outline-success" id="modifyBtn"><i class="bi bi-pen"></i>수정</button>
@@ -79,7 +78,7 @@
 							</colgroup>
 				    			<tbody>
 				    				<tr>
-				    					<th scope="row" class="text-center table-primary"  >이전글<i class="bi bi-caret-up-fill"></i></th>
+				    					<th scope="row" class="text-center table-primary">이전글<i class="bi bi-caret-up-fill"></i></th>
 				    						<td class="pre" id="preTitle"> 
 				    							<c:if test ="${preView.preId != 9999}">
 				    								<a style="text-decoration: none; color: black;"

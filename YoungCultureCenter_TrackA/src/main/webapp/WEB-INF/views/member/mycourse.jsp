@@ -23,15 +23,21 @@
 					<th class="col" id="w-40">기간</th>
 					<th class="col" id="d-col">결제금액(원)</th>
 					<th class="col" id="w-17">상태</th>
+					<th class="col" id="w-17">후기</th>
 				</thead>
 				<c:forEach var ="CourseDto" items = "${courseList }">
 					<tr>
-						<td><a href="/ycc/course/detail?page=1&pageSize=10&cate=&target=
-						&stat=&keyword=&orderby=&course_id=${CourseDto.course_id}">${CourseDto.course_nm}</a></td>
+						<td><a href="/ycc/course/detail?page=1&pageSize=10&cate=&target=&stat=&keyword=&orderby=&course_id=${CourseDto.course_id}">${CourseDto.course_nm}</a></td>
 						<td id="d-col">${CourseDto.user_name}</td>
 						<td>${CourseDto.course_sd()}~${CourseDto.course_ed()}</td>
 						<td id="d-col">${CourseDto.course_cost}</td>
 						<td>${CourseDto.reg_stat()}</td>
+						<td>
+							<c:if test="${CourseDto.reg_stat() eq '수강완료'}">
+								<a href="/ycc/course/detail?page=1&pageSize=10&cate=&target=&stat=&
+								keyword=&orderby=&course_id=${CourseDto.course_id}#tabReview" >후기 작성</a>
+							</c:if>
+						</td>
 					</tr>
 				</c:forEach>
 		</table>

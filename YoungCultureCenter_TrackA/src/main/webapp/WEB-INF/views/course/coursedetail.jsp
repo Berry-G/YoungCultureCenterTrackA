@@ -32,6 +32,17 @@
 	</style>
 </head>
 <body>
+	<script>
+		x=location.hash
+		
+		 $(document).ready(function() { 
+			 
+			 if (x == '#tabReview') {
+			   $('#review-tab').tab('show');
+			   
+			 } 
+		 });
+	</script>
 	<!-- header include -->
 	<%@ include file="/WEB-INF/views/header.jsp" %>
 
@@ -243,8 +254,8 @@
 					type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true" >강의계획서</button>
 				</li>
 				<c:if test="${mode ne 'new' && mode ne 'modify' }">
-					<li class="nav-item" role="presentation">
-						<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
+					<li class="nav-item" role="presentation" id="tabReview">
+						<button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#paneReview"
 						type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">수강후기</button>
 					</li>
 				</c:if>
@@ -392,7 +403,7 @@
 					</div>
 				</div>
 				<!-- 수강후기 -->
-				<div class="container-md tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+				<div class="container-md tab-pane fade" id="paneReview" role="tabpanel" aria-labelledby="review-tab" tabindex="0">
 					<div class="row">
 						<!-- 별점 -->
 						<h6>| 평균평점</h6>

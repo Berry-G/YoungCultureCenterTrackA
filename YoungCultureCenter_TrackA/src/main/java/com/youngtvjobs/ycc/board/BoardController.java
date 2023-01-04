@@ -131,7 +131,9 @@ public class BoardController
    public String remove(Integer article_id) {
       
       try {
+    	  	//삭제할 데이터 가져오기
 			BoardDto tmpboard=boardService.getArticleEdit(article_id);
+			
 			if(boardService.remove(article_id)== 1) {
 			   //boardDto에서 받은 board-type이 "N"이면 공지사항게시판에 insert
 			   if(tmpboard.getArticle_Board_type().equals("공지사항") ) {

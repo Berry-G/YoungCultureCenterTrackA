@@ -38,7 +38,6 @@ public class MemberServiceImpl implements MemberService{
 		
 		
 		memberDao.signinMember(dto);
-		System.out.println(dto);
 	}
 	@Override	//권한 insert
 	public int insertAuth(String user_id) throws Exception {

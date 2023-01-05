@@ -64,8 +64,7 @@ public class MemberController {
 	public String siagree(Model m) throws Exception{
 
 		AdminDto adminDto = adminService.select();
-		System.out.println(adminDto);
-
+		
 		try {
 			m.addAttribute("adminDto",adminDto);
 		}catch(Exception e) {
@@ -74,8 +73,6 @@ public class MemberController {
 
 		return "member/siAgree";
 	}
-
-
 
 	// 회원가입
 	@GetMapping("/signin/form")
@@ -104,19 +101,15 @@ public class MemberController {
 	@PostMapping("/signin/form")
 	public String siform(MemberDto dto, String user_id) {
 
-		System.out.println(dto.getUser_pw());
-
 		try {
 			// 비밀번호 암호화
 			String inputPass = dto.getUser_pw();
 			String pwd = passwordEncoder.encode(inputPass);
 			dto.setUser_pw(pwd);
 			memberService.signinMember(dto);
+			
 			// 권한 insert
 			memberService.insertAuth(user_id);
-
-			System.out.println(dto.getAuthList());
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

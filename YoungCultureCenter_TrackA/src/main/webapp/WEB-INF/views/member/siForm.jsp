@@ -120,7 +120,6 @@
 			        <th class="col" style="vertical-align: middle !important;">이메일</th>
 			           <td>
 			              <div class="row mx-0">
-			              	<form action="./siForm.jsp">
 			                	<input type="text" class="form-control " style="width: 180px;"  name="email" id="email" maxlength="40">
 			                	<p class="col-auto fs-6" id="m_email">@</p>
 				                <select class="form-select col-4 " style="width: 180px;" name="email" id="detailEmail" aria-label="Default select example">
@@ -144,7 +143,6 @@
 				<tr>
         			<th class="col" style="vertical-align: middle !important;">이메일인증</th>
         			  <td>
-        				<form action="./siForm.jsp">
           					<input type="text" class="form-control" id="emailCheck" name="emailCheck" data-rule-required="true" placeholder="인증번호6자리"
            					 maxlength="10">
           					<span id="emailCheck_result"></span> 
@@ -181,7 +179,6 @@
   		<!-- 회원가입 & 취소 버튼 -->
   		<div class="row">
     		<div class="col text-center pt-5">
-    			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
       			<input type="button" id="button" class="btn btn-primary" onclick="nullCheck()" value="회원가입" >
       			<a href="/ycc/"  class="cancle btn btn-secondary" role="button">취소</a>
     		</div>
@@ -234,8 +231,6 @@
 	
 	//아이디중복확인
 	//아이디중복확인 버튼 클릭시 
-	
-
 	$("#idCheckBtn").click(function(){
 		var csrfHeaderName = "${_csrf.headerName}";
 		var csrfTokenValue= "${_csrf.token}";

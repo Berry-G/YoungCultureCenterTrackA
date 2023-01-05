@@ -18,10 +18,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 @Controller
 public class LoginController {
-	public LoginController() {
-		// TODO Auto-generated constructor stub
-	}
-
+	
 	
 	@Autowired
 	MemberDao memberDao;
@@ -30,7 +27,10 @@ public class LoginController {
 	MemberDto user;
 	
 	
-	@PreAuthorize("isAnonymous()")
+	public LoginController() {
+
+	}
+	
 	@GetMapping("/login")
 	public String login(HttpServletRequest request) {
 		
@@ -98,9 +98,6 @@ public class LoginController {
 
 		return "redirect:/";
 	}
-
-
-	
 
 
 	@GetMapping("/logout")

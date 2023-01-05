@@ -70,7 +70,7 @@
                 <sec:authorize access="isAnonymous()">
                 <div class="nav p-2 ${logoutvis} d-flex" style="justify-content: center; flex-wrap: nowrap;">
                     <a class="btn btn-primary mx-2 text-nowrap" href="/ycc/login">로그인</a>
-                    <a class="btn btn-outline-primary text-nowrap" href="/ycc/signin/agree">회원가입</a>
+                    <a class="btn btn-outline-primary text-nowrap" href="/ycc/signin/form">회원가입</a>
                 </div>
                 </sec:authorize>
 

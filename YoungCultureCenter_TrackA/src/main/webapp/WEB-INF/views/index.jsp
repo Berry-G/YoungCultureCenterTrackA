@@ -251,8 +251,8 @@
 							alt="독서실예약" /><span>독서실 예약</span></a></li>
 				<li><a href="/ycc/rental/locker"><img class="quickIcon" src="resources\img\main_img\Locker_icon.png"
 							alt="사물함신청" /><span>사물함 신청</span></a></li>
-				<li><a href="/ycc/club"><img class="quickIcon" src="resources\img\main_img\club_icon.png"
-							alt="동아리" /><span>동아리</span></a></li>
+				<!-- <li><a href="/ycc/club"><img class="quickIcon" src="resources\img\main_img\club_icon.png"
+							alt="동아리" /><span>동아리</span></a></li> -->
 				<li><a href="/ycc/map"><img class="quickIcon" src="resources\img\main_img\map_icon.png"
 							alt="찾아오시는 길" /><span>찾아오시는 길</span></a></li>
 			</ul>

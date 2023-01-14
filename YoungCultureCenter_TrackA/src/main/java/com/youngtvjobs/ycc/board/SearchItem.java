@@ -4,6 +4,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import static java.lang.Math.*;
 import static java.util.Objects.requireNonNullElse;
 
+//검색기능
 public class SearchItem {
 	
 	public static final int DEFAULT_PAGE_SIZE = 10;
@@ -41,8 +42,8 @@ public class SearchItem {
 	
 
 	// ?page=10&pageSize=10&option=A&keyword=title
-	// page를 기준으로 만듦 파라미터로 page를 받는 
-	// QuertyString을 만들어주는 
+	// page를 기준으로 만듦 파라미터로 page를 받음 
+	// QuertyString을 만들어줌 
 	public String getQueryString(Integer page) {
 		return UriComponentsBuilder.newInstance()
 				.queryParam("page", page)

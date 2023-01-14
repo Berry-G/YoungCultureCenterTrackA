@@ -1,6 +1,6 @@
 package com.youngtvjobs.ycc.board;
 
-
+// 페이지네이션 기능
 public class PageResolver {
 	
 	private SearchItem sc;	

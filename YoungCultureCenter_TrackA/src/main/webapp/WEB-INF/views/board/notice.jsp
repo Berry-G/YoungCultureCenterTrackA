@@ -64,13 +64,16 @@
 		<!-- 페이지 네이션 시작 -->
 		<div class="paging-container">
 			<ul class="pagination pt-3" style="justify-content: center;">
+				<!-- 게시물이 없을 경우 -->
 				<c:if test="${totalCnt == null || totalCnt == 0}">
 					<div>게시물이 없습니다.</div>
 				</c:if>
+				<!-- 게시물이 있을 경우, 페이지네이션 출력 -->
 				<c:if test="${totalCnt != null || totalCnt != 0}">
 					<c:if test="${pr.showPrev}">
 						<a class="page-link " href="/ycc/board/notice${pr.sc.getQueryString(pr.beginPage-1)}">이전</a>
 					</c:if>
+					<!-- 시작페이지~끝페이지 페이지네이션 -->
 					<c:forEach var="i" begin="${pr.beginPage}" end="${pr.endPage}">
 					<c:if test="${pr.sc.page == i }">
 						<c:if test="${pr.sc.page > 0 }">

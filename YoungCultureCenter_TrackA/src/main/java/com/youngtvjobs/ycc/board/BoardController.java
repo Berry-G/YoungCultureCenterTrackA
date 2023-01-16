@@ -40,11 +40,10 @@ public class BoardController
 			model.addAttribute("totalCnt", totalCnt);
 			//총 게시글 개수 
 			PageResolver pageResolver = new PageResolver(totalCnt, sc);
-			
+			model.addAttribute("pr", pageResolver);
 			//게시판 리스트 불러옴
 			List<BoardDto> nList = boardService.nSearchSelectPage(sc);
 			model.addAttribute("nList", nList);
-			model.addAttribute("pr", pageResolver);
 			} catch (Exception e) {e.printStackTrace();}
 		
 		return "board/notice";
